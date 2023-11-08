@@ -1,5 +1,7 @@
 import * as React from "react";
-
+import { FiRefreshCw, FiCheck } from "react-icons/fi";
+import { GrFormClose } from "react-icons/gr";
+import { FcCancel } from "react-icons/fc";
 export type Address = {
   line1: string;
   city: string;
@@ -41,7 +43,7 @@ const DBBanner = (props: DBBanner) => {
               className="w-full h-full"
             />
           </div>
-          <div className="w-4/5 flex flex-col gap-4">
+          <div className="w-3/5 flex flex-col gap-4">
             <div className="text-3xl font-bold">Welcome, Scott!</div>
             <div>
               Welcome to your dashboard – your one-stop-shop to set up and
@@ -61,16 +63,32 @@ const DBBanner = (props: DBBanner) => {
               </div>
             </div>
           </div>
-          <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center px-20 py-11 mx-auto">
-            <div className="flex flex-col gap-4">
-              <div className="text-xl">
-                Want to know the status of a submitted field?
+          <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
+            <div className="flex flex-col gap-4 w-full px-4">
+              <div className="text-xl font-semibold">Approval Requests </div>
+              <div>Last 60 Days</div>
+              <div className="w-full grid grid-cols-4 justify-between">
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <div className="text-xl">0</div>
+                  <div className="text-sm">Pending</div>
+                  <FiRefreshCw className="h-3 w-3 text-orange-500" />
+                </div>
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <div className="text-xl">4</div>
+                  <div className="text-sm">Approved</div>
+                  <FiCheck className="h-3 w-3 text-green-500" />
+                </div>
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <div className="text-xl">0</div>
+                  <div className="text-sm">Rejected</div>
+                  <GrFormClose className="h-3 w-3 text-red-500" />
+                </div>
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <div className="text-xl">1</div>
+                  <div className="text-sm">Cancelled</div>
+                  <FcCancel className="h-3 w-3 text-gray-800" />
+                </div>
               </div>
-              <div>
-                Click the link below to see all of your Approved, Rejected,
-                Cancelled, and Pending Requests
-              </div>
-
               <div className="bg-gray-700 px-4 py-2 mx-auto rounded-md text-gray-50 text-sm   w-fit">
                 View All Approval Requests
               </div>

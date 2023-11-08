@@ -11,7 +11,6 @@
 import {
   GetHeadConfig,
   GetPath,
-  GetRedirects,
   HeadConfig,
   Template,
   TemplateConfig,
@@ -19,17 +18,18 @@ import {
   TemplateRenderProps,
 } from "@yext/pages";
 import * as React from "react";
-import Banner from "../components/banner";
-import Contact from "../components/contact";
-import Cta from "../components/cta";
-import Hours from "../components/hours";
-import List from "../components/list";
 import PageLayout from "../components/page-layout";
-import StaticMap from "../components/static-map";
 import "../index.css";
-import TasksSection from "../components/DashboardComps/TasksSection";
 import DBBanner from "../components/dbBanner";
+import DonutChart from "../components/DonutChart";
+import BarChart from "../components/BarChart";
+import { FcCancel } from "react-icons/fc";
+import { FiRefreshCw, FiCheck } from "react-icons/fi";
+import { GrFormClose } from "react-icons/gr";
+import { useState } from "react";
+import { Switch } from "@headlessui/react";
 import SampleChart from "../components/SampleChart";
+import TasksSection from "../components/DashboardComps/TasksSection";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -143,38 +143,190 @@ const Location: Template<TemplateRenderProps> = ({
     c_taskGroups,
   } = document;
 
+  const data = [
+    {
+      SearchTerm: "RBC Services",
+      Impressions: 56000,
+      Clicks: 1500,
+      CTR: 2.68,
+      Position: 4.7,
+    },
+    {
+      SearchTerm: "Online RBC",
+      Impressions: 31000,
+      Clicks: 1200,
+      CTR: 3.87,
+      Position: 6.2,
+    },
+    {
+      SearchTerm: "RBC Banking",
+      Impressions: 42000,
+      Clicks: 1800,
+      CTR: 4.29,
+      Position: 2.4,
+    },
+    {
+      SearchTerm: "RBC Accounts",
+      Impressions: 69000,
+      Clicks: 2500,
+      CTR: 3.62,
+      Position: 8.1,
+    },
+    {
+      SearchTerm: "RBC Finance",
+      Impressions: 48000,
+      Clicks: 900,
+      CTR: 1.88,
+      Position: 3.5,
+    },
+    {
+      SearchTerm: "RBC Online",
+      Impressions: 36000,
+      Clicks: 2000,
+      CTR: 5.56,
+      Position: 7.8,
+    },
+    {
+      SearchTerm: "RBC Cards",
+      Impressions: 55000,
+      Clicks: 2800,
+      CTR: 5.09,
+      Position: 5.3,
+    },
+    {
+      SearchTerm: "RBC Solutions",
+      Impressions: 4200,
+      Clicks: 800,
+      CTR: 19.05,
+      Position: 1.9,
+    },
+    {
+      SearchTerm: "RBC Support",
+      Impressions: 27000,
+      Clicks: 1500,
+      CTR: 5.56,
+      Position: 9.0,
+    },
+    {
+      SearchTerm: "RBC Info",
+      Impressions: 61000,
+      Clicks: 1200,
+      CTR: 1.97,
+      Position: 4.1,
+    },
+  ];
+  const [enabled, setEnabled] = useState(false);
+
   return (
     <>
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
-          <DBBanner name="Hwllo"></DBBanner>
-          <div className="px-4 flex flex-row w-full gap-2">
-            <div className="w-3/5">
-              <TasksSection taskGroup={c_taskGroups}></TasksSection>
-            </div>
-            <div className="w-2/5 flex flex-col gap-4">
-              <div className="flex flex-col gap-4 p-5  bg-white">
-                <div className="font-bold text-gray-900">
-                  Your Advisor Match Profile Progress
-                </div>
-                <div className="text-gray-900">
-                  In order to participate in Merrill Advisor Match, your profile
-                  must be 100% complete. Please fill out all required fields –
-                  these are marked with an *asterisk*.
-                </div>
-                <SampleChart></SampleChart>
-              </div>
-              <div className="flex flex-col gap-4 border p-5  bg-white">
-                <div className="font-bold text-gray-900">
-                  Remaining Incomplete Fields
-                </div>
-                <div className="text-gray-900">
-                  Fill out the required fields listed below to complete your
-                  profile
-                </div>
-              </div>
-            </div>
+          <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
+            <div className="text-lg font-bold">Toggle Dashboards</div>
+            <Switch
+              checked={enabled}
+              onChange={setEnabled}
+              className={`${enabled ? "bg-teal-900" : "bg-teal-700"}
+          relative  inline-flex h-6 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75 mr-0`}
+            >
+              <span
+                aria-hidden="true"
+                className={`${enabled ? "translate-x-9" : "translate-x-0"}
+            pointer-events-none inline-block h-5 w-5  transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+              />
+            </Switch>
           </div>
+
+          <DBBanner name="Hwllo"></DBBanner>
+          <>
+            {!enabled ? (
+              <div className="px-4 flex flex-row w-full gap-2">
+                <div className="w-3/5">
+                  <TasksSection taskGroup={c_taskGroups}></TasksSection>
+                </div>
+                <div className="w-2/5 flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 p-5  bg-white">
+                    <div className="font-bold text-gray-900">
+                      Your Advisor Match Profile Progress
+                    </div>
+                    <div className="text-gray-900">
+                      In order to participate in Merrill Advisor Match, your
+                      profile must be 100% complete. Please fill out all
+                      required fields – these are marked with an *asterisk*.
+                    </div>
+                    <SampleChart></SampleChart>
+                  </div>
+                  <div className="flex flex-col gap-4 border p-5  bg-white">
+                    <div className="font-bold text-gray-900">
+                      Remaining Incomplete Fields
+                    </div>
+                    <div className="text-gray-900">
+                      Fill out the required fields listed below to complete your
+                      profile
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-row gap-4">
+                <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
+                  <div className="text-3xl">Your Website Analytics</div>
+                  <BarChart />
+                </div>
+                <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex justify-center items-center text-xs">
+                      <table className="w-4/5 border-collapse">
+                        <thead>
+                          <tr className="bg-gray-200">
+                            <th className="border p-2">Search Term</th>
+                            <th className="border p-2">Impressions</th>
+                            <th className="border p-2">Clicks</th>
+                            <th className="border p-2">CTR</th>
+                            <th className="border p-2">Position</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {data.map((row, index) => (
+                            <tr key={index} className="border">
+                              <td className="border p-2">{row.SearchTerm}</td>
+                              <td className="border p-2">{row.Impressions}</td>
+                              <td className="border p-2">{row.Clicks}</td>
+                              <td className="border p-2">{row.CTR}</td>
+                              <td className="border p-2">{row.Position}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <DonutChart />
+                  </div>
+                  <div className="bg-white text-center border-t text-gray-800 m-auto flex justify-center items-center w-full py-8 mx-auto">
+                    <div className="flex flex-col gap-4 w-full px-4">
+                      <div className="text-xl font-semibold">
+                        Email, Contact Me, and Phone Call Clicks
+                      </div>
+                      <div>Last 60 Days</div>
+                      <div className="w-full grid grid-cols-3 justify-between">
+                        <div className="flex flex-col gap-2 items-center justify-center">
+                          <div className="text-xl">18</div>
+                          <div className="text-sm">Total Email Clicks</div>
+                        </div>
+                        <div className="flex flex-col gap-2 items-center justify-center">
+                          <div className="text-xl">4</div>
+                          <div className="text-sm">Form Fills</div>
+                        </div>
+                        <div className="flex flex-col gap-2 items-center justify-center">
+                          <div className="text-xl">4</div>
+                          <div className="text-sm">Total Phone Call Clicks</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         </div>
       </PageLayout>
     </>
