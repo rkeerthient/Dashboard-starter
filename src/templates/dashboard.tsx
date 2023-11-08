@@ -274,6 +274,10 @@ const Location: Template<TemplateRenderProps> = ({
                   <BarChart />
                 </div>
                 <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
+                  <div className="text-3xl capitalize">
+                    How users find my website
+                  </div>
+
                   <div className="grid grid-cols-2 gap-2">
                     <div className="flex justify-center items-center text-xs">
                       <table className="w-4/5 border-collapse">
