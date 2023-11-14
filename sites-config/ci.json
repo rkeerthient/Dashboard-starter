@@ -26,6 +26,18 @@
         ],
         "event": "ON_PAGE_GENERATE",
         "functionName": "PagesGenerator"
+      },
+      {
+        "pluginName": "getFields-94324",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/fields/{{fieldId}}/getFields",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/getFields-94324",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
       }
     ]
   },

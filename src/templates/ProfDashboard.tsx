@@ -30,55 +30,103 @@ import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import SampleChart from "../components/SampleChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
+import { SectionData } from "../components/sectionsData";
 
 /**
  * Required when Knowledge Graph data is used for a template.
  */
 export const config: TemplateConfig = {
   stream: {
-    $id: "my-stream-dashboard",
+    $id: "my-stream-prof-dashboard",
     // Specifies the exact data that each generated document will contain. This data is passed in
     // directly as props to the default exported function.
     fields: [
+      "slug",
       "id",
+      "name",
       "uid",
       "meta",
-      "richTextDescriptionV2",
-      "name",
-      "slug",
-      "c_alternateDashboardHeroDescription",
-      "c_currentBRStaging",
-      "c_dashboardAlertBanner",
-      "c_dashboardAlertBannerNoProducerID",
-      "c_dashboardCompletionDescription",
-      "c_dashboardCompletionETLErrorThreshold",
-      "c_dashboardCompletionETLLastRuntime",
-      "c_dashboardCompletionLabel",
-      "c_dashboardHeroDescription",
-      "c_dashboardMatchingSection1Description",
-      "c_dashboardPagesURLText",
-      "c_fieldsExemptFromAnnualReview",
-      "c_fieldsThatScore",
-      "c_hasAboutAdvisorShortDescription",
-      "c_progressBarDescription",
+      "c_attestation",
+      "c_advisorNickname",
+      "c_recognitionTitle",
+      "c_jobTitle",
+      "c_jobTitleAbbreviation",
+      "c_titleDisplay",
+      "c_clientFocusesReorder",
+      "c_aboutAdvisorShortDescription",
+      "c_expertiseComments",
+      "c_profileDelegates.delegateEmail",
+      "c_profileDelegates.delegateUserID",
+      "c_profileDelegates.giveProfileControl",
+      "c_teamNameAndSite.teamEntityId",
+      "c_teamNameAndSite.teamName",
+      "c_teamNameAndSite.teamSite",
+      "c_displayTeamName",
+      "c_languagesV2",
+      "mainPhone",
+      "address.line1",
+      "address.line2",
+      "address.line3",
+      "address.postalCode",
+      "headshot",
+      "address.region",
+      "address.sublocality",
+      "addressHidden",
+      "address.city",
+      "address.countryCode",
+      "address.extraDescription",
+      "c_registrations",
+      "c_educationDisplay.degree",
+      "c_educationDisplay.school",
+      "c_volunteeringDisplay",
+      "c_organizationsDisplay",
+      "c_awardsDashboard.nameOfAwardOrHonor",
+      "c_awardsDashboard.yearsReceived",
+      "c_industryLevelOfExperience",
+      "c_designations.abbreviation",
+      "c_designations.date",
+      "c_designations.name",
+      "c_hobbiesAndInterests",
+      "c_fAQs.answer",
+      "c_fAQs.question",
+      "c_fAQs1.answer",
+      "c_fAQs1.question",
+      "c_assetRanges",
+      "c_meetingPreference",
+      "c_meetingPlacePreference",
+      "c_inTouchPreference",
+      "c_conversationPreference",
+      "c_conversationFocus",
+      "c_meetingTime",
+      "c_disagreements",
+      "c_recommendations",
+      "c_charts",
+      "c_introvertedOrExtroverted",
+      "c_planning",
+      "c_laidBack",
+      "c_homeRepairs",
+      "c_photoGallery.alternateText",
+      "c_photoGallery.height",
+      "c_photoGallery.url",
+      "c_photoGallery.width",
+      "c_matchFinderPhoto.alternateText",
+      "c_matchFinderPhoto.height",
+      "c_matchFinderPhoto.url",
+      "c_matchFinderPhoto.width",
       "c_taskGroups",
     ],
     filter: {
-      entityIds: ["dashboard"],
+      entityTypes: ["financialProfessional", "ce_dashboardEntity"],
+      savedFilterIds: ["1306250257"],
     },
     localization: {
       locales: ["en"],
-      primary: false,
     },
   },
 };
 
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
-  return document.slug
-    ? document.slug
-    : `${document.locale}/${document.address.region}/${document.address.city}/${
-        document.address.line1
-      }-${document.id.toString()}`;
+  return document.slug;
 };
 /**
  * This allows the user to define a function which will take in their template
@@ -122,25 +170,53 @@ const Location: Template<TemplateRenderProps> = ({
   document,
 }) => {
   const {
-    _site,
-    richTextDescriptionV2,
+    slug,
+    id,
     name,
-    c_alternateDashboardHeroDescription,
-    c_currentBRStaging,
-    c_dashboardAlertBanner,
-    c_dashboardAlertBannerNoProducerID,
-    c_dashboardCompletionDescription,
-    c_dashboardCompletionETLErrorThreshold,
-    c_dashboardCompletionETLLastRuntime,
-    c_dashboardCompletionLabel,
-    c_dashboardHeroDescription,
-    c_dashboardMatchingSection1Description,
-    c_dashboardPagesURLText,
-    c_fieldsExemptFromAnnualReview,
-    c_fieldsThatScore,
-    c_hasAboutAdvisorShortDescription,
-    c_progressBarDescription,
+    meta,
+    c_attestation,
+    c_advisorNickname,
+    c_recognitionTitle,
+    c_jobTitle,
+    c_jobTitleAbbreviation,
+    c_titleDisplay,
+    c_clientFocusesReorder,
+    c_aboutAdvisorShortDescription,
+    c_expertiseComments,
+    c_profileDelegates,
+    c_teamNameAndSite,
+    c_displayTeamName,
+    c_languagesV2,
+    mainPhone,
+    address,
+    c_registrations,
+    c_educationDisplay,
+    c_volunteeringDisplay,
+    c_organizationsDisplay,
+    c_awardsDashboard,
+    c_industryLevelOfExperience,
+    c_designations,
+    c_hobbiesAndInterests,
+    c_fAQs,
+    c_fAQs1,
+    c_assetRanges,
+    c_meetingPreference,
+    c_meetingPlacePreference,
+    c_inTouchPreference,
+    c_conversationPreference,
+    c_conversationFocus,
+    c_meetingTime,
+    c_disagreements,
+    c_recommendations,
+    c_charts,
+    c_introvertedOrExtroverted,
+    c_planning,
+    c_laidBack,
+    c_homeRepairs,
+    c_photoGallery,
+    c_matchFinderPhoto,
     c_taskGroups,
+    headshot,
   } = document;
 
   const data = [
@@ -220,29 +296,32 @@ const Location: Template<TemplateRenderProps> = ({
   return (
     <>
       <PageLayout>
-        {/* <div className="space-y-4 bg-slate-200">
+        <div className="space-y-4 bg-slate-200">
           <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
             <div className="text-lg font-bold">Toggle Dashboards</div>
             <Switch
               checked={enabled}
               onChange={setEnabled}
               className={`${enabled ? "bg-teal-900" : "bg-teal-700"}
-            relative  inline-flex h-6 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75 mr-0`}
+          relative  inline-flex h-6 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75 mr-0`}
             >
               <span
                 aria-hidden="true"
                 className={`${enabled ? "translate-x-9" : "translate-x-0"}
-              pointer-events-none inline-block h-5 w-5  transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            pointer-events-none inline-block h-5 w-5  transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
           </div>
 
-          <DBBanner name="Hwllo"></DBBanner>
+          <DBBanner name={name} headshot={headshot}></DBBanner>
           <>
             {!enabled ? (
               <div className="px-4 flex flex-row w-full gap-2">
                 <div className="w-3/5">
-                  <TasksSection taskGroup={c_taskGroups}></TasksSection>
+                  <TasksSection
+                    tasks={SectionData}
+                    document={document}
+                  ></TasksSection>
                 </div>
                 <div className="w-2/5 flex flex-col gap-4">
                   <div className="flex flex-col gap-4 p-5  bg-white">
@@ -331,7 +410,7 @@ const Location: Template<TemplateRenderProps> = ({
               </div>
             )}
           </>
-        </div> */}
+        </div>
       </PageLayout>
     </>
   );

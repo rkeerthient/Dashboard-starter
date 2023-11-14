@@ -2,6 +2,8 @@ import * as React from "react";
 import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
+import { Image } from "../types/financial_professionals";
+
 export type Address = {
   line1: string;
   city: string;
@@ -15,6 +17,7 @@ type DBBanner = {
   address?: Address;
   openTime?: string;
   children?: React.ReactNode;
+  headshot: Image;
 };
 
 const renderPrettyAddress = (address?: Address) => {
@@ -30,29 +33,29 @@ const renderPrettyAddress = (address?: Address) => {
 };
 
 const DBBanner = (props: DBBanner) => {
-  const { name, address, children } = props;
+  const { name, address, children, headshot } = props;
 
   return (
     <>
       <div className="bg-[#032169]  text-white p-4 flex items-center justify-center flex-row space-x-20 w-full">
         <div className="flex items-center flex-row  gap-4">
           <div>
-            <img
-              src="http://a.mktgcdn.com/p/IZcDStz4s4N2XMnvQDUE3IUVVCQDTC8dNTUpT5jOSm8/200x200.jpg"
-              alt=""
-              className="w-full h-full"
-            />
+            {headshot && (
+              <img src={headshot.url} className="w-full h-full"></img>
+            )}
           </div>
           <div className="w-3/5 flex flex-col gap-4">
-            <div className="text-3xl font-bold">Welcome, Scott!</div>
+            <div className="text-3xl font-bold">
+              Welcome, {name?.split("-")[0]}!
+            </div>
             <div>
               Welcome to your dashboard – your one-stop-shop to set up and
               manage your online profile for Merrill Advisor Match. Complete all
               required fields in each section below to become discoverable. Once
               edited, all changes will route for approval. For status of your
               enrollment, review the indicator on the right. For any questions,
-              please contact merrillsupport@yext.com, or call 1-866-226-1723
-              between 9AM-5PM EST, Monday-Friday.
+              please contact rbcsupport@yext.com, or call 1-866-226-1723 between
+              9AM-5PM EST, Monday-Friday.
             </div>
             <div className="flex gap-4">
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">

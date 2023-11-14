@@ -2,17 +2,14 @@ import * as React from "react";
 import { C_taskGroups, Tasks } from "../../types/dashboard_entity";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import MarkdownView from "react-showdown";
-import { HiOutlineInformationCircle } from "react-icons/hi";
-import { useState } from "react";
 import Subtasks from "./Subtasks";
 
-const TasksSection = ({ taskGroup }: { taskGroup: C_taskGroups[] }) => {
+const TasksSection = ({ tasks, document }: any) => {
   return (
     <>
-      {taskGroup && (
+      {tasks && (
         <div className="flex flex-col gap-4">
-          {taskGroup.map((item: C_taskGroups, index: number) => (
+          {tasks.map((item: C_taskGroups, index: number) => (
             <div className="border" key={index}>
               <Disclosure className="border-4">
                 {({ open }) => (
@@ -34,7 +31,7 @@ const TasksSection = ({ taskGroup }: { taskGroup: C_taskGroups[] }) => {
                       <>
                         {item.tasks?.map((subItem: Tasks, subIndex: any) => (
                           <div key={subIndex}>
-                            <Subtasks subItem={subItem} />
+                            <Subtasks subItem={subItem} document={document} />
                           </div>
                         ))}
                       </>
