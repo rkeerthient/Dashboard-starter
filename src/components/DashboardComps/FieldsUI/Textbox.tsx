@@ -1,12 +1,11 @@
 import { PencilIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
-interface textboxProps {
+interface TextboxProps {
   initialValue: string;
-  onSave: (value: string) => void;
 }
 
-const DB_textbox = ({ initialValue, onSave }: textboxProps) => {
+const Textbox = ({ initialValue }: TextboxProps) => {
   const [isEditing, setIsEditing] = useState(true);
   const [editedValue, setEditedValue] = useState(initialValue);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,7 +25,6 @@ const DB_textbox = ({ initialValue, onSave }: textboxProps) => {
   };
 
   const handleSave = () => {
-    onSave(editedValue);
     setIsEditing(false);
     setIsFocussed(false);
   };
@@ -50,7 +48,7 @@ const DB_textbox = ({ initialValue, onSave }: textboxProps) => {
 
   return (
     <div
-      className={`   w-full flex gap-2 px-4 py-3 items-center hover:cursor-pointer hover:bg-containerBG ${
+      className={`w-full flex gap-2 px-4 py-3 items-center hover:cursor-pointer hover:bg-containerBG ${
         isFocussed && "bg-containerBG"
       }`}
       onMouseEnter={() => setShowEditIcon(true)}
@@ -106,4 +104,4 @@ const DB_textbox = ({ initialValue, onSave }: textboxProps) => {
   );
 };
 
-export default DB_textbox;
+export default Textbox;

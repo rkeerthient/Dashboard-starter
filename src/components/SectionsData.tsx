@@ -19,7 +19,7 @@ export const SectionData = [
     tasks: [
       {
         description: "Edit your nickname or preferred display name.",
-        field: "c_advisorNickname",
+        field: "c_preferredFirstName",
         name: "Preferred First Name",
       },
       {
@@ -42,7 +42,7 @@ export const SectionData = [
       {
         description:
           "This field allows you to select and rank your top 3 Client Focuses.  Once you select them, drag and drop in the order you want them displayed.  Note: your top 3 focuses will be displayed on the results page, but your full list will be displayed on your profile page.",
-        field: "c_clientFocusesReorder",
+        field: "c_clientFocuses",
         name: "Client Focuses*",
       },
       {

@@ -23,14 +23,11 @@ import "../index.css";
 import DBBanner from "../components/dbBanner";
 import DonutChart from "../components/DonutChart";
 import BarChart from "../components/BarChart";
-import { FcCancel } from "react-icons/fc";
-import { FiRefreshCw, FiCheck } from "react-icons/fi";
-import { GrFormClose } from "react-icons/gr";
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import SampleChart from "../components/SampleChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
-import { SectionData } from "../components/sectionsData";
+import { SectionData } from "../components/SectionsData";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -52,7 +49,7 @@ export const config: TemplateConfig = {
       "c_jobTitle",
       "c_jobTitleAbbreviation",
       "c_titleDisplay",
-      "c_clientFocusesReorder",
+      "c_clientFocuses",
       "c_aboutAdvisorShortDescription",
       "c_expertiseComments",
       "c_profileDelegates.delegateEmail",
@@ -93,6 +90,7 @@ export const config: TemplateConfig = {
       "c_fAQs1.question",
       "c_assetRanges",
       "c_meetingPreference",
+      "c_preferredFirstName",
       "c_meetingPlacePreference",
       "c_inTouchPreference",
       "c_conversationPreference",
@@ -180,7 +178,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_jobTitle,
     c_jobTitleAbbreviation,
     c_titleDisplay,
-    c_clientFocusesReorder,
+    c_clientFocuses,
     c_aboutAdvisorShortDescription,
     c_expertiseComments,
     c_profileDelegates,
@@ -216,6 +214,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_photoGallery,
     c_matchFinderPhoto,
     c_taskGroups,
+    c_preferredFirstName,
     headshot,
   } = document;
 

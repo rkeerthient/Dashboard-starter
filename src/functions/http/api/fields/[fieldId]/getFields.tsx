@@ -5,7 +5,6 @@ const getFields = async (
   request: SitesHttpRequest
 ): Promise<SitesHttpResponse> => {
   const { method, pathParams } = request;
-  console.log("enetered");
 
   const { fieldId } = pathParams;
   const api_key = import.meta.env.YEXT_PUBLIC_DEV_API_KEY as string;
