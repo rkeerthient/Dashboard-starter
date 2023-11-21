@@ -1,21 +1,22 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
 import { useState, useEffect } from "react";
-
-interface Option {
+import { Listbox, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+interface PicklistFieldProps {
+  initialValue: string | undefined;
+  options: Option[];
+  fieldId?: string;
+}
+export interface Option {
   displayName: string;
   textValue: string;
 }
-
-interface PicklistProps {
-  options: Option[];
-  initialValue?: string;
-}
-
-const Picklist = ({ options, initialValue }: PicklistProps) => {
+const PicklistField = ({
+  initialValue = undefined,
+  options,
+  fieldId,
+}: PicklistFieldProps) => {
   const [selectedItem, setSelectedItem] = useState<Option | null>(null);
-
   useEffect(() => {
     setSelectedItem(
       options.find((option) => option.textValue === initialValue) || null
@@ -27,7 +28,7 @@ const Picklist = ({ options, initialValue }: PicklistProps) => {
   };
 
   return (
-    <div className="flex w-full gap-2 items-center hover:cursor-pointer hover:bg-containerBG text-textColor">
+    <div className=" px-4 py-3 flex w-full gap-2 items-center hover:cursor-pointer hover:bg-containerBG text-textColor">
       <Listbox
         value={selectedItem}
         onChange={handleSelectChange}
@@ -83,4 +84,4 @@ const Picklist = ({ options, initialValue }: PicklistProps) => {
   );
 };
 
-export default Picklist;
+export default PicklistField;

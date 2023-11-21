@@ -2,11 +2,8 @@ import * as React from "react";
 import { useState } from "react";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import MarkdownView from "react-showdown";
-import { FiEdit } from "react-icons/fi";
 import UIPicker from "./UIPicker";
 import { Root } from "../../types/fieldSchema";
-import { EnumData } from "../EnumData";
-import Slider from "./FieldsUI/Slider";
 
 const Subtasks = ({ subItem, document }: any) => {
   const [isHover, setIsHover] = useState(false);
@@ -14,10 +11,13 @@ const Subtasks = ({ subItem, document }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
+  const [isList, setIsList] = useState(false);
+  const [type, setType] = useState("");
   const getFieldConfig = async (fieldId: string) => {
     try {
       const response = await fetch(`/api/fields/${fieldId}/getFields`);
       let json: Root = await response.json();
+      json.response.typeId === "list" && setIsList(true);
 
       if (
         json.response.type.listType &&
@@ -25,7 +25,7 @@ const Subtasks = ({ subItem, document }: any) => {
         response.ok
       ) {
         const listTypeResponse = await fetch(
-          `/api/fields/${json.response.type.listType.typeId}/getFields`
+          `/api/fields/${json.response.type.listType.typeId}/getFieldTypes`
         );
 
         if (listTypeResponse.ok) {
@@ -36,7 +36,6 @@ const Subtasks = ({ subItem, document }: any) => {
           );
         }
       }
-
       setData(json);
       setIsLoading(false);
     } catch (error) {
@@ -57,6 +56,7 @@ const Subtasks = ({ subItem, document }: any) => {
   const handleMouseLeave = () => {
     setIsHover(false);
   };
+
   return (
     <div>
       {subItem.newSectionHeading && (
@@ -71,7 +71,7 @@ const Subtasks = ({ subItem, document }: any) => {
           options={{ tables: true, emoji: true }}
         />
       )}
-      <div className="flex flex-row justify-between p-3 items-center  border-b">
+      <div className="flex flex-row justify-between items-center">
         <div className="font-semibold text-[#5a6370] w-1/4">
           <div className="flex  gap-2 items-center relative">
             {subItem.description && (
@@ -94,14 +94,14 @@ const Subtasks = ({ subItem, document }: any) => {
           </div>
         </div>
 
-        <div
-          className={`w-3/4 flex justify-between px-4 py-3 ${
-            isHover || isEditing ? "bg-containerBG" : "bg-white"
-          } ${isEditing ? "cursor-default" : "cursor-pointer"}`}
-          onMouseOver={handleMouseOver}
-          onMouseLeave={handleMouseLeave}
+        {/* <div
+        // className={`w-3/4 flex justify-between px-4 py-3 ${
+        //   isHover || isEditing ? "bg-containerBG" : "bg-white"
+        // } ${isEditing ? "cursor-default" : "cursor-pointer"}`}
+        // onMouseOver={handleMouseOver}
+        // onMouseLeave={handleMouseLeave}
         >
-          {!isEditing ? (
+          {/* {!isEditing ? (
             <>
               {subItem.slider ? (
                 <div className="w-full">
@@ -122,17 +122,15 @@ const Subtasks = ({ subItem, document }: any) => {
                 >
                   <div>
                     {(document[subItem.field] &&
-                    Array.isArray(document[subItem.field])
-                      ? document[subItem.field].map(
-                          (item: string, index: number) =>
-                            item.includes("_") &&
-                            item === item.toUpperCase() ? (
-                              <div key={index}>{EnumData[item]}</div>
-                            ) : (
-                              <div key={index}>{item}</div>
-                            )
-                        )
-                      : document[subItem.field]) || `Click me!`}
+                    Array.isArray(document[subItem.field]) ? (
+                      <CompoundFields
+                        fields={subItem.field}
+                        initialValues={document[subItem.field]}
+                        type={type}
+                      />
+                    ) : (
+                      document[subItem.field]
+                    )) || `Click me!`}
                   </div>
                   <FiEdit
                     className={`h-4 w-4 ${isHover ? `visible` : `invisible`}`}
@@ -155,9 +153,29 @@ const Subtasks = ({ subItem, document }: any) => {
                 <UIPicker
                   fieldSchema={data}
                   initialValue={document[subItem.field]}
+                  isList={isList}
                 />
               )}
             </>
+          )} */}
+
+        {/* </div>  
+      </div> */}
+        <div className={`w-3/4 flex justify-between`}>
+          {isLoading ? (
+            <div
+              className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+              role="status"
+            >
+              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
+          ) : (
+            <UIPicker
+              subItemField={subItem.field}
+              initialValue={document[subItem.field]}
+            />
           )}
         </div>
       </div>

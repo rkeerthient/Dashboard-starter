@@ -38,6 +38,18 @@
             "pattern": "*{.js,.ts}"
           }
         ]
+      },
+      {
+        "pluginName": "getFieldTypes-92806",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/fields/{{fieldId}}/getFieldTypes",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/getFieldTypes-92806",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
       }
     ]
   },

@@ -1,7 +1,7 @@
 import { SitesHttpRequest, SitesHttpResponse } from "@yext/pages/*";
 import { fetch } from "@yext/pages/util";
 
-const getFields = async (
+const getFieldTypes = async (
   request: SitesHttpRequest
 ): Promise<SitesHttpResponse> => {
   const { method, pathParams } = request;
@@ -18,7 +18,7 @@ const getFields = async (
   }
 
   const getFieldsResponse = await fetch(
-    `https://sbx-api.yextapis.com/v2/accounts/me/config/resources/km/field/${fieldId}?api_key=${api_key}&v=20230601`
+    `https://sbx-api.yextapis.com/v2/accounts/me/config/resources/km/field-type/${fieldId}?api_key=${api_key}&v=20230601`
   );
 
   const resp = await getFieldsResponse.json();
@@ -30,4 +30,4 @@ const getFields = async (
   };
 };
 
-export default getFields;
+export default getFieldTypes;

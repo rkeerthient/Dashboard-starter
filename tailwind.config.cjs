@@ -23,6 +23,7 @@ module.exports = {
         dropdownHoverBG: "#8896a1",
         dropdownActiveBG: "#f0f2f4",
         headerBG: "#022169",
+        linkColor: "#1463f9",
       },
       borderRadius: {
         cta: "var(--cta-border-radius, 1rem)",

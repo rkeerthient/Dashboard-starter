@@ -28,7 +28,11 @@ import { Switch } from "@headlessui/react";
 import SampleChart from "../components/SampleChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import { SectionData } from "../components/SectionsData";
-
+import * as FinancialProfessional from "../types/financial_professionals";
+import IconsTest from "../components/IconsTest";
+import NewEditor from "../components/Richtext/RichtextEditor";
+import RichtextEditor from "../components/Richtext/RichtextEditor";
+import CustomDatePicker from "../components/DashboardComps/StrutsUI/CustomDatePicker";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -291,9 +295,18 @@ const Location: Template<TemplateRenderProps> = ({
     },
   ];
   const [enabled, setEnabled] = useState(false);
+  ``;
+  function getKeyByValue(object: any, value: any) {
+    return Object.keys(object).find((key) => object[key] === value);
+  }
 
   return (
     <>
+      {/* <div className="centered-container mt-12">
+        <CompoundFields></CompoundFields>
+        <CustomDatePicker initialValue={new Date()}></CustomDatePicker>
+      </div> */}
+      {/* <RichtextEditor></RichtextEditor> */}
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
           <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">

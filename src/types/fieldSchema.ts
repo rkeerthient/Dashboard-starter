@@ -25,6 +25,7 @@ export interface Response {
 }
 
 export interface Type {
+  structType: any;
   listType: ListType;
   optionType: OptionType;
   stringType: StringType;
