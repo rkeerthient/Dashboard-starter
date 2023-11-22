@@ -5,8 +5,9 @@ import DateField from "./FieldComponents.tsx/DateField";
 import PicklistField from "./FieldComponents.tsx/PicklistField";
 import TextField from "./FieldComponents.tsx/TextField";
 import MultiPicklistField from "./FieldComponents.tsx/MultiPicklistField";
-import StructTypeField from "./FieldComponents.tsx/StructTypeField";
+import StructTypeField from "../StructTypeField";
 import Slider from "./FieldComponents.tsx/Slider";
+import TextBoxList from "./ListsUI/TextboxList";
 import TextBoxContainer from "./FieldComponents.tsx/TextBoxContainer";
 
 interface UIPickerProps {
@@ -99,17 +100,25 @@ const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
                     }
                     fieldId={""}
                   />
+                ) : mainFieldSchema.response.type.listType.typeId ===
+                  "string" ? (
+                  <TextBoxList
+                    fieldId={mainFieldSchema.response.$id}
+                    initialValue={initialValue}
+                  />
                 ) : (
+                  subFieldSchema &&
                   subFieldSchema.response.type.structType && (
-                    <TextBoxContainer
-                      properties={
-                        subFieldSchema.response.type.structType.property
-                      }
-                    ></TextBoxContainer>
                     // <StructTypeField
                     //   initialValue={initialValue}
                     //   fieldId={subFieldSchema.response.type.structType}
                     // />
+                    <TextBoxContainer
+                      properties={
+                        subFieldSchema.response.type.structType.property
+                      }
+                      initialValue={initialValue}
+                    ></TextBoxContainer>
                   )
                 );
               default:

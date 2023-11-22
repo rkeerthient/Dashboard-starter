@@ -18,21 +18,17 @@ import {
   TemplateRenderProps,
 } from "@yext/pages";
 import * as React from "react";
-import PageLayout from "../components/page-layout";
 import "../index.css";
-import DBBanner from "../components/dbBanner";
-import DonutChart from "../components/DonutChart";
-import BarChart from "../components/BarChart";
 import { useState } from "react";
+import MarkdownEditor from "../components/DashboardComps/MarkdownEditor";
 import { Switch } from "@headlessui/react";
-import SampleChart from "../components/SampleChart";
+import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
+import DonutChart from "../components/DonutChart";
+import SampleChart from "../components/SampleChart";
 import { SectionData } from "../components/SectionsData";
-import * as FinancialProfessional from "../types/financial_professionals";
-import IconsTest from "../components/IconsTest";
-import NewEditor from "../components/Richtext/RichtextEditor";
-import RichtextEditor from "../components/Richtext/RichtextEditor";
-import CustomDatePicker from "../components/DashboardComps/StrutsUI/CustomDatePicker";
+import DBBanner from "../components/dbBanner";
+import PageLayout from "../components/page-layout";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -55,7 +51,7 @@ export const config: TemplateConfig = {
       "c_titleDisplay",
       "c_clientFocuses",
       "c_aboutAdvisorShortDescription",
-      "c_expertiseComments",
+      "c_expertiseCommentsRTv2",
       "c_profileDelegates.delegateEmail",
       "c_profileDelegates.delegateUserID",
       "c_profileDelegates.giveProfileControl",
@@ -90,8 +86,6 @@ export const config: TemplateConfig = {
       "c_hobbiesAndInterests",
       "c_fAQs.answer",
       "c_fAQs.question",
-      "c_fAQs1.answer",
-      "c_fAQs1.question",
       "c_assetRanges",
       "c_meetingPreference",
       "c_preferredFirstName",
@@ -184,7 +178,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_titleDisplay,
     c_clientFocuses,
     c_aboutAdvisorShortDescription,
-    c_expertiseComments,
+    c_expertiseCommentsRTv2,
     c_profileDelegates,
     c_teamNameAndSite,
     c_displayTeamName,
@@ -296,12 +290,10 @@ const Location: Template<TemplateRenderProps> = ({
   ];
   const [enabled, setEnabled] = useState(false);
   ``;
-  function getKeyByValue(object: any, value: any) {
-    return Object.keys(object).find((key) => object[key] === value);
-  }
 
   return (
     <>
+      {/* <div>Hi</div> */}
       {/* <div className="centered-container mt-12">
         <CompoundFields></CompoundFields>
         <CustomDatePicker initialValue={new Date()}></CustomDatePicker>

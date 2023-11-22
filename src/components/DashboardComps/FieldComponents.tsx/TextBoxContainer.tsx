@@ -1,11 +1,9 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon, TrashIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
-import { useState } from "react";
-import DatePicker from "react-datepicker"; // Make sure to import the DatePicker component
+import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FiDelete } from "react-icons/fi";
-import RichtextEditor from "../../Richtext/RichtextEditor";
 
 interface Option {
   displayName: string;
@@ -36,25 +34,55 @@ interface Property {
 }
 
 interface Block {
-  textValue: string;
+  textValues: Record<string, string>; // Use an object to store multiple text values, where keys are property names
   optionValue: string;
-  dateValue: Date | null; // Add a property for date value
+  dateValues: (Date | null)[]; // Use an array to store multiple date values
   options: string[];
 }
 
 interface TextBoxContainerProps {
   properties: Property[];
+  initialValue: any;
 }
 
-const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
+const TextBoxContainer = ({
+  properties,
+  initialValue,
+}: TextBoxContainerProps) => {
   const [blocks, setBlocks] = useState<Block[]>([]);
 
-  const addNewBlock = () => {
-    setBlocks([
-      ...blocks,
-      { textValue: "", optionValue: "", dateValue: null, options: [] },
-    ]);
-  };
+  useEffect(() => {
+    const initialBlocks = (initialValue || []).map((item: any) => {
+      const initialTextValues: Record<string, string> = {};
+      const initialDateValues: (Date | null)[] = [];
+      const initialOptionValues: (Date | null)[] = [];
+
+      properties.forEach((property) => {
+        initialTextValues[property.name] = (item || {})[property.name] || "";
+
+        if (property.typeId === "date") {
+          initialDateValues.push(
+            (item[property.name] && new Date(item[property.name])) || null
+          );
+        }
+        if (property.typeId === "option") {
+          initialOptionValues.push(
+            (item[property.name] && item[property.name]) || null
+          );
+        }
+      });
+      console.log(initialOptionValues);
+
+      return {
+        textValues: initialTextValues,
+        optionValue: initialOptionValues || "",
+        dateValues: initialDateValues,
+        options: [],
+      };
+    });
+
+    setBlocks(initialBlocks);
+  }, [initialValue, properties]);
 
   const deleteBlock = (index: number) => {
     const updatedBlocks = [...blocks];
@@ -69,13 +97,30 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
   ) => {
     const updatedBlocks = [...blocks];
 
-    if (property.name === "abbreviation") {
-      updatedBlocks[index].textValue = value;
-    } else if (property.name === "name") {
-      updatedBlocks[index].optionValue = value;
-    }
+    updatedBlocks[index].textValues[property.name] = value;
 
     setBlocks(updatedBlocks);
+  };
+
+  const addNewBlock = () => {
+    const initialTextValues: Record<string, string> = {};
+    properties.forEach((property) => {
+      initialTextValues[property.name] = "";
+    });
+
+    const initialDateValues: (Date | null)[] = Array(
+      properties.filter((property) => property.typeId === "date").length
+    ).fill(null);
+
+    setBlocks([
+      ...blocks,
+      {
+        textValues: initialTextValues,
+        optionValue: "",
+        dateValues: initialDateValues,
+        options: [],
+      },
+    ]);
   };
 
   const handleOptionChange = (index: number, value: string) => {
@@ -84,10 +129,59 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
     setBlocks(updatedBlocks);
   };
 
-  const handleDateChange = (index: number, date: Date | null) => {
+  const handleDateChange = (
+    index: number,
+    dateIndex: number,
+    date: Date | null
+  ) => {
     const updatedBlocks = [...blocks];
-    updatedBlocks[index].dateValue = date;
+
+    updatedBlocks[index].dateValues[dateIndex] = date;
+
     setBlocks(updatedBlocks);
+  };
+
+  const saveChanges = () => {
+    const jsonArray: any[] = [];
+    console.log(JSON.stringify(blocks));
+
+    blocks.forEach((block) => {
+      const jsonBlock: Record<string, any> = {};
+
+      properties.forEach((property) => {
+        switch (property.typeId) {
+          case "string":
+            jsonBlock[property.name] = block.textValues[property.name];
+            break;
+          case "option":
+            if (Array.isArray(block.optionValue)) {
+              // Handle case where optionValue is an array
+              jsonBlock[property.name] = block.optionValue;
+            } else {
+              // Handle case where optionValue is a string
+              jsonBlock[property.name] = [block.optionValue];
+            }
+            break;
+          case "date":
+            jsonBlock[property.name] = block.dateValues;
+            break;
+          // Add cases for other property types if needed
+          default:
+            break;
+        }
+      });
+      jsonArray.push(jsonBlock);
+    });
+
+    const formattedJsonArray = jsonArray.map((item) => ({
+      ...item,
+      date:
+        item.date instanceof Date
+          ? item.date.toISOString().split("T")[0]
+          : null,
+    }));
+
+    console.log(formattedJsonArray);
   };
 
   return (
@@ -109,7 +203,7 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
                       type="text"
                       className="w-full p-1 border"
                       placeholder={property.displayName}
-                      value={block.textValue}
+                      value={block.textValues[property.name]}
                       onChange={(e) =>
                         handleTextChange(index, property, e.target.value)
                       }
@@ -117,6 +211,7 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
                       required={property.isRequired}
                     />
                   )}
+
                   {property.typeId === "option" && (
                     <Listbox
                       className="w-fit"
@@ -141,7 +236,7 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <Listbox.Options className="z-50 absolute  mt-1 max-h-60 w-max overflow-auto rounded-md  bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+                          <Listbox.Options className="z-50 absolute mt-1 max-h-60 w-max overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
                             {property.type?.optionType?.option?.map(
                               (option, optionIndex) => (
                                 <Listbox.Option
@@ -167,17 +262,26 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
                       </div>
                     </Listbox>
                   )}
+
                   {property.typeId === "date" && (
-                    <DatePicker
-                      className="border w-fit p-1"
-                      selected={block.dateValue}
-                      onChange={(date: Date) => handleDateChange(index, date)}
-                      dateFormat="dd/MM/yyyy"
-                      showYearDropdown
-                      scrollableYearDropdown
-                    />
+                    <div>
+                      {block.dateValues.map((dateValue, dateIndex) => (
+                        <DatePicker
+                          key={dateIndex}
+                          className="border w-fit p-1"
+                          selected={dateValue}
+                          onChange={(date: Date) =>
+                            handleDateChange(index, dateIndex, date)
+                          }
+                          dateFormat="dd/MM/yyyy"
+                          showYearDropdown
+                          scrollableYearDropdown
+                        />
+                      ))}
+                    </div>
                   )}
-                  {property.typeId === "richText" && <RichtextEditor />}
+
+                  {/* {property.typeId === "richText" && <RichtextEditor />} */}
                 </div>
               ))}
             </div>
@@ -186,6 +290,9 @@ const TextBoxContainer = ({ properties }: TextBoxContainerProps) => {
         </div>
       ))}
       <button onClick={addNewBlock}>Add New</button>
+      <button onClick={saveChanges} className="ml-8">
+        Save changes
+      </button>
     </div>
   );
 };

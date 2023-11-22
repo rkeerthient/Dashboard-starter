@@ -142,7 +142,7 @@ export const SectionData = [
       {
         description:
           "This is your full bio. Highlight your practice, key attributes, and accomplishments. TIP: infuse your personality (e.g. personal interests, hobbies, or passions).",
-        field: "c_expertiseComments",
+        field: "c_expertiseCommentsRTv2",
         name: "Full Biography*",
       },
       {

@@ -1,9 +1,10 @@
 import * as React from "react";
 import { useState } from "react";
+import TextBoxContainer from "./DashboardComps/FieldComponents.tsx/TextBoxContainer";
 
 interface StructTypeFieldProps {
   initialValue?: Root[] | undefined;
-  fieldId: string;
+  fieldId: string[] | string;
 }
 
 export interface Root {
@@ -31,12 +32,10 @@ export interface StringType {
 export interface DateType {}
 
 const StructTypeField: React.FC<StructTypeFieldProps> = ({
-  initialValue = undefined,
+  initialValue,
   fieldId,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  console.log(JSON.stringify(initialValue));
-  console.log(JSON.stringify(fieldId));
 
   const handleClick = () => {
     setIsEditMode(true);
@@ -51,9 +50,13 @@ const StructTypeField: React.FC<StructTypeFieldProps> = ({
   return (
     <div className="flex flex-col gap-3">
       {isEditMode ? (
-        <div>Edit Mode</div>
-      ) : (
-        initialValue &&
+        <div>
+          <TextBoxContainer
+            properties={fieldId}
+            initialValue={initialValue}
+          ></TextBoxContainer>
+        </div>
+      ) : initialValue ? (
         initialValue.map((subItem: any, subIndex: any) => (
           <div
             key={subIndex}
@@ -68,6 +71,8 @@ const StructTypeField: React.FC<StructTypeFieldProps> = ({
             ))}
           </div>
         ))
+      ) : (
+        <div>Click me</div>
       )}
     </div>
   );
