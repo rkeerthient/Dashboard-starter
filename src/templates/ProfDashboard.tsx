@@ -29,6 +29,7 @@ import SampleChart from "../components/SampleChart";
 import { SectionData } from "../components/SectionsData";
 import DBBanner from "../components/dbBanner";
 import PageLayout from "../components/page-layout";
+import CustomEditor from "../components/DashboardComps/CustomEditor";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -289,17 +290,20 @@ const Location: Template<TemplateRenderProps> = ({
     },
   ];
   const [enabled, setEnabled] = useState(false);
-  ``;
-
+  const handleEditorChange = (content: string) => {
+    console.log("Editor content:", content);
+  };
   return (
     <>
+      <CustomEditor onChange={handleEditorChange} />
+
       {/* <div>Hi</div> */}
       {/* <div className="centered-container mt-12">
         <CompoundFields></CompoundFields>
         <CustomDatePicker initialValue={new Date()}></CustomDatePicker>
       </div> */}
       {/* <RichtextEditor></RichtextEditor> */}
-      <PageLayout>
+      {/* <PageLayout>
         <div className="space-y-4 bg-slate-200">
           <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
             <div className="text-lg font-bold">Toggle Dashboards</div>
@@ -415,7 +419,7 @@ const Location: Template<TemplateRenderProps> = ({
             )}
           </>
         </div>
-      </PageLayout>
+      </PageLayout> */}
     </>
   );
 };
