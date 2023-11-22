@@ -29,7 +29,7 @@ import SampleChart from "../components/SampleChart";
 import { SectionData } from "../components/SectionsData";
 import DBBanner from "../components/dbBanner";
 import PageLayout from "../components/page-layout";
-import CustomEditor from "../components/DashboardComps/CustomEditor";
+import CustomEditor from "../components/DashboardComps/LexicalRichText/CustomEditor";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -293,9 +293,12 @@ const Location: Template<TemplateRenderProps> = ({
   const handleEditorChange = (content: string) => {
     console.log("Editor content:", content);
   };
+  const content =
+    '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"console","type":"code-highlight","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":".","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":"log","type":"code-highlight","version":1,"highlightType":"function"},{"detail":0,"format":0,"mode":"normal","style":"","text":"(","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":""Hello World"","type":"code-highlight","version":1,"highlightType":"string"},{"detail":0,"format":0,"mode":"normal","style":"","text":")","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":";","type":"code-highlight","version":1,"highlightType":"punctuation"}],"direction":"ltr","format":"","indent":0,"type":"code","version":1,"language":"javascript"},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Are you ok??","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}';
+
   return (
     <>
-      <CustomEditor onChange={handleEditorChange} />
+      <CustomEditor content={content} />
 
       {/* <div>Hi</div> */}
       {/* <div className="centered-container mt-12">

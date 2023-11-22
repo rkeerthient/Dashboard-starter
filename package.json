@@ -23,6 +23,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
+    "@lexical/react": "^0.12.4",
     "@types/react-slick": "^0.23.10",
     "@yext/sites-components": "^1.0.0-rc.5",
     "@yext/types": "0.1.12-alpha",
@@ -32,6 +33,7 @@
     "font-awesome": "^4.7.0",
     "immutable": "^5.0.0-beta.4",
     "install": "^0.13.0",
+    "lexical": "^0.12.4",
     "mapbox-gl": "^2.15.0",
     "markdown-to-jsx": "^7.3.2",
     "npm": "^10.2.4",
