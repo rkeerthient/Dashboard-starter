@@ -1,78 +1,90 @@
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import {
+  LexicalComposer,
+  InitialConfigType,
+} from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import { $getRoot, $getSelection } from "lexical";
-import { $generateHtmlFromNodes } from "@lexical/html";
 import { useRef } from "react";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import * as React from "react";
-import exampleTheme from "./themes/ExampleTheme";
+import { EditorThemeClasses } from "lexical";
+import DefaultNodeStyling from "./DefaultStyling";
+import { HashtagNode } from "@lexical/hashtag";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { EditorState } from "lexical";
 
-const CustomEditor = (props: { content: any }) => {
-  const editorStateRef = useRef(); // Use useRef to store the editor state
-
-  const editorConfig = {
-    // The editor theme
-    theme: exampleTheme,
-    // Handling of errors during update
-    onError(error) {
-      throw error;
-    },
-    // Any custom nodes go here
-    nodes: [
-      HeadingNode,
-      ListNode,
-      ListItemNode,
-      QuoteNode,
-      CodeNode,
-      CodeHighlightNode,
-
-      AutoLinkNode,
-      LinkNode,
-    ],
+export interface LexicalRichTextProps {
+  /** A JSON-serialized Lexical Dev AST. */
+  serializedAST: string;
+  /** CSS Class names for the various Lexical Node types. */
+  nodeClassNames?: EditorThemeClasses;
+}
+const CustomEditor = ({
+  serializedAST,
+  nodeClassNames,
+}: LexicalRichTextProps) => {
+  const generateConfig = (editorState: string, theme?: EditorThemeClasses) => {
+    return {
+      namespace: "",
+      onError: (error: Error) => {
+        throw error;
+      },
+      editorState,
+      theme: theme || DefaultNodeStyling,
+      nodes: [
+        HeadingNode,
+        HashtagNode,
+        ListNode,
+        ListItemNode,
+        QuoteNode,
+        CodeNode,
+        CodeHighlightNode,
+        TableNode,
+        TableCellNode,
+        TableRowNode,
+        AutoLinkNode,
+        LinkNode,
+        HorizontalRuleNode,
+      ],
+    };
   };
 
-  function saveHandle() {
-    const editorState = editorStateRef.current;
-    if (editorState) {
-      console.log("Saving content:", JSON.stringify(editorState));
-    }
-  }
-  function onChange(editorState) {
-    editorState.read(() => {
-      // Read the contents of the EditorState here.
-      const root = $getRoot();
-      const selection = $getSelection();
-
-      console.log(editorState);
-    });
-  }
   function Placeholder() {
     return <div className="editor-placeholder">Enter some rich text...</div>;
   }
+  const onChange = (editorState: EditorState) => {
+    editorState.read(() => {
+      // const markdown = $convertToMarkdownString(TRANSFORMERS);
+      // onSave(markdown);
+      const json = editorState.toJSON();
+      console.log(JSON.stringify(json));
+    });
+  };
 
   return (
     <div className="border ">
-      <LexicalComposer initialConfig={editorConfig}>
+      <LexicalComposer
+        initialConfig={generateConfig(serializedAST, nodeClassNames)}
+      >
         <div className="editor-container">
           <ToolbarPlugin />
-          <div className="editor-inner">
+          <div className="editor-inner cursor-text">
             <RichTextPlugin
               contentEditable={<ContentEditable className="editor-input" />}
               placeholder={<Placeholder />}
               ErrorBoundary={LexicalErrorBoundary}
             />
             <OnChangePlugin onChange={onChange} />
-
-            <button onClick={saveHandle}>Save</button>
           </div>
+          <ListPlugin />
         </div>
       </LexicalComposer>
     </div>

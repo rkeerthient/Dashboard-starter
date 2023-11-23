@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
@@ -7,18 +7,18 @@ import {
   UNDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   FORMAT_TEXT_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
   $getSelection,
   $isRangeSelection,
-  $createParagraphNode,
-  $getNodeByKey,
+  NodeKey,
+  GridSelection,
+  LexicalEditor,
+  NodeSelection,
+  RangeSelection,
+  TextNode,
+  ElementNode,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
-import {
-  $isParentElementRTL,
-  $wrapNodes,
-  $isAtNodeEnd,
-} from "@lexical/selection";
+import { $isParentElementRTL, $isAtNodeEnd } from "@lexical/selection";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
   INSERT_ORDERED_LIST_COMMAND,
@@ -28,48 +28,46 @@ import {
   ListNode,
 } from "@lexical/list";
 import { createPortal } from "react-dom";
-import {
-  $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode,
-} from "@lexical/rich-text";
-import {
-  $createCodeNode,
-  $isCodeNode,
-  getDefaultCodeLanguage,
-  getCodeLanguages,
-} from "@lexical/code";
+import { $isHeadingNode } from "@lexical/rich-text";
+import { $isCodeNode, getDefaultCodeLanguage } from "@lexical/code";
 import * as React from "react";
 import { FiBold, FiItalic, FiLink, FiUnderline } from "react-icons/fi";
 import { FaUndo, FaRedo, FaListOl, FaListUl } from "react-icons/fa";
 
 const LowPriority = 1;
 
-function Divider() {
-  return <div className="divider" />;
-}
-
-function positionEditorElement(editor, rect) {
+function positionEditorElement(
+  editor: HTMLElement,
+  rect: DOMRect | null,
+  rootElement: HTMLElement
+): void {
   if (rect === null) {
     editor.style.opacity = "0";
     editor.style.top = "-1000px";
     editor.style.left = "-1000px";
   } else {
     editor.style.opacity = "1";
-    editor.style.top = `${rect.top + rect.height + window.pageYOffset + 10}px`;
-    editor.style.left = `${
-      rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
-    }px`;
+    editor.style.top = `${rect.top + rect.height + window.scrollY + 10}px`;
+    const left = rect.left - editor.offsetWidth / 2 + rect.width / 2;
+    const rootElementRect = rootElement.getBoundingClientRect();
+    if (rootElementRect.left > left) {
+      editor.style.left = `${rect.left + window.scrollX}px`;
+    } else if (left + editor.offsetWidth > rootElementRect.right) {
+      editor.style.left = `${
+        rect.right + window.scrollX - editor.offsetWidth
+      }px`;
+    }
   }
 }
-
-function FloatingLinkEditor({ editor }) {
-  const editorRef = useRef(null);
-  const inputRef = useRef(null);
+function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
+  const editorRef = useRef<HTMLInputElement>(null);
   const mouseDownRef = useRef(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [linkUrl, setLinkUrl] = useState("");
   const [isEditMode, setEditMode] = useState(false);
-  const [lastSelection, setLastSelection] = useState(null);
+  const [lastSelection, setLastSelection] = useState<
+    RangeSelection | NodeSelection | GridSelection | null
+  >(null);
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -95,6 +93,7 @@ function FloatingLinkEditor({ editor }) {
     const rootElement = editor.getRootElement();
     if (
       selection !== null &&
+      nativeSelection !== null &&
       !nativeSelection.isCollapsed &&
       rootElement !== null &&
       rootElement.contains(nativeSelection.anchorNode)
@@ -104,19 +103,19 @@ function FloatingLinkEditor({ editor }) {
       if (nativeSelection.anchorNode === rootElement) {
         let inner = rootElement;
         while (inner.firstElementChild != null) {
-          inner = inner.firstElementChild;
+          inner = inner.firstElementChild as HTMLElement;
         }
         rect = inner.getBoundingClientRect();
       } else {
         rect = domRange.getBoundingClientRect();
       }
 
-      if (!mouseDownRef.current) {
-        positionEditorElement(editorElem, rect);
-      }
+      positionEditorElement(editorElem, rect, rootElement);
       setLastSelection(selection);
     } else if (!activeElement || activeElement.className !== "link-input") {
-      positionEditorElement(editorElem, null);
+      if (rootElement !== null) {
+        positionEditorElement(editorElem, null, rootElement);
+      }
       setLastSelection(null);
       setEditMode(false);
       setLinkUrl("");
@@ -124,7 +123,18 @@ function FloatingLinkEditor({ editor }) {
 
     return true;
   }, [editor]);
+  useEffect(() => {
+    const onResize = () => {
+      editor.getEditorState().read(() => {
+        updateLinkEditor();
+      });
+    };
+    window.addEventListener("resize", onResize);
 
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [editor, updateLinkEditor]);
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
@@ -203,7 +213,7 @@ function FloatingLinkEditor({ editor }) {
   );
 }
 
-function getSelectedNode(selection) {
+function getSelectedNode(selection: RangeSelection): TextNode | ElementNode {
   const anchor = selection.anchor;
   const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();
@@ -225,7 +235,9 @@ export default function ToolbarPlugin() {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [blockType, setBlockType] = useState("paragraph");
-  const [selectedElementKey, setSelectedElementKey] = useState(null);
+  const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
+    null
+  );
   const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] =
     useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
@@ -325,18 +337,18 @@ export default function ToolbarPlugin() {
   }, [editor, isLink]);
   const formatBulletList = () => {
     if (blockType !== "ul") {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND);
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND);
+      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
     setShowBlockOptionsDropDown(false);
   };
 
   const formatNumberedList = () => {
     if (blockType !== "ol") {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND);
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND);
+      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
     setShowBlockOptionsDropDown(false);
   };
@@ -346,7 +358,7 @@ export default function ToolbarPlugin() {
       <button
         disabled={!canUndo}
         onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND);
+          editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
         className="toolbar-item spaced"
         aria-label="Undo"
@@ -356,7 +368,7 @@ export default function ToolbarPlugin() {
       <button
         disabled={!canRedo}
         onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND);
+          editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
         className="toolbar-item"
         aria-label="Redo"
