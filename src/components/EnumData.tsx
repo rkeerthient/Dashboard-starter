@@ -39,4 +39,8 @@ export const EnumData: any = {
     "Individual and Corporate Investment Strategy",
   TAX_MINIMIZATION: "Tax Minimization",
   RETIREMENT_INCOME: "Retirement Income",
+  ANY_ASSET_LEVEL: "Any asset level, including <250K",
+  _250K_: "250K+",
+  _1M_: "1M+",
+  _10M_: "10M+",
 };

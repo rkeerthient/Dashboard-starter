@@ -1,14 +1,15 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import * as React from "react";
 interface TextFieldProps {
-  initialValue?: string | undefined;
+  initialValue?: string;
   fieldId: string;
 }
 
-const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
-  const [textValue, setTextValue] = useState<string | undefined>(initialValue);
+const TextField = ({ initialValue = "Click me!", fieldId }: TextFieldProps) => {
+  const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
+  console.log(fieldId);
 
   const handleClick = () => {
     setIsEditable(true);
@@ -17,8 +18,22 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextValue(event.target.value);
   };
-  const handleSave = () => {
-    // Add your save logic here
+  const handleSave = async () => {
+    try {
+      const requestBody = encodeURIComponent(
+        JSON.stringify({
+          [fieldId as string]: textValue,
+        })
+      );
+      const response = await fetch(
+        `/api/fields/4635269/putFields?body=${requestBody}`
+      );
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
+        error
+      );
+    }
     setIsEditable(false);
   };
   const handleCancel = () => {
@@ -43,7 +58,7 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {textValue} Click me!
+          {textValue}
         </div>
       )}
       {isEditable && (

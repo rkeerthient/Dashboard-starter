@@ -59,7 +59,26 @@ const MultiPicklistField = ({
     return true;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    let x = selectedItems.filter((item) => item.checked);
+    let filteredData = x.map((item) => item.textValue);
+
+    const requestBody = encodeURIComponent(
+      JSON.stringify({
+        [fieldId]: filteredData,
+      })
+    );
+    try {
+      const response = await fetch(
+        `/api/fields/4635269/putFields?body=${requestBody}`
+      );
+      console.log(response.json());
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
+        error
+      );
+    }
     setIsEditMode(false);
     setIsContentEdited(false);
   };

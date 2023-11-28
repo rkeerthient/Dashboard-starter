@@ -1,9 +1,10 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon, TrashIcon } from "@heroicons/react/20/solid";
-import * as React from "react";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import CustomEditor from "../LexicalRichText/CustomEditor";
+import * as React from "react";
 
 interface Option {
   displayName: string;
@@ -21,6 +22,11 @@ interface OptionType {
   option: Option[];
 }
 
+export interface RichTextType {
+  maxLength: number;
+  supportedFormat: string[];
+}
+
 interface Property {
   name: string;
   displayName: string;
@@ -30,13 +36,15 @@ interface Property {
     optionType?: OptionType;
     stringType?: StringType;
     dateType?: DateType;
+    richTextType?: RichTextType;
   };
 }
 
 interface Block {
-  textValues: Record<string, string>; // Use an object to store multiple text values, where keys are property names
+  textValues: Record<string, string>;
+  richTextValues: (string | null)[];
   optionValue: string;
-  dateValues: (Date | null)[]; // Use an array to store multiple date values
+  dateValues: (Date | null)[];
   options: string[];
 }
 
@@ -54,10 +62,11 @@ const TextBoxContainer = ({
   useEffect(() => {
     const initialBlocks = (initialValue || []).map((item: any) => {
       const initialTextValues: Record<string, string> = {};
+      const initialRichTextValues: (string | null)[] = [];
       const initialDateValues: (Date | null)[] = [];
-      const initialOptionValues: (Date | null)[] = [];
+      const initialOptionValues: string[] = [];
 
-      properties.forEach((property) => {
+      properties.property.forEach((property) => {
         initialTextValues[property.name] = (item || {})[property.name] || "";
 
         if (property.typeId === "date") {
@@ -67,15 +76,20 @@ const TextBoxContainer = ({
         }
         if (property.typeId === "option") {
           initialOptionValues.push(
-            (item[property.name] && item[property.name]) || null
+            (item[property.name] && item[property.name]) || ""
+          );
+        }
+        if (property.typeId === "richText") {
+          initialRichTextValues.push(
+            (item[property.name] && item[property.name]) || ""
           );
         }
       });
-      console.log(initialOptionValues);
 
       return {
         textValues: initialTextValues,
-        optionValue: initialOptionValues || "",
+        richTextValues: initialRichTextValues,
+        optionValue: initialOptionValues[0] || "",
         dateValues: initialDateValues,
         options: [],
       };
@@ -104,18 +118,25 @@ const TextBoxContainer = ({
 
   const addNewBlock = () => {
     const initialTextValues: Record<string, string> = {};
-    properties.forEach((property) => {
+
+    properties.property.forEach((property) => {
       initialTextValues[property.name] = "";
     });
 
     const initialDateValues: (Date | null)[] = Array(
-      properties.filter((property) => property.typeId === "date").length
+      properties.property.filter((property) => property.typeId === "date")
+        .length
+    ).fill(null);
+    const initialRichTextValues: (string | null)[] = Array(
+      properties.property.filter((property) => property.typeId === "richText")
+        .length
     ).fill(null);
 
     setBlocks([
       ...blocks,
       {
         textValues: initialTextValues,
+        richTextValues: initialRichTextValues,
         optionValue: "",
         dateValues: initialDateValues,
         options: [],
@@ -143,29 +164,23 @@ const TextBoxContainer = ({
 
   const saveChanges = () => {
     const jsonArray: any[] = [];
-    console.log(JSON.stringify(blocks));
 
     blocks.forEach((block) => {
       const jsonBlock: Record<string, any> = {};
 
-      properties.forEach((property) => {
+      properties.property.forEach((property) => {
         switch (property.typeId) {
           case "string":
             jsonBlock[property.name] = block.textValues[property.name];
             break;
           case "option":
-            if (Array.isArray(block.optionValue)) {
-              // Handle case where optionValue is an array
-              jsonBlock[property.name] = block.optionValue;
-            } else {
-              // Handle case where optionValue is a string
-              jsonBlock[property.name] = [block.optionValue];
-            }
+            jsonBlock[property.name] = Array.isArray(block.optionValue)
+              ? block.optionValue
+              : [block.optionValue];
             break;
           case "date":
             jsonBlock[property.name] = block.dateValues;
             break;
-          // Add cases for other property types if needed
           default:
             break;
         }
@@ -185,12 +200,12 @@ const TextBoxContainer = ({
   };
 
   return (
-    <div className={`w-full px-4 py-3  bg-containerBG`}>
+    <div className={`w-full px-4 py-3 bg-containerBG`}>
       {blocks.map((block: Block, index: number) => (
         <div key={index} className="flex ">
-          <div className="flex flex-row w-full  border p-4 m-2 gap-4">
+          <div className="flex flex-row w-full border p-4 m-2 gap-4">
             <div className="flex flex-col gap-2 w-full">
-              {properties.map((property, propIndex) => (
+              {properties.property.map((property, propIndex) => (
                 <div
                   key={`${index}-${property.name}`}
                   className="text-[#374151] flex flex-col gap-1"
@@ -240,7 +255,7 @@ const TextBoxContainer = ({
                             {property.type?.optionType?.option?.map(
                               (option, optionIndex) => (
                                 <Listbox.Option
-                                  key={optionIndex}
+                                  key={`${index}-${property.name}-${optionIndex}`}
                                   value={option.textValue}
                                 >
                                   {({ selected }) => (
@@ -281,11 +296,19 @@ const TextBoxContainer = ({
                     </div>
                   )}
 
-                  {/* {property.typeId === "richText" && <RichtextEditor />} */}
+                  {property.typeId === "richText" && (
+                    <CustomEditor
+                      isEditMode={true}
+                      serializedAST={block.textValues[property.name]}
+                    />
+                  )}
                 </div>
               ))}
             </div>
-            <TrashIcon className="h-4 w-4" onClick={() => deleteBlock(index)} />
+            <TrashIcon
+              className="h-4 w-4 cursor-pointer"
+              onClick={() => deleteBlock(index)}
+            />
           </div>
         </div>
       ))}

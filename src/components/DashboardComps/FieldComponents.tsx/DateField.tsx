@@ -4,21 +4,38 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface DateFieldProps {
-  initialValue?: string | undefined; // Update the type to allow undefined
+  initialValue: string | undefined;
+  fieldId: string;
 }
 
-const DateField = ({ initialValue = undefined }: DateFieldProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    initialValue ? new Date(initialValue) : undefined
+const DateField = ({ initialValue = undefined, fieldId }: DateFieldProps) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    initialValue ? new Date(initialValue) : null
   );
+
   const [isEditMode, setIsEditMode] = useState(false);
-  const isContentEdited = selectedDate !== initialValue;
+  const isContentEdited = selectedDate?.toISOString() !== initialValue;
 
   const handleClick = () => {
     setIsEditMode(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    try {
+      const requestBody = encodeURIComponent(
+        JSON.stringify({
+          [fieldId]: formatDateTime(selectedDate!),
+        })
+      );
+      const response = await fetch(
+        `/api/fields/4635269/putFields?body=${requestBody}`
+      );
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
+        error
+      );
+    }
     setIsEditMode(false);
   };
   const handleCancel = () => {
@@ -58,7 +75,9 @@ const DateField = ({ initialValue = undefined }: DateFieldProps) => {
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {selectedDate || `Click me!`}
+          {selectedDate
+            ? selectedDate.toLocaleDateString("en-GB")
+            : "Click me!"}
         </div>
       )}
     </div>
@@ -66,3 +85,34 @@ const DateField = ({ initialValue = undefined }: DateFieldProps) => {
 };
 
 export default DateField;
+
+export function formatDateTime(dateString?: Date) {
+  var formattedDate = "";
+  if (dateString != null) {
+    var date = dateString;
+
+    var year = date.getFullYear();
+
+    var numMonth = date.getMonth() + 1;
+    var month = String(numMonth);
+    if (numMonth < 10) month = "0" + month;
+
+    var numDay = date.getDate();
+    var day = String(numDay);
+    if (numDay < 10) day = "0" + day;
+
+    var numHour = date.getHours();
+    var hour = String(numHour);
+    if (numHour < 10) hour = "0" + hour;
+
+    var numMins = date.getMinutes();
+    var minutes = String(numMins);
+    if (numMins < 10) minutes = "0" + minutes;
+
+    formattedDate = year + "-" + month + "-" + day;
+
+    console.log(date.toLocaleTimeString());
+  }
+
+  return formattedDate;
+}

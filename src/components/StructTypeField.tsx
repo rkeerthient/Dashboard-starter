@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import TextBoxContainer from "./DashboardComps/FieldComponents.tsx/TextBoxContainer";
+import CustomEditor from "./DashboardComps/LexicalRichText/CustomEditor";
 
 interface StructTypeFieldProps {
   initialValue?: Root[] | undefined;
@@ -63,12 +64,20 @@ const StructTypeField: React.FC<StructTypeFieldProps> = ({
             className="border-l pl-4 flex flex-col  gap-2 hover:cursor-pointer"
             onClick={handleClick}
           >
-            {fieldId.property.map((item: any, index: any) => (
-              <div key={index} className="flex flex-col text-[#374151]">
-                <div className="font-bold ">{item.displayName}</div>
-                <div>{subItem[item.name]}</div>
-              </div>
-            ))}
+            {fieldId.property.map((item: any, index: any) => {
+              return (
+                <div key={index} className="flex flex-col text-[#374151]">
+                  <div className="font-bold ">{item.displayName}</div>
+                  <div>
+                    {item.name === "answer" ? (
+                      <CustomEditor serializedAST={subItem[item.name]} />
+                    ) : (
+                      subItem[item.name]
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ))
       ) : (

@@ -13,6 +13,7 @@ const Subtasks = ({ subItem, document }: any) => {
   const [data, setData] = useState({});
   const [isList, setIsList] = useState(false);
   const [type, setType] = useState("");
+
   const getFieldConfig = async (fieldId: string) => {
     try {
       const response = await fetch(`/api/fields/${fieldId}/getFields`);
@@ -45,16 +46,6 @@ const Subtasks = ({ subItem, document }: any) => {
       );
       setIsLoading(false);
     }
-  };
-
-  const handleMouseOver = () => {
-    if (!isEditing) {
-      setIsHover(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsHover(false);
   };
 
   return (
@@ -94,85 +85,17 @@ const Subtasks = ({ subItem, document }: any) => {
           </div>
         </div>
 
-        {/* <div
-        // className={`w-3/4 flex justify-between px-4 py-3 ${
-        //   isHover || isEditing ? "bg-containerBG" : "bg-white"
-        // } ${isEditing ? "cursor-default" : "cursor-pointer"}`}
-        // onMouseOver={handleMouseOver}
-        // onMouseLeave={handleMouseLeave}
-        >
-          {/* {!isEditing ? (
-            <>
-              {subItem.slider ? (
-                <div className="w-full">
-                  <Slider
-                    value={parseInt(document[subItem.field]) || 0}
-                    highLabel={subItem.sliderHighText}
-                    lowLabel={subItem.sliderLowText}
-                  />
-                </div>
-              ) : (
-                <div
-                  className="w-full flex justify-between"
-                  onClick={() => {
-                    getFieldConfig(subItem.field),
-                      setIsLoading(true),
-                      setIsEditing(true);
-                  }}
-                >
-                  <div>
-                    {(document[subItem.field] &&
-                    Array.isArray(document[subItem.field]) ? (
-                      <CompoundFields
-                        fields={subItem.field}
-                        initialValues={document[subItem.field]}
-                        type={type}
-                      />
-                    ) : (
-                      document[subItem.field]
-                    )) || `Click me!`}
-                  </div>
-                  <FiEdit
-                    className={`h-4 w-4 ${isHover ? `visible` : `invisible`}`}
-                  />
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              {isLoading ? (
-                <div
-                  className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                  role="status"
-                >
-                  <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                    Loading...
-                  </span>
-                </div>
-              ) : (
-                <UIPicker
-                  fieldSchema={data}
-                  initialValue={document[subItem.field]}
-                  isList={isList}
-                />
-              )}
-            </>
-          )} */}
-
-        {/* </div>  
-      </div> */}
         <div className={`w-3/4 flex justify-between`}>
           {isLoading ? (
             <div
               className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
               role="status"
-            >
-              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                Loading...
-              </span>
-            </div>
+            ></div>
           ) : (
             <UIPicker
+              minText={subItem.sliderLowText}
+              maxText={subItem.sliderHighText}
+              isSlider={subItem.slider}
               subItemField={subItem.field}
               initialValue={document[subItem.field]}
             />

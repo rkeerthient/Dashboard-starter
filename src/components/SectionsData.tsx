@@ -1,91 +1,91 @@
 export const SectionData = [
-  {
-    description:
-      "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
-    name: "Test - picklist",
-    tasks: [
-      {
-        field: "c_attestation",
-        name: "Attestation*",
-        question:
-          'To participate in receiving leads from the Advisor Match Program , you must read and agree to be bound by the <a href="http://policy.bankofamerica.com/content/vcm/static/pmt08020001/GWIM%20Procedure%20Manuals/MLWM%20US%20Procedure%20Manual/Misc%20Processing/DefinedProgramForTheDistributionOfLeadsAndReferralsToGWIM.pdf" target="_blank"> Lead-Referral Distribution Program Policy Document </a>and the <a href="http://resourcecentral.bankofamerica.com/GrowthandAcquisitionDocuments/Bank%20Referral%20Program_Terms_and_Conditions_07-10-2020.pdf" target="_blank">Agreement for Participation in Bank Referral Programs</a> (the "Terms and Conditions" document). You have an obligation to determine the most suitable solution for each prospect/client by assessing client needs, client preference for advice, and client investable asset level. Prospects/clients who prefer a self-directed solution or an advised solution with limited oversight should be referred to Consumer Investments.\n\nIn addition, you agree to 1) attempt to contact the lead within 48 hours and 2) update the ‘Lead Status” field within Salesforce after attempting initial contact.\n\nSelect “I agree” if you have reviewed the materials and understand your obligations.',
-      },
-    ],
-  },
-  {
-    description:
-      "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
-    name: "Test Texttbox",
-    tasks: [
-      {
-        description: "Edit your nickname or preferred display name.",
-        field: "c_preferredFirstName",
-        name: "Preferred First Name",
-      },
-    ],
-  },
-  {
-    description:
-      "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
-    name: "Test Checkbox",
-    tasks: [
-      {
-        description:
-          "This field allows you to select and rank your top 3 Client Focuses.  Once you select them, drag and drop in the order you want them displayed.  Note: your top 3 focuses will be displayed on the results page, but your full list will be displayed on your profile page.",
-        field: "c_clientFocuses",
-        name: "Client Focuses*",
-      },
-    ],
-  },
-  {
-    description:
-      "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
-    name: "Test Boolean",
-    tasks: [
-      {
-        field: "c_inGoodStanding",
-        name: "In Good Standing",
-        question: "In good standing?",
-      },
-    ],
-  },
-  {
-    description:
-      "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
-    name: "Test Date",
-    tasks: [
-      {
-        field: "c_currentPositionStartDate",
-        name: "Current Position Start Date",
-        question: "Select thr best date for Test",
-      },
-    ],
-  },
-  {
-    description:
-      "Select your hobbies and answer the interview questions to help personalize your profile.",
-    name: "Test compound field RTD, Picklist",
-    tasks: [
-      {
-        description:
-          "Select from the pre-approved interview prompts and write a short response (2-3 sentences). This will help prospects get to know both personally and professionally.",
-        field: "c_fAQs",
-        name: "Interview Questions*",
-      },
-    ],
-  },
-  {
-    description:
-      "Select your hobbies and answer the interview questions to help personalize your profile.",
-    name: "Test compound field Date, text, text",
-    tasks: [
-      {
-        description: "This is your designations list from PMAC data.",
-        field: "c_designations",
-        name: "Designations",
-      },
-    ],
-  },
+  // {
+  //   description:
+  //     "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
+  //   name: "Test - picklist",
+  //   tasks: [
+  //     {
+  //       field: "c_attestation",
+  //       name: "Attestation*",
+  //       question:
+  //         'To participate in receiving leads from the Advisor Match Program , you must read and agree to be bound by the <a href="http://policy.bankofamerica.com/content/vcm/static/pmt08020001/GWIM%20Procedure%20Manuals/MLWM%20US%20Procedure%20Manual/Misc%20Processing/DefinedProgramForTheDistributionOfLeadsAndReferralsToGWIM.pdf" target="_blank"> Lead-Referral Distribution Program Policy Document </a>and the <a href="http://resourcecentral.bankofamerica.com/GrowthandAcquisitionDocuments/Bank%20Referral%20Program_Terms_and_Conditions_07-10-2020.pdf" target="_blank">Agreement for Participation in Bank Referral Programs</a> (the "Terms and Conditions" document). You have an obligation to determine the most suitable solution for each prospect/client by assessing client needs, client preference for advice, and client investable asset level. Prospects/clients who prefer a self-directed solution or an advised solution with limited oversight should be referred to Consumer Investments.\n\nIn addition, you agree to 1) attempt to contact the lead within 48 hours and 2) update the ‘Lead Status” field within Salesforce after attempting initial contact.\n\nSelect “I agree” if you have reviewed the materials and understand your obligations.',
+  //     },
+  //   ],
+  // },
+  // {
+  //   description:
+  //     "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
+  //   name: "Test Texttbox",
+  //   tasks: [
+  //     {
+  //       description: "Edit your nickname or preferred display name.",
+  //       field: "c_preferredFirstName",
+  //       name: "Preferred First Name",
+  //     },
+  //   ],
+  // },
+  // {
+  //   description:
+  //     "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
+  //   name: "Test Checkbox",
+  //   tasks: [
+  //     {
+  //       description:
+  //         "This field allows you to select and rank your top 3 Client Focuses.  Once you select them, drag and drop in the order you want them displayed.  Note: your top 3 focuses will be displayed on the results page, but your full list will be displayed on your profile page.",
+  //       field: "c_clientFocuses",
+  //       name: "Client Focuses*",
+  //     },
+  //   ],
+  // },
+  // {
+  //   description:
+  //     "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
+  //   name: "Test Boolean",
+  //   tasks: [
+  //     {
+  //       field: "c_inGoodStanding",
+  //       name: "In Good Standing",
+  //       question: "In good standing?",
+  //     },
+  //   ],
+  // },
+  // {
+  //   description:
+  //     "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
+  //   name: "Test Date",
+  //   tasks: [
+  //     {
+  //       field: "c_currentPositionStartDate",
+  //       name: "Current Position Start Date",
+  //       question: "Select thr best date for Test",
+  //     },
+  //   ],
+  // },
+  // {
+  //   description:
+  //     "Select your hobbies and answer the interview questions to help personalize your profile.",
+  //   name: "Test compound field RTD, Picklist",
+  //   tasks: [
+  //     {
+  //       description:
+  //         "Select from the pre-approved interview prompts and write a short response (2-3 sentences). This will help prospects get to know both personally and professionally.",
+  //       field: "c_fAQs",
+  //       name: "Interview Questions*",
+  //     },
+  //   ],
+  // },
+  // {
+  //   description:
+  //     "Select your hobbies and answer the interview questions to help personalize your profile.",
+  //   name: "Test compound field Date, text, text",
+  //   tasks: [
+  //     {
+  //       description: "This is your designations list from PMAC data.",
+  //       field: "c_designations",
+  //       name: "Designations",
+  //     },
+  //   ],
+  // },
 
   {
     description:
@@ -190,12 +190,12 @@ export const SectionData = [
         field: "virtual.address",
         name: "Address",
       },
-      {
-        description: "This is your state registration(s) from RILR data",
-        field: "c_registrations",
-        name: "State Registrations",
-        slider: false,
-      },
+      // {
+      //   description: "This is your state registration(s) from RILR data",
+      //   field: "c_registrations",
+      //   name: "State Registrations",
+      //   slider: false,
+      // },
       {
         description: "This is your LinkedIn profile link.",
         field: "c_linkedInURL",

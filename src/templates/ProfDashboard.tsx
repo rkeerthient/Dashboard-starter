@@ -29,6 +29,7 @@ import { SectionData } from "../components/SectionsData";
 import DBBanner from "../components/dbBanner";
 import PageLayout from "../components/page-layout";
 import CustomEditor from "../components/DashboardComps/LexicalRichText/CustomEditor";
+import PhotoUpload from "../components/DashboardComps/FieldComponents.tsx/PhotoUpload";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -69,6 +70,7 @@ export const config: TemplateConfig = {
       "address.region",
       "address.sublocality",
       "addressHidden",
+      "c_inGoodStanding",
       "address.city",
       "address.countryCode",
       "address.extraDescription",
@@ -179,6 +181,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_clientFocuses,
     c_aboutAdvisorShortDescription,
     c_expertiseCommentsRTv2,
+    c_inGoodStanding,
     c_profileDelegates,
     c_teamNameAndSite,
     c_displayTeamName,
@@ -301,7 +304,8 @@ const Location: Template<TemplateRenderProps> = ({
 
   return (
     <>
-      <CustomEditor serializedAST={content} />
+      {/* <PhotoUpload /> */}
+      {/* <CustomEditor serializedAST={content} /> */}
 
       {/* <div>Hi</div> */}
       {/* <div className="centered-container mt-12">
@@ -309,7 +313,7 @@ const Location: Template<TemplateRenderProps> = ({
         <CustomDatePicker initialValue={new Date()}></CustomDatePicker>
       </div> */}
       {/* <RichtextEditor></RichtextEditor> */}
-      {/* <PageLayout>
+      <PageLayout>
         <div className="space-y-4 bg-slate-200">
           <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
             <div className="text-lg font-bold">Toggle Dashboards</div>
@@ -425,7 +429,7 @@ const Location: Template<TemplateRenderProps> = ({
             )}
           </>
         </div>
-      </PageLayout> */}
+      </PageLayout>
     </>
   );
 };

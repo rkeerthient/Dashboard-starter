@@ -8,14 +8,24 @@ import MultiPicklistField from "./FieldComponents.tsx/MultiPicklistField";
 import StructTypeField from "../StructTypeField";
 import Slider from "./FieldComponents.tsx/Slider";
 import TextBoxList from "./ListsUI/TextboxList";
-import TextBoxContainer from "./FieldComponents.tsx/TextBoxContainer";
+import { LexicalRichText } from "@yext/react-components";
+import ImageField from "./FieldComponents.tsx/ImageField";
 
 interface UIPickerProps {
   subItemField: string;
   initialValue?: string;
+  isSlider?: boolean;
+  minText?: string;
+  maxText?: string;
 }
 
-const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
+const UIPicker = ({
+  subItemField,
+  initialValue,
+  isSlider = false,
+  minText,
+  maxText,
+}: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +37,9 @@ const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
         const response = await fetch(`/api/fields/${fieldId}/getFields`);
         const mainJson: Root = await response.json();
         setMainFieldSchema(mainJson);
+        console.log(
+          subItemField === "c_assetRanges" && JSON.stringify(mainJson)
+        );
 
         if (
           mainJson.response.type.listType &&
@@ -53,7 +66,14 @@ const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
 
   return (
     <>
-      {isLoading && <div className="px-4 py-3 ">Loading...</div>}
+      {isLoading && (
+        <div className="px-4 py-3 ">
+          <div
+            className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          ></div>
+        </div>
+      )}
       {!isLoading && mainFieldSchema && (
         <div className=" w-full px-4 py-3">
           {(() => {
@@ -73,22 +93,58 @@ const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
                     initialValue={initialValue}
                     options={[
                       {
-                        displayName: "Yes",
-                        textValue: "Yes",
+                        displayName: "True",
+                        textValue: true,
                       },
                       {
-                        displayName: "No",
-                        textValue: "No",
+                        displayName: "False",
+                        textValue: false,
                       },
                     ]}
                   />
                 );
               case "string":
-                return <TextField initialValue={initialValue} fieldId={""} />;
+                return (
+                  <TextField
+                    initialValue={initialValue}
+                    fieldId={mainFieldSchema.response.$id}
+                  />
+                );
               case "date":
-                return <DateField initialValue={initialValue} />;
-              case "slider":
-                return <Slider />;
+                return (
+                  <DateField
+                    initialValue={initialValue}
+                    fieldId={mainFieldSchema.response.$id}
+                  />
+                );
+              case "decimal":
+                return isSlider ? (
+                  <Slider
+                    fieldId={mainFieldSchema.response.$id}
+                    value={initialValue}
+                    highLabel={maxText}
+                    lowLabel={minText}
+                  />
+                ) : (
+                  <TextField
+                    initialValue={initialValue}
+                    fieldId={mainFieldSchema.response.$id}
+                  />
+                );
+              case "richTextV2":
+                return (
+                  <LexicalRichText
+                    serializedAST={JSON.stringify(initialValue.json)}
+                    fieldId={mainFieldSchema.response.$id}
+                  />
+                );
+              case "image":
+                return (
+                  <ImageField
+                    initialValue={initialValue}
+                    fieldId={mainFieldSchema.response.$id}
+                  />
+                );
               case "list":
                 return mainFieldSchema.response.type.listType.typeId ===
                   "option" ? (
@@ -98,7 +154,7 @@ const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
                       mainFieldSchema.response.type.listType.type.optionType
                         .option
                     }
-                    fieldId={""}
+                    fieldId={mainFieldSchema.response.$id}
                   />
                 ) : mainFieldSchema.response.type.listType.typeId ===
                   "string" ? (
@@ -106,19 +162,19 @@ const UIPicker = ({ subItemField, initialValue }: UIPickerProps) => {
                     fieldId={mainFieldSchema.response.$id}
                     initialValue={initialValue}
                   />
+                ) : mainFieldSchema.response.type.listType.typeId ===
+                  "image" ? (
+                  <ImageField
+                    initialValue={initialValue}
+                    fieldId={mainFieldSchema.response.$id}
+                  />
                 ) : (
                   subFieldSchema &&
                   subFieldSchema.response.type.structType && (
-                    // <StructTypeField
-                    //   initialValue={initialValue}
-                    //   fieldId={subFieldSchema.response.type.structType}
-                    // />
-                    <TextBoxContainer
-                      properties={
-                        subFieldSchema.response.type.structType.property
-                      }
+                    <StructTypeField
                       initialValue={initialValue}
-                    ></TextBoxContainer>
+                      fieldId={subFieldSchema.response.type.structType}
+                    />
                   )
                 );
               default:

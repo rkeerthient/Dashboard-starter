@@ -8,7 +8,7 @@ const TasksSection = ({ tasks, document }: any) => {
   return (
     <>
       {tasks && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 ">
           {tasks.map((item: C_taskGroups, index: number) => (
             <div className="border" key={index}>
               <Disclosure className="border-4">
@@ -30,7 +30,7 @@ const TasksSection = ({ tasks, document }: any) => {
                     <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm bg-white text-gray-500">
                       <>
                         {item.tasks?.map((subItem: Tasks, subIndex: any) => (
-                          <div key={subIndex}>
+                          <div key={subIndex} className="border-t border-b">
                             <Subtasks subItem={subItem} document={document} />
                           </div>
                         ))}

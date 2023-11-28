@@ -10,17 +10,8 @@ const putFields = async (
   const api_key = import.meta.env.YEXT_PUBLIC_DEV_API_KEY as string;
 
   // Check if fieldId and fieldValue exist in queryParams
-  const { fieldId, fieldValue } = queryParams;
-  if (!fieldId || !fieldValue) {
-    return {
-      body: "Missing fieldId or fieldValue in queryParams",
-      headers: {},
-      statusCode: 400,
-    };
-  }
-
-  // Construct the bodyData object
-  let bodyData = { [fieldId]: ["fieldValue1", "FieldValue 2"] };
+  const { body } = queryParams;
+  console.log(body);
 
   if (!entityId) {
     return { body: "Missing entityId", headers: {}, statusCode: 400 };
@@ -33,7 +24,7 @@ const putFields = async (
         "Content-Type": "application/json",
       },
       method: "PUT",
-      body: JSON.stringify(bodyData),
+      body: body,
     }
   );
 
