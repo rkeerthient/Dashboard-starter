@@ -9,7 +9,6 @@ const TextField = ({ initialValue = "Click me!", fieldId }: TextFieldProps) => {
   const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
-  console.log(fieldId);
 
   const handleClick = () => {
     setIsEditable(true);

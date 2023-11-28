@@ -19,7 +19,6 @@ const PicklistField = ({
   const [selectedItem, setSelectedItem] = useState<Option | null>(null);
   const isContentEdited = selectedItem?.textValue !== initialValue;
   const [isEditable, setIsEditable] = useState(false);
-  console.log(JSON.stringify(options));
 
   const handleClick = () => {
     setIsEditable(true);

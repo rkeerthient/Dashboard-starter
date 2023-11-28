@@ -195,8 +195,6 @@ const TextBoxContainer = ({
           ? item.date.toISOString().split("T")[0]
           : null,
     }));
-
-    console.log(formattedJsonArray);
   };
 
   return (

@@ -37,9 +37,6 @@ const UIPicker = ({
         const response = await fetch(`/api/fields/${fieldId}/getFields`);
         const mainJson: Root = await response.json();
         setMainFieldSchema(mainJson);
-        console.log(
-          subItemField === "c_assetRanges" && JSON.stringify(mainJson)
-        );
 
         if (
           mainJson.response.type.listType &&

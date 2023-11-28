@@ -11,7 +11,6 @@ const putFields = async (
 
   // Check if fieldId and fieldValue exist in queryParams
   const { body } = queryParams;
-  console.log(body);
 
   if (!entityId) {
     return { body: "Missing entityId", headers: {}, statusCode: 400 };

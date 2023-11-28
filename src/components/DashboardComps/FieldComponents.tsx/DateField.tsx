@@ -110,8 +110,6 @@ export function formatDateTime(dateString?: Date) {
     if (numMins < 10) minutes = "0" + minutes;
 
     formattedDate = year + "-" + month + "-" + day;
-
-    console.log(date.toLocaleTimeString());
   }
 
   return formattedDate;
