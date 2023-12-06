@@ -43,7 +43,7 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {textValue} Click me!
+          {textValue} Click to add
         </div>
       )}
     </div>

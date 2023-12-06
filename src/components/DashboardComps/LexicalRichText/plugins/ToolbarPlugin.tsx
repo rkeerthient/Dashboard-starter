@@ -275,7 +275,6 @@ export default function ToolbarPlugin() {
           }
         }
       }
-      // Update text format
       setIsBold(selection.hasFormat("bold"));
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
@@ -375,6 +374,7 @@ export default function ToolbarPlugin() {
       >
         <FaRedo />
       </button>
+      <div className="bg-[#eee] mx-1 " style={{ width: "1px" }} />
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
@@ -402,7 +402,7 @@ export default function ToolbarPlugin() {
       >
         <FiUnderline />
       </button>
-
+      <div className="bg-[#eee] mx-1 " style={{ width: "1px" }} />
       <button className="item" onClick={formatBulletList}>
         <FaListUl />
         {blockType === "ul" && <span className="active" />}
@@ -411,7 +411,7 @@ export default function ToolbarPlugin() {
         <FaListOl />
         {blockType === "ol" && <span className="active" />}
       </button>
-
+      <div className="bg-[#eee] mx-1 " style={{ width: "1px" }} />
       <button
         onClick={insertLink}
         className={"toolbar-item spaced " + (isLink ? "active" : "")}

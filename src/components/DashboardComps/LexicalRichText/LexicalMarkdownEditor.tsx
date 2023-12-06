@@ -13,37 +13,43 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { EditorState, EditorThemeClasses } from "lexical";
+import DefaultNodeStyling from "./DefaultStyling";
+import * as React from "react";
+import { ImageNode } from "./imageNode";
+import { useRef, useState } from "react";
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
   TRANSFORMERS,
 } from "@lexical/markdown";
-import DefaultNodeStyling from "./DefaultStyling";
-import * as React from "react";
-import { ImageNode } from "./imageNode";
 
-export interface LexicalRichTextProps {
-  serializedAST: string;
+export interface LexicalMarkdownEditorProps {
+  serializedAST: string | object | undefined;
   nodeClassNames?: EditorThemeClasses;
-  isEditMode?: boolean;
+  editable?: boolean;
+  isContentEdited?: (value: boolean) => void;
+  setChangedData?: (value: string | any) => void;
 }
 
-const CustomEditor = ({
+const LexicalMarkdownEditor = ({
   serializedAST,
   nodeClassNames,
-  isEditMode = false,
-}: LexicalRichTextProps) => {
+  editable = false,
+  isContentEdited,
+  setChangedData,
+}: LexicalMarkdownEditorProps) => {
+  const editorStateRef = useRef<EditorState | null>(null);
+  const [initJson, setInitJson] = useState<any>();
   TRANSFORMERS.push({
     format: ["underline"],
     type: "text-format",
     tag: "++",
   });
-
   const generateConfig = (editorState: string, theme?: EditorThemeClasses) => {
     return {
       namespace: "",
-      editable: isEditMode,
-      onError: (error) => {
+      editable: editable,
+      onError: (error: Error) => {
         throw error;
       },
       editorState: () => $convertFromMarkdownString(editorState, TRANSFORMERS),
@@ -73,30 +79,50 @@ const CustomEditor = ({
 
   const onChange = (editorState: EditorState) => {
     editorState.read(() => {
+      const markdown = $convertToMarkdownString(TRANSFORMERS);
       const json = editorState.toJSON();
+      !initJson && setInitJson(json);
+      const updatedContent = editorState.toJSON();
+
+      const contentEdited =
+        JSON.stringify(initJson) !== JSON.stringify(updatedContent);
+
+      if (isContentEdited) {
+        isContentEdited(contentEdited);
+        setChangedData(markdown);
+      }
     });
   };
 
   return (
-    <div className={`${isEditMode && `border`}`}>
+    <div className={`${editable && `border`}`}>
       <LexicalComposer
         initialConfig={generateConfig(serializedAST, nodeClassNames)}
       >
-        <span className={`${isEditMode ? `block` : `hidden`}`}>
+        <span className={`${editable ? `block` : `hidden`}`}>
           <ToolbarPlugin />
         </span>
-        {isEditMode ? (
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            ErrorBoundary={LexicalErrorBoundary}
-            placeholder={<Placeholder />}
-          />
+        {editable ? (
+          <>
+            <RichTextPlugin
+              contentEditable={<ContentEditable className="editor-input" />}
+              ErrorBoundary={LexicalErrorBoundary}
+              placeholder={<Placeholder />}
+            />
+            <OnChangePlugin
+              onChange={(editorState) =>
+                onChange((editorStateRef.current = editorState))
+              }
+            />
+          </>
         ) : (
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            ErrorBoundary={LexicalErrorBoundary}
-            placeholder={<Placeholder />}
-          />
+          <>
+            <RichTextPlugin
+              contentEditable={<ContentEditable className="editor-input" />}
+              ErrorBoundary={LexicalErrorBoundary}
+              placeholder={<Placeholder />}
+            />
+          </>
         )}
         <ListPlugin />
       </LexicalComposer>
@@ -104,4 +130,4 @@ const CustomEditor = ({
   );
 };
 
-export default CustomEditor;
+export default LexicalMarkdownEditor;

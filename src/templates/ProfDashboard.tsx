@@ -28,8 +28,12 @@ import SampleChart from "../components/SampleChart";
 import { SectionData } from "../components/SectionsData";
 import DBBanner from "../components/dbBanner";
 import PageLayout from "../components/page-layout";
-import CustomEditor from "../components/DashboardComps/LexicalRichText/CustomEditor";
+import CustomEditor from "../components/DashboardComps/LexicalRichText/LexicalRichTextEditor";
 import PhotoUpload from "../components/DashboardComps/FieldComponents.tsx/PhotoUpload";
+import TestEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
+import LexicalMarkdownEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
+import LexicalRichTextEditor from "../components/DashboardComps/LexicalRichText/LexicalRichTextEditor";
+import ImgbbUploader from "../components/ImgbbUploader";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -53,6 +57,7 @@ export const config: TemplateConfig = {
       "c_clientFocuses",
       "c_aboutAdvisorShortDescription",
       "c_expertiseCommentsRTv2",
+      "c_expertiseComments",
       "c_profileDelegates.delegateEmail",
       "c_profileDelegates.delegateUserID",
       "c_profileDelegates.giveProfileControl",
@@ -181,6 +186,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_clientFocuses,
     c_aboutAdvisorShortDescription,
     c_expertiseCommentsRTv2,
+    c_expertiseComments,
     c_inGoodStanding,
     c_profileDelegates,
     c_teamNameAndSite,
@@ -292,27 +298,37 @@ const Location: Template<TemplateRenderProps> = ({
     },
   ];
   const [enabled, setEnabled] = useState(false);
-  const handleEditorChange = (content: string) => {
-    console.log("Editor content:", content);
-  };
+  // const handleEditorChange = (content: string) => {
+  //   console.log("Editor content:", content);
+  // };
   const content =
     '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"console","type":"code-highlight","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":".","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":"log","type":"code-highlight","version":1,"highlightType":"function"},{"detail":0,"format":0,"mode":"normal","style":"","text":"(","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":"Hello World","type":"code-highlight","version":1,"highlightType":"string"},{"detail":0,"format":0,"mode":"normal","style":"","text":")","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":";","type":"code-highlight","version":1,"highlightType":"punctuation"}],"direction":"ltr","format":"","indent":0,"type":"code","version":1,"language":"javascript"},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Are you ok??","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}';
-
+  // const markdownContent=
   const onSave = (newValue: string) => {
     console.log(newValue);
   };
+  const markdownContent =
+    "++Test++ **Answer**  \n++*new test*++\n\n\n1. new 1\n2. **new** 2\n\n\n*Ghello*\n\n\n* test 1\n* tyt2 test new";
+  // console.log(JSON.parse(JSON.stringify(markdownContent)) === "object");
 
   return (
     <>
+      {/* <LexicalMarkdownEditor serializedAST={markdownContent} />
+      <LexicalRichTextEditor serializedAST={content} /> */}
       {/* <PhotoUpload /> */}
-      {/* <CustomEditor serializedAST={content} /> */}
-
+      {/* <CustomEditor serializedAST={content} type={identifyDataType(content)} /> */}
+      {/* <CustomEditor serializedAST={markdownContent} isEditMode={true} /> */}
+      {/* <CustomEditor
+        serializedAST={markdownContent}
+        type={identifyDataType(markdownContent)}
+      ></CustomEditor> */}
       {/* <div>Hi</div> */}
       {/* <div className="centered-container mt-12">
         <CompoundFields></CompoundFields>
         <CustomDatePicker initialValue={new Date()}></CustomDatePicker>
       </div> */}
       {/* <RichtextEditor></RichtextEditor> */}
+      {/* <ImgbbUploader></ImgbbUploader> */}
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
           <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
@@ -435,3 +451,12 @@ const Location: Template<TemplateRenderProps> = ({
 };
 
 export default Location;
+// JSON.parse(JSON.stringify(markdownContent)) === "object"
+export const identifyDataType = (data: any) => {
+  try {
+    JSON.parse(data);
+    return "object";
+  } catch (error) {
+    return "string";
+  }
+};

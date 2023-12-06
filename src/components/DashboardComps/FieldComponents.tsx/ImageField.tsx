@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   ExclamationTriangleIcon,
@@ -8,7 +8,16 @@ import {
 import PhotoUpload from "./PhotoUpload";
 const ImageField = ({ initialValue }: any) => {
   const [open, setOpen] = useState(false);
+  const [imgUrls, setImgUrls] = useState<string[]>(
+    initialValue != null && initialValue.map((item: any) => item.url)
+  );
+  const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
 
+  useEffect(() => {
+    setIsContentEdited(
+      JSON.stringify(imgUrls) !== JSON.stringify(initialValue)
+    );
+  }, [imgUrls, initialValue]);
   return (
     <>
       <div>
@@ -27,7 +36,7 @@ const ImageField = ({ initialValue }: any) => {
             })}
           </div>
         ) : (
-          <div>Click me!</div>
+          <div>Click to add</div>
         )}
       </div>
       <Transition.Root show={open} as={Fragment}>
@@ -67,7 +76,11 @@ const ImageField = ({ initialValue }: any) => {
                     </button>
                   </div>
                   <div className="sm:flex sm:items-start">
-                    <PhotoUpload />
+                    <PhotoUpload
+                      imgUrls={(newUrls) =>
+                        setImgUrls((prevUrls) => [...prevUrls, ...newUrls])
+                      }
+                    />
                   </div>
                   {/* <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     <button

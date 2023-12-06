@@ -98,7 +98,7 @@ const MultiPicklistField = ({
             .filter((checkbox) => checkbox.checked)
             .map((checkbox) => (
               <li key={checkbox.textValue}>{checkbox.displayName}</li>
-            )) || `Click me!`}
+            )) || `Click to add`}
         </ul>
       )}
     </div>

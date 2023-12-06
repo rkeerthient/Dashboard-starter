@@ -125,7 +125,7 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
                 <div>{item}</div>
               </div>
             ))}
-          {(!initialValue || initialValue.length === 0) && "Click me!"}
+          {(!initialValue || initialValue.length === 0) && "Click to add"}
         </div>
       )}
       {isEditable && (

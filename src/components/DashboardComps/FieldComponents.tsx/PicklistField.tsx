@@ -70,7 +70,9 @@ const PicklistField = ({
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full cursor-default bg-fieldBlurBorder rounded-s py-2 pl-3 pr-10 text-left hover:cursor-pointer">
               <span className="block text-xs">
-                {selectedItem ? selectedItem.displayName : `Click me!`}
+                {selectedItem
+                  ? selectedItem.displayName
+                  : options[0].displayName}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronDownIcon
@@ -115,7 +117,7 @@ const PicklistField = ({
         </Listbox>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {selectedItem?.displayName || `Click me!`}
+          {selectedItem?.displayName || `Click to add`}
         </div>
       )}
       {isEditable && (

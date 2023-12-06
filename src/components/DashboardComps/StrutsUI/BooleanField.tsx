@@ -37,7 +37,7 @@ const BooleanField = ({
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default bg-fieldBlurBorder rounded-s py-2 pl-3 pr-10 text-left hover:cursor-pointer">
             <span className="block text-xs">
-              {selectedItem ? selectedItem.displayName : `Click me!`}
+              {selectedItem ? selectedItem.displayName : `Click to add`}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronDownIcon

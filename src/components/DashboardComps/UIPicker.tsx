@@ -8,8 +8,8 @@ import MultiPicklistField from "./FieldComponents.tsx/MultiPicklistField";
 import StructTypeField from "../StructTypeField";
 import Slider from "./FieldComponents.tsx/Slider";
 import TextBoxList from "./ListsUI/TextboxList";
-import { LexicalRichText } from "@yext/react-components";
 import ImageField from "./FieldComponents.tsx/ImageField";
+import RichTextField from "./FieldComponents.tsx/RichTextField";
 
 interface UIPickerProps {
   subItemField: string;
@@ -31,10 +31,17 @@ const UIPicker = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const getFieldConfig = async (fieldId: string) => {
       setIsLoading(true);
       try {
         const response = await fetch(`/api/fields/${fieldId}/getFields`);
+
+        if (!isMounted) {
+          return;
+        }
+
         const mainJson: Root = await response.json();
         setMainFieldSchema(mainJson);
 
@@ -45,6 +52,9 @@ const UIPicker = ({
           const listTypeResponse = await fetch(
             `/api/fields/${mainJson.response.type.listType.typeId}/getFieldTypes`
           );
+          if (!isMounted) {
+            return;
+          }
           const subJson: Root = await listTypeResponse.json();
           setSubFieldSchema(subJson);
         }
@@ -54,11 +64,17 @@ const UIPicker = ({
           error
         );
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     getFieldConfig(subItemField);
+
+    return () => {
+      isMounted = false;
+    };
   }, [subItemField]);
 
   return (
@@ -90,11 +106,11 @@ const UIPicker = ({
                     initialValue={initialValue}
                     options={[
                       {
-                        displayName: "True",
+                        displayName: "Yes",
                         textValue: true,
                       },
                       {
-                        displayName: "False",
+                        displayName: "No",
                         textValue: false,
                       },
                     ]}
@@ -130,9 +146,16 @@ const UIPicker = ({
                 );
               case "richTextV2":
                 return (
-                  <LexicalRichText
-                    serializedAST={JSON.stringify(initialValue.json)}
+                  <RichTextField
                     fieldId={mainFieldSchema.response.$id}
+                    initialValue={JSON.stringify(initialValue)}
+                  />
+                );
+              case "richText":
+                return (
+                  <RichTextField
+                    fieldId={mainFieldSchema.response.$id}
+                    initialValue={initialValue}
                   />
                 );
               case "image":
@@ -170,7 +193,8 @@ const UIPicker = ({
                   subFieldSchema.response.type.structType && (
                     <StructTypeField
                       initialValue={initialValue}
-                      fieldId={subFieldSchema.response.type.structType}
+                      fieldId={mainFieldSchema.response.$id}
+                      structType={subFieldSchema.response.type.structType}
                     />
                   )
                 );

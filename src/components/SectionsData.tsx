@@ -86,7 +86,19 @@ export const SectionData = [
   //     },
   //   ],
   // },
-
+  // {
+  //   description:
+  //     "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
+  //   name: "Test Data",
+  //   tasks: [
+  //     {
+  //       description:
+  //         "Choose any awards received from the pre-approved list and select the years received.",
+  //       field: "c_awardsDashboard",
+  //       name: "Awards",
+  //     },
+  //   ],
+  // },
   {
     description:
       "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
@@ -419,12 +431,12 @@ export const SectionData = [
         field: "c_matchFinderPhoto",
         name: "Advisor Match Photo*",
       },
-      {
-        description:
-          "Select the approved video(s) you want displayed on your Advisor Match profile page. To display a pop-up video that’s launched from your headshot, select “Yes” in the “Main Profile Video” drop-down.",
-        field: "c_kalturaVideo",
-        name: "Videos",
-      },
+      // {
+      //   description:
+      //     "Select the approved video(s) you want displayed on your Advisor Match profile page. To display a pop-up video that’s launched from your headshot, select “Yes” in the “Main Profile Video” drop-down.",
+      //   field: "c_kalturaVideo",
+      //   name: "Videos",
+      // },
     ],
   },
 ];

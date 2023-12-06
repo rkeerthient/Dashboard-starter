@@ -1,9 +1,13 @@
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
-
-const PhotoUpload = () => {
+type PhotoUploadProps = {
+  imgUrls?: (value: string[]) => void;
+};
+const PhotoUpload = ({ imgUrls }: PhotoUploadProps) => {
   const [files, setFiles] = useState<(File & { preview: string })[]>([]);
+  const [uploadedUrls, setUploadedUrls] = useState([]);
+
   const { open } = useDropzone({
     accept: {
       "image/*": [".jpeg", ".jpg", ".png", ".gif"],
@@ -11,23 +15,61 @@ const PhotoUpload = () => {
     noClick: true,
     multiple: true,
     noKeyboard: true,
-    onDrop: (acceptedFiles: FileWithPath[]) => {
+    onDrop: (acceptedFiles) => {
       setFiles((prevFiles) =>
         prevFiles.concat(
-          acceptedFiles.map((file: any) => ({
-            ...file,
-            preview: URL.createObjectURL(file),
-          }))
+          acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          )
         )
       );
     },
   });
-  const handleSaveClick = () => {
-    // Access URLs from the files state and do something with them
-    const imageUrls = files.map((file) => file.preview);
-    console.log("Image URLs:", imageUrls);
-    // Add your logic to save or process the URLs as needed
+  const handleSaveClick = async () => {
+    try {
+      const uploadedUrls = await Promise.all(
+        files.map(async (item) => {
+          const formData = new FormData();
+          formData.append("image", item);
+
+          const response = await fetch(
+            "https://api.imgbb.com/1/upload?key=2c1ac152abecc6a309f85ae34df7fce3",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          const responseData = await response.json();
+
+          if (!response.ok) {
+            console.error(
+              "Error uploading image:",
+              response.statusText,
+              responseData
+            );
+            throw new Error("Image upload failed");
+          }
+
+          return responseData.data.display_url;
+        })
+      );
+
+      // Update the parent component's state with the array of uploaded URLs
+      imgUrls(uploadedUrls);
+    } catch (error) {
+      console.error("Error uploading images:", error.message);
+      // Handle the error as needed
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
   return (
     <div className="w-full bg-white text-[#374151] p-4">
       <div className="flex flex-col gap-4 m-4">

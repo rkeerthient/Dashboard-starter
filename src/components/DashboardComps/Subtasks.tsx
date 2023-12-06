@@ -64,24 +64,27 @@ const Subtasks = ({ subItem, document }: any) => {
       )}
       <div className="flex flex-row justify-between items-center">
         <div className="font-semibold text-[#5a6370] w-1/4">
-          <div className="flex  gap-2 items-center relative">
-            {subItem.description && (
-              <>
-                <HiOutlineInformationCircle
-                  className="h-4 w-4"
-                  onMouseLeave={() => setShowTooltip(false)}
-                  onMouseEnter={() => setShowTooltip(true)}
-                />
-                {showTooltip && (
-                  <div
-                    className={`absolute z-20 left-5 text-xs w-4/5 bg-bgTooltip text-white p-3`}
-                  >
-                    {subItem.description}
-                  </div>
-                )}
-              </>
-            )}
-            <div>{subItem.name}</div>
+          <div className="flex flex-col gap-1">
+            <div className="flex  gap-2 items-center relative">
+              <div>{subItem.name}</div>
+              {subItem.description && (
+                <>
+                  <HiOutlineInformationCircle
+                    className="h-4 w-4"
+                    onMouseLeave={() => setShowTooltip(false)}
+                    onMouseEnter={() => setShowTooltip(true)}
+                  />
+                  {showTooltip && (
+                    <div
+                      className={`absolute z-20 left-5 text-xs w-4/5 bg-bgTooltip text-white p-3`}
+                    >
+                      {subItem.description}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="text-xs text-[#c6ccd1]">{subItem.field}</div>
           </div>
         </div>
 

@@ -62,7 +62,6 @@ const MultiPicklistField = ({
   const handleSave = async () => {
     let x = selectedItems.filter((item) => item.checked);
     let filteredData = x.map((item) => item.textValue);
-
     const requestBody = encodeURIComponent(
       JSON.stringify({
         [fieldId]: filteredData,
@@ -72,7 +71,6 @@ const MultiPicklistField = ({
       const response = await fetch(
         `/api/fields/4635269/putFields?body=${requestBody}`
       );
-      console.log(response.json());
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
@@ -109,16 +107,23 @@ const MultiPicklistField = ({
           ))}
         </>
       ) : (
-        <ul
+        <div
           onClick={() => setIsEditMode(true)}
           className="hover:cursor-pointer hover:bg-containerBG p-2"
         >
-          {selectedItems
-            .filter((checkbox) => checkbox.checked)
-            .map((checkbox) => (
-              <li key={checkbox.textValue}>{checkbox.displayName}</li>
-            )) || `Click me!`}
-        </ul>
+          {selectedItems.filter((item) => item.checked).length >= 1 ? (
+            <ul>
+              {selectedItems &&
+                selectedItems
+                  .filter((checkbox) => checkbox.checked)
+                  .map((checkbox) => (
+                    <li key={checkbox.textValue}>{checkbox.displayName}</li>
+                  ))}
+            </ul>
+          ) : (
+            <div>Click to add</div>
+          )}
+        </div>
       )}
       {isEditMode && (
         <div className="flex w-full gap-2 text-xs pt-2 font-bold">

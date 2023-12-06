@@ -1,11 +1,11 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import * as React from "react";
 interface TextFieldProps {
   initialValue?: string;
   fieldId: string;
 }
 
-const TextField = ({ initialValue = "Click me!", fieldId }: TextFieldProps) => {
+const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
   const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
@@ -57,7 +57,7 @@ const TextField = ({ initialValue = "Click me!", fieldId }: TextFieldProps) => {
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {textValue}
+          {textValue || "Click to add"}
         </div>
       )}
       {isEditable && (

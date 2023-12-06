@@ -9,15 +9,23 @@ const putFields = async (
   const { entityId } = pathParams;
   const api_key = import.meta.env.YEXT_PUBLIC_DEV_API_KEY as string;
 
-  // Check if fieldId and fieldValue exist in queryParams
-  const { body } = queryParams;
+  const { body, format } = queryParams;
 
   if (!entityId) {
     return { body: "Missing entityId", headers: {}, statusCode: 400 };
   }
+  console.log(format);
+  console.log(body);
+  console.log(
+    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${api_key}&v=20230601${
+      format ? `&format=${format}` : ""
+    }`
+  );
 
   const getEntitiesResponse = await fetch(
-    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${api_key}&v=20230601`,
+    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${api_key}&v=20230601${
+      format ? `&format=${format}` : ""
+    }`,
     {
       headers: {
         "Content-Type": "application/json",

@@ -77,7 +77,7 @@ const DateField = ({ initialValue = undefined, fieldId }: DateFieldProps) => {
         <div onClick={handleClick} className="hover:cursor-pointer">
           {selectedDate
             ? selectedDate.toLocaleDateString("en-GB")
-            : "Click me!"}
+            : "Click to add"}
         </div>
       )}
     </div>

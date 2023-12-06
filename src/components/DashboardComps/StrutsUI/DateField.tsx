@@ -43,7 +43,7 @@ const DateField = ({ initialValue = undefined }: DateFieldProps) => {
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {selectedDate || `Click me!`}
+          {selectedDate || `Click to add`}
         </div>
       )}
     </div>

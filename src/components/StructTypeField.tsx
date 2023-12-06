@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
 import TextBoxContainer from "./DashboardComps/FieldComponents.tsx/TextBoxContainer";
-import CustomEditor from "./DashboardComps/LexicalRichText/CustomEditor";
+import LexicalMarkdownEditor from "./DashboardComps/LexicalRichText/LexicalMarkdownEditor";
 
 interface StructTypeFieldProps {
   initialValue?: Root[] | undefined;
-  fieldId: string[] | string;
+  structType: string[] | string;
+  fieldId: string;
 }
 
 export interface Root {
@@ -32,12 +33,24 @@ export interface StringType {
 
 export interface DateType {}
 
-const StructTypeField: React.FC<StructTypeFieldProps> = ({
+const StructTypeField = ({
   initialValue,
   fieldId,
-}) => {
+  structType,
+}: StructTypeFieldProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [initValues, setInitValues] = useState(initialValue);
 
+  const booleanData = [
+    {
+      displayName: "Yes",
+      textValue: true,
+    },
+    {
+      displayName: "No",
+      textValue: false,
+    },
+  ];
   const handleClick = () => {
     setIsEditMode(true);
   };
@@ -48,40 +61,63 @@ const StructTypeField: React.FC<StructTypeFieldProps> = ({
   const handleCancel = () => {
     setIsEditMode(false);
   };
+  const handleStructChange = (val: any) => {
+    setInitValues(val);
+  };
+  const handleEdit = (val: any) => {
+    setIsEditMode(val);
+  };
   return (
     <div className="flex flex-col gap-3">
       {isEditMode ? (
-        <div>
-          <TextBoxContainer
-            properties={fieldId}
-            initialValue={initialValue}
-          ></TextBoxContainer>
-        </div>
-      ) : initialValue ? (
-        initialValue.map((subItem: any, subIndex: any) => (
-          <div
-            key={subIndex}
-            className="border-l pl-4 flex flex-col  gap-2 hover:cursor-pointer"
-            onClick={handleClick}
-          >
-            {fieldId.property.map((item: any, index: any) => {
-              return (
-                <div key={index} className="flex flex-col text-[#374151]">
-                  <div className="font-bold ">{item.displayName}</div>
-                  <div>
-                    {item.name === "answer" ? (
-                      <CustomEditor serializedAST={subItem[item.name]} />
-                    ) : (
-                      subItem[item.name]
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ))
+        <TextBoxContainer
+          fieldId={fieldId}
+          properties={structType.property}
+          initialValue={initialValue}
+          setInitialValues={handleStructChange}
+          editMode={handleEdit}
+        />
       ) : (
-        <div>Click me</div>
+        <div
+          className=" flex flex-col gap-2 hover:cursor-pointer"
+          onClick={handleClick}
+        >
+          {initValues ? (
+            initValues.map((subItem: any, subIndex: any) => (
+              <div
+                key={subIndex}
+                className="flex flex-col text-[#374151] border-l pl-4"
+              >
+                {structType.property.map((item: any, index: any) => {
+                  return (
+                    <div key={index}>
+                      <div className="font-bold">{item.displayName}</div>
+                      <div>
+                        {item.typeId === "richText" ? (
+                          <LexicalMarkdownEditor
+                            serializedAST={subItem[item.name]}
+                          />
+                        ) : item.typeId === "boolean" ? (
+                          booleanData.find(
+                            (option) => option.textValue === subItem[item.name]
+                          )?.displayName
+                        ) : item.typeId === "list" ? (
+                          subItem[item.name].map((item: string) => (
+                            <div>{item}</div>
+                          ))
+                        ) : (
+                          subItem[item.name]
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))
+          ) : (
+            <div>Click to add</div>
+          )}
+        </div>
       )}
     </div>
   );
