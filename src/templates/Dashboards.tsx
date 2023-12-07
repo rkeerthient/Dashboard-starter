@@ -166,7 +166,56 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
  * them in the src/templates folder as this is specific for true template files).
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
-  const { name, headshot } = document;
+  const {
+    slug,
+    id,
+    name,
+    meta,
+    c_attestation,
+    c_advisorNickname,
+    c_recognitionTitle,
+    c_jobTitle,
+    c_jobTitleAbbreviation,
+    c_titleDisplay,
+    c_clientFocuses,
+    c_aboutAdvisorShortDescription,
+    c_expertiseComments,
+    c_profileDelegates,
+    c_teamNameAndSite,
+    c_displayTeamName,
+    c_languagesV2,
+    mainPhone,
+    address,
+    c_registrations,
+    c_educationDisplay,
+    c_volunteeringDisplay,
+    c_organizationsDisplay,
+    c_awardsDashboard,
+    c_industryLevelOfExperience,
+    c_designations,
+    c_hobbiesAndInterests,
+    c_fAQs,
+    c_fAQs1,
+    c_assetRanges,
+    c_meetingPreference,
+    c_meetingPlacePreference,
+    c_inTouchPreference,
+    c_conversationPreference,
+    c_conversationFocus,
+    c_meetingTime,
+    c_disagreements,
+    c_recommendations,
+    c_charts,
+    c_introvertedOrExtroverted,
+    c_planning,
+    c_laidBack,
+    c_homeRepairs,
+    c_photoGallery,
+    c_matchFinderPhoto,
+    c_taskGroups,
+    c_preferredFirstName,
+    headshot,
+  } = document;
 
   const data = [
     {
@@ -249,22 +298,6 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     <>
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
-          {/* <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
-            <div className="text-lg font-bold">Toggle Dashboards</div>
-            <Switch
-              checked={enabled}
-              onChange={setEnabled}
-              className={`${enabled ? "bg-teal-900" : "bg-teal-700"}
-          relative  inline-flex h-6 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75 mr-0`}
-            >
-              <span
-                aria-hidden="true"
-                className={`${enabled ? "translate-x-9" : "translate-x-0"}
-            pointer-events-none inline-block h-5 w-5  transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-              />
-            </Switch>
-          </div> */}
-
           <DBBanner name={name} headshot={headshot}></DBBanner>
           <div className="px-6">
             <div className="sm:hidden">
