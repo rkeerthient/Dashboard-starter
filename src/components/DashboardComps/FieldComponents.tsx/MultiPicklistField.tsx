@@ -112,14 +112,14 @@ const MultiPicklistField = ({
           className="hover:cursor-pointer hover:bg-containerBG p-2"
         >
           {selectedItems.filter((item) => item.checked).length >= 1 ? (
-            <ul>
+            <div className="grid grid-cols-3 ">
               {selectedItems &&
                 selectedItems
                   .filter((checkbox) => checkbox.checked)
                   .map((checkbox) => (
-                    <li key={checkbox.textValue}>{checkbox.displayName}</li>
+                    <div key={checkbox.textValue}>{checkbox.displayName}</div>
                   ))}
-            </ul>
+            </div>
           ) : (
             <div>Click to add</div>
           )}

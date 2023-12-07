@@ -14,13 +14,6 @@ const putFields = async (
   if (!entityId) {
     return { body: "Missing entityId", headers: {}, statusCode: 400 };
   }
-  console.log(format);
-  console.log(body);
-  console.log(
-    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${api_key}&v=20230601${
-      format ? `&format=${format}` : ""
-    }`
-  );
 
   const getEntitiesResponse = await fetch(
     `https://sbx-api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${api_key}&v=20230601${

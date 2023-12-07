@@ -161,6 +161,7 @@ const UIPicker = ({
               case "image":
                 return (
                   <ImageField
+                    isMulti={false}
                     initialValue={initialValue}
                     fieldId={mainFieldSchema.response.$id}
                   />
@@ -185,6 +186,7 @@ const UIPicker = ({
                 ) : mainFieldSchema.response.type.listType.typeId ===
                   "image" ? (
                   <ImageField
+                    isMulti={true}
                     initialValue={initialValue}
                     fieldId={mainFieldSchema.response.$id}
                   />

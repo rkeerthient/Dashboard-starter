@@ -138,8 +138,6 @@ export const getPath: GetPath<TemplateProps> = ({ document }) => {
  * This can include the title, meta tags, script tags, etc.
  */
 export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
-  relativePrefixToRoot,
-  path,
   document,
 }): HeadConfig => {
   return {
@@ -167,63 +165,8 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
  * components any way you'd like as long as it lives in the src folder (though you should not put
  * them in the src/templates folder as this is specific for true template files).
  */
-const Location: Template<TemplateRenderProps> = ({
-  relativePrefixToRoot,
-  path,
-  document,
-}) => {
-  const {
-    slug,
-    id,
-    name,
-    meta,
-    c_attestation,
-    c_advisorNickname,
-    c_recognitionTitle,
-    c_jobTitle,
-    c_jobTitleAbbreviation,
-    c_titleDisplay,
-    c_clientFocuses,
-    c_aboutAdvisorShortDescription,
-    c_expertiseCommentsRTv2,
-    c_expertiseComments,
-    c_inGoodStanding,
-    c_profileDelegates,
-    c_teamNameAndSite,
-    c_displayTeamName,
-    c_languagesV2,
-    mainPhone,
-    address,
-    c_registrations,
-    c_educationDisplay,
-    c_volunteeringDisplay,
-    c_organizationsDisplay,
-    c_awardsDashboard,
-    c_industryLevelOfExperience,
-    c_designations,
-    c_hobbiesAndInterests,
-    c_fAQs,
-    c_fAQs1,
-    c_assetRanges,
-    c_meetingPreference,
-    c_meetingPlacePreference,
-    c_inTouchPreference,
-    c_conversationPreference,
-    c_conversationFocus,
-    c_meetingTime,
-    c_disagreements,
-    c_recommendations,
-    c_charts,
-    c_introvertedOrExtroverted,
-    c_planning,
-    c_laidBack,
-    c_homeRepairs,
-    c_photoGallery,
-    c_matchFinderPhoto,
-    c_taskGroups,
-    c_preferredFirstName,
-    headshot,
-  } = document;
+const Location: Template<TemplateRenderProps> = ({ document }) => {
+  const { name, headshot } = document;
 
   const data = [
     {
@@ -298,37 +241,9 @@ const Location: Template<TemplateRenderProps> = ({
     },
   ];
   const [enabled, setEnabled] = useState(false);
-  // const handleEditorChange = (content: string) => {
-  //   console.log("Editor content:", content);
-  // };
-  const content =
-    '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"console","type":"code-highlight","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":".","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":"log","type":"code-highlight","version":1,"highlightType":"function"},{"detail":0,"format":0,"mode":"normal","style":"","text":"(","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":"Hello World","type":"code-highlight","version":1,"highlightType":"string"},{"detail":0,"format":0,"mode":"normal","style":"","text":")","type":"code-highlight","version":1,"highlightType":"punctuation"},{"detail":0,"format":0,"mode":"normal","style":"","text":";","type":"code-highlight","version":1,"highlightType":"punctuation"}],"direction":"ltr","format":"","indent":0,"type":"code","version":1,"language":"javascript"},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Are you ok??","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}';
-  // const markdownContent=
-  const onSave = (newValue: string) => {
-    console.log(newValue);
-  };
-  const markdownContent =
-    "++Test++ **Answer**  \n++*new test*++\n\n\n1. new 1\n2. **new** 2\n\n\n*Ghello*\n\n\n* test 1\n* tyt2 test new";
-  // console.log(JSON.parse(JSON.stringify(markdownContent)) === "object");
 
   return (
     <>
-      {/* <LexicalMarkdownEditor serializedAST={markdownContent} />
-      <LexicalRichTextEditor serializedAST={content} /> */}
-      {/* <PhotoUpload /> */}
-      {/* <CustomEditor serializedAST={content} type={identifyDataType(content)} /> */}
-      {/* <CustomEditor serializedAST={markdownContent} isEditMode={true} /> */}
-      {/* <CustomEditor
-        serializedAST={markdownContent}
-        type={identifyDataType(markdownContent)}
-      ></CustomEditor> */}
-      {/* <div>Hi</div> */}
-      {/* <div className="centered-container mt-12">
-        <CompoundFields></CompoundFields>
-        <CustomDatePicker initialValue={new Date()}></CustomDatePicker>
-      </div> */}
-      {/* <RichtextEditor></RichtextEditor> */}
-      {/* <ImgbbUploader></ImgbbUploader> */}
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
           <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
@@ -451,7 +366,6 @@ const Location: Template<TemplateRenderProps> = ({
 };
 
 export default Location;
-// JSON.parse(JSON.stringify(markdownContent)) === "object"
 export const identifyDataType = (data: any) => {
   try {
     JSON.parse(data);

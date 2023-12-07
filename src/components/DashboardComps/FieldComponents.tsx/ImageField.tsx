@@ -6,37 +6,175 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
-const ImageField = ({ initialValue }: any) => {
+import { TrashIcon } from "@heroicons/react/20/solid";
+const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
   const [open, setOpen] = useState(false);
-  const [imgUrls, setImgUrls] = useState<string[]>(
+  const [isEditable, setIsEditable] = useState(false);
+
+  const [imgUrls, setImgUrls] = useState<string[] | string>(
     initialValue != null && initialValue.map((item: any) => item.url)
   );
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
+  const handleClick = () => {
+    setIsEditable(true);
+  };
 
+  const handleDelete = (imgUrl: string | string[]) => {
+    setImgUrls(
+      isMulti
+        ? imgUrls.filter((item: any, currentIndex: any) => item !== imgUrl)
+        : []
+    );
+  };
   useEffect(() => {
     setIsContentEdited(
-      JSON.stringify(imgUrls) !== JSON.stringify(initialValue)
+      JSON.stringify(imgUrls) !==
+        JSON.stringify(
+          initialValue && initialValue.map((item: any) => item.url)
+        )
     );
   }, [imgUrls, initialValue]);
+
+  const handleSave = async () => {
+    try {
+      const requestBody = encodeURIComponent(
+        JSON.stringify({
+          [fieldId as string]: isMulti
+            ? imgUrls.map((item: any) => {
+                return { url: item };
+              })
+            : { url: imgUrls[0] },
+        })
+      );
+
+      const response = await fetch(
+        `/api/fields/4635269/putFields?body=${requestBody}`
+      );
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
+        error
+      );
+    }
+    setIsEditable(false);
+  };
+  const handleCancel = () => {
+    setImgUrls(initialValue.map((item: any) => item.url));
+    setIsEditable(false);
+  };
   return (
     <>
-      <div>
-        {initialValue ? (
-          <div className="flex flex-col gap-4" onClick={() => setOpen(true)}>
-            {initialValue.map((item, index) => {
-              return (
-                <div className="w-[160px] flex flex-col justify-center h-[160px] border hover:border hover:border-fieldFocusBorder rounded-[3px] p-1">
-                  <img
-                    src={item.url}
-                    className="  max-w-[160px] max-h-[160px] "
-                    alt=""
-                  />
-                </div>
-              );
-            })}
-          </div>
+      <div
+        className={`w-full px-4 py-3  max-h-96 overflow-scroll ${
+          isEditable ? `bg-containerBG` : `bg-transparent`
+        }`}
+      >
+        {isEditable ? (
+          <>
+            <div className="flex flex-col gap-4">
+              {imgUrls.length ? (
+                imgUrls.map((item: any, index: any) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex justify-between border-b pb-4"
+                    >
+                      <div
+                        className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
+                      >
+                        <img
+                          src={item}
+                          className="  max-w-[160px] max-h-[160px] "
+                          alt=""
+                        />
+                      </div>
+                      <TrashIcon
+                        className="w-4 h-4 hover:cursor-pointer"
+                        onClick={() => handleDelete(item)}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <>
+                  {imgUrls ? (
+                    <div className="flex justify-between border-b pb-4">
+                      <div
+                        className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
+                      >
+                        <img
+                          src={item}
+                          className="  max-w-[160px] max-h-[160px] "
+                          alt=""
+                        />
+                      </div>
+                      <TrashIcon
+                        className="w-4 h-4 hover:cursor-pointer"
+                        onClick={() => handleDelete(item)}
+                      />
+                    </div>
+                  ) : (
+                    `Click here`
+                  )}
+                </>
+              )}
+              <button
+                className={`text-xs text-linkColor mr-auto`}
+                onClick={() => setOpen(true)}
+              >
+                Select Photos
+              </button>
+            </div>
+          </>
         ) : (
-          <div>Click to add</div>
+          <div onClick={handleClick} className="hover:cursor-pointer">
+            {
+              <>
+                <div className="flex flex-col gap-4">
+                  <>
+                    {imgUrls && imgUrls.length >= 1 ? (
+                      imgUrls.map((item: any, index: any) => {
+                        return (
+                          <div
+                            key={index}
+                            className="w-[160px] flex flex-col justify-center h-[160px] border hover:border hover:border-fieldFocusBorder rounded-[3px] p-1"
+                          >
+                            <img
+                              src={item}
+                              className="  max-w-[160px] max-h-[160px] "
+                              alt=""
+                            />
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <>
+                        {imgUrls ? (
+                          <div className="flex justify-between border-b pb-4">
+                            <div
+                              className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
+                            >
+                              <img
+                                src={imgUrls}
+                                className="  max-w-[160px] max-h-[160px] "
+                                alt=""
+                              />
+                            </div>
+                            <TrashIcon
+                              className="w-4 h-4 hover:cursor-pointer"
+                              onClick={() => handleDelete(imgUrls)}
+                            />
+                          </div>
+                        ) : (
+                          `Click here`
+                        )}
+                      </>
+                    )}
+                  </>
+                </div>
+              </>
+            }
+          </div>
         )}
       </div>
       <Transition.Root show={open} as={Fragment}>
@@ -69,7 +207,10 @@ const ImageField = ({ initialValue }: any) => {
                     <button
                       type="button"
                       className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setImgUrls(initialValue);
+                        setOpen(false);
+                      }}
                     >
                       <span className="sr-only">Close</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -77,33 +218,39 @@ const ImageField = ({ initialValue }: any) => {
                   </div>
                   <div className="sm:flex sm:items-start">
                     <PhotoUpload
-                      imgUrls={(newUrls) =>
-                        setImgUrls((prevUrls) => [...prevUrls, ...newUrls])
-                      }
+                      imgUrls={(newUrls) => {
+                        isMulti
+                          ? setImgUrls((prevUrls) => [...prevUrls, ...newUrls])
+                          : setImgUrls(newUrls);
+                      }}
+                      multiple={isMulti}
+                      isOpen={(val: boolean) => setOpen(val)}
                     />
                   </div>
-                  {/* <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                    <button
-                      type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                      onClick={() => setOpen(false)}
-                    >
-                      Deactivate
-                    </button>
-                    <button
-                      type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                      onClick={() => setOpen(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div> */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
         </Dialog>
       </Transition.Root>
+      {isEditable && (
+        <div className="flex w-full gap-2 text-xs pt-2 font-bold">
+          <button
+            onClick={handleSave}
+            disabled={!isContentEdited}
+            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
+              !isContentEdited
+                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
+                : `border-fieldAndBorderBGGrayColor bg-active text-white`
+            }`}
+          >
+            Save for 1 Profile
+          </button>
+          <button onClick={handleCancel} className={`text-xs text-linkColor`}>
+            Cancel
+          </button>
+        </div>
+      )}
     </>
   );
 };

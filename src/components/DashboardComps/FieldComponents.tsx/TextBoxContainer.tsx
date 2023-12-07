@@ -94,8 +94,6 @@ const TextBoxContainer = ({
     },
   ];
   useEffect(() => {
-    console.log(JSON.stringify(initialValue));
-
     setInitialData(initialValue);
     const initialBlocks = (initialValue || []).map((item: any) => {
       let initialTextValues: Record<string, string> = {};
@@ -245,7 +243,6 @@ const TextBoxContainer = ({
         multiPickOptions: initialMultiPickValues,
       },
     ]);
-    console.log(JSON.stringify([...blocks]));
     setIsDataChanged(JSON.stringify(blocks) !== JSON.stringify(initBlocks));
   };
 
@@ -257,8 +254,6 @@ const TextBoxContainer = ({
   };
 
   const handleMultiOptionChange = (index: number, changedCheckbox: Option) => {
-    console.log(JSON.stringify(blocks));
-
     const updatedBlocks = [...blocks];
 
     if (updatedBlocks[index] && updatedBlocks[index].multiPickOptions) {
@@ -276,24 +271,6 @@ const TextBoxContainer = ({
       setIsDataChanged(!deepEqual(initialData, updatedBlocks));
     }
   };
-
-  // const handleMultiOptionChange = (
-  //   index: number,
-  //   option: { textValue: string; checked: boolean }
-  // ) => {
-  //   console.log(JSON.stringify(option));
-  //   const updatedCheckboxes = blocks[0].multiPickOptions.map((checkbox) =>
-  //     checkbox.textValue === option.textValue
-  //       ? { ...checkbox, checked: !checkbox.checked }
-  //       : checkbox
-  //   );
-  //   // const updatedCheckboxes = blocks[0].multiPickOptions.map((checkbox, i) => {
-  //   //   return i === index ? { ...checkbox, checked: option.checked } : checkbox;
-  //   // });
-  //   console.log(JSON.stringify(updatedCheckboxes));
-  //   setBlocks(updatedCheckboxes);
-  //   // setIsDataChanged(!deepEqual(initialData, updatedCheckboxes));
-  // };
 
   const handleBooleanChange = (index: number, value: string) => {
     const updatedBlocks = [...blocks];
@@ -356,7 +333,6 @@ const TextBoxContainer = ({
       }
       return formattedItem;
     });
-    console.log(JSON.stringify(formattedJsonArray));
 
     const allKeys: string[] = formattedJsonArray.reduce(
       (keys, item) => keys.concat(Object.keys(item)),

@@ -36,7 +36,6 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
     setIsEditable(false);
   };
   const handleCancel = () => {
-    // Add your save logic here
     setIsEditable(false);
   };
   return (

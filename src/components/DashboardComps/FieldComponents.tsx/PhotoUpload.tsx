@@ -2,22 +2,26 @@ import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 type PhotoUploadProps = {
-  imgUrls?: (value: string[]) => void;
+  imgUrls: (value: string[]) => void;
+  isOpen: (value: boolean) => void;
+  multiple: boolean;
 };
-const PhotoUpload = ({ imgUrls }: PhotoUploadProps) => {
-  const [files, setFiles] = useState<(File & { preview: string })[]>([]);
-  const [uploadedUrls, setUploadedUrls] = useState([]);
-
+const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
+  const [files, setFiles] = useState<
+    (File & { preview: string }) | (File & { preview: string })[]
+  >([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uploadedUrls, setUploadedUrl] = useState<string[]>([]);
   const { open } = useDropzone({
     accept: {
       "image/*": [".jpeg", ".jpg", ".png", ".gif"],
     },
     noClick: true,
-    multiple: true,
+    multiple: multiple,
     noKeyboard: true,
     onDrop: (acceptedFiles) => {
       setFiles((prevFiles) =>
-        prevFiles.concat(
+        (Array.isArray(prevFiles) ? prevFiles : [prevFiles]).concat(
           acceptedFiles.map((file) =>
             Object.assign(file, {
               preview: URL.createObjectURL(file),
@@ -27,10 +31,13 @@ const PhotoUpload = ({ imgUrls }: PhotoUploadProps) => {
       );
     },
   });
-  const handleSaveClick = async () => {
+
+  const handleSave = async () => {
     try {
-      const uploadedUrls = await Promise.all(
-        files.map(async (item) => {
+      setIsLoading(true);
+
+      const imgBBUrls = await Promise.all(
+        (Array.isArray(files) ? files : [files]).map(async (item) => {
           const formData = new FormData();
           formData.append("image", item);
 
@@ -57,18 +64,24 @@ const PhotoUpload = ({ imgUrls }: PhotoUploadProps) => {
         })
       );
 
-      // Update the parent component's state with the array of uploaded URLs
-      imgUrls(uploadedUrls);
-    } catch (error) {
+      setUploadedUrl(imgBBUrls);
+    } catch (error: any) {
       console.error("Error uploading images:", error.message);
-      // Handle the error as needed
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    const cleanup = async () => {
+      await handleSave();
+      if (Array.isArray(files)) {
+        files.forEach((file) => URL.revokeObjectURL(file.preview));
+      } else {
+        URL.revokeObjectURL(files.preview);
+      }
     };
+    cleanup();
   }, [files]);
   return (
     <div className="w-full bg-white text-[#374151] p-4">
@@ -111,34 +124,72 @@ const PhotoUpload = ({ imgUrls }: PhotoUploadProps) => {
               Photos
             </div>
             <div className="grid grid-cols-4 gap-1 w-[95%]">
-              {files &&
-                files.length >= 1 &&
+              {files && files.length >= 1 ? (
                 files.map((item, index) => {
                   return (
                     <div
                       key={index}
-                      className="m-1 w-[150px] border flex justify-center items-center relative max-h-full h-[150px]"
+                      className="relative m-1 w-[150px] border flex justify-center items-center   max-h-full h-[150px]"
                     >
+                      {isLoading && (
+                        <div
+                          className="absolute mx-auto h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status"
+                        ></div>
+                      )}
                       <img
                         src={item.preview}
                         onLoad={() => {
                           URL.revokeObjectURL(item.preview);
                         }}
                       />
-                      {/* <div>{URL.createObjectURL(item)}</div> */}
                     </div>
                   );
-                })}
+                })
+              ) : (
+                <>
+                  {files.length == 1 && (
+                    <div className="relative m-1 w-[150px] border flex justify-center items-center   max-h-full h-[150px]">
+                      {isLoading && (
+                        <div
+                          className="absolute mx-auto h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status"
+                        ></div>
+                      )}
+                      <img
+                        src={files.preview}
+                        onLoad={() => {
+                          URL.revokeObjectURL(files.preview);
+                        }}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
         )}
         <div className="flex justify-end gap-6">
-          <div className="h-8 flex items-center bg-active rounded-md px-4 py-0 text-white text-sm">
+          <div
+            onClick={() => {
+              imgUrls([]);
+              setFiles([]);
+              isOpen(false);
+            }}
+            className="h-8 flex items-center bg-active rounded-md px-4 py-0 text-white text-sm"
+          >
             Cancel
           </div>
           <div
-            className="h-8 flex items-center bg-active rounded-md px-4 py-0 text-white text-sm"
-            onClick={handleSaveClick}
+            className={`h-8 flex items-center bg-active rounded-md px-4 py-0 text-white text-sm ${
+              isLoading
+                ? `bg-disabled pointer-events-none`
+                : `bg-active hover:cursor-pointer`
+            }`}
+            onClick={() => {
+              imgUrls(uploadedUrls);
+              isOpen(false);
+            }}
           >
             Continue
           </div>

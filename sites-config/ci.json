@@ -28,18 +28,6 @@
         "functionName": "PagesGenerator"
       },
       {
-        "pluginName": "PutImage-67725",
-        "event": "API",
-        "functionName": "default",
-        "apiPath": "api/PutImage",
-        "sourceFiles": [
-          {
-            "root": "dist/functions/PutImage-67725",
-            "pattern": "*{.js,.ts}"
-          }
-        ]
-      },
-      {
         "pluginName": "getFields-94324",
         "event": "API",
         "functionName": "default",

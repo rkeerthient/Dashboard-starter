@@ -66,7 +66,6 @@ const Subtasks = ({ subItem, document }: any) => {
         <div className="font-semibold text-[#5a6370] w-1/4">
           <div className="flex flex-col gap-1">
             <div className="flex  gap-2 items-center relative">
-              <div>{subItem.name}</div>
               {subItem.description && (
                 <>
                   <HiOutlineInformationCircle
@@ -83,6 +82,7 @@ const Subtasks = ({ subItem, document }: any) => {
                   )}
                 </>
               )}
+              <div>{subItem.name}</div>
             </div>
             <div className="text-xs text-[#c6ccd1]">{subItem.field}</div>
           </div>
