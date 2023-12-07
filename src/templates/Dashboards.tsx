@@ -165,7 +165,7 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
  * components any way you'd like as long as it lives in the src folder (though you should not put
  * them in the src/templates folder as this is specific for true template files).
  */
-const Location: Template<TemplateRenderProps> = ({ document }) => {
+const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   const { name, headshot } = document;
 
   const data = [
@@ -240,13 +240,16 @@ const Location: Template<TemplateRenderProps> = ({ document }) => {
       Position: 4.1,
     },
   ];
-  const [enabled, setEnabled] = useState(false);
-
+  const tabs = ["About me", "My Team", "Analytics"];
+  const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
   return (
     <>
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
-          <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
+          {/* <div className="flex flex-row justify-end px-6 gap-3 items-center mt-4">
             <div className="text-lg font-bold">Toggle Dashboards</div>
             <Switch
               checked={enabled}
@@ -260,112 +263,151 @@ const Location: Template<TemplateRenderProps> = ({ document }) => {
             pointer-events-none inline-block h-5 w-5  transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
-          </div>
+          </div> */}
 
           <DBBanner name={name} headshot={headshot}></DBBanner>
-          <>
-            {!enabled ? (
-              <div className="px-4 flex flex-row w-full gap-2">
-                <div className="w-3/5">
-                  <TasksSection
-                    tasks={SectionData}
-                    document={document}
-                  ></TasksSection>
-                </div>
-                <div className="w-2/5 flex flex-col gap-4">
-                  <div className="flex flex-col gap-4 p-5  bg-white">
-                    <div className="font-bold text-gray-900">
-                      Your Advisor Match Profile Progress
-                    </div>
-                    <div className="text-gray-900">
-                      In order to participate in Merrill Advisor Match, your
-                      profile must be 100% complete. Please fill out all
-                      required fields – these are marked with an *asterisk*.
-                    </div>
-                    <SampleChart></SampleChart>
+          <div className="px-6">
+            <div className="sm:hidden">
+              <label htmlFor="tabs" className="sr-only">
+                Select a tab
+              </label>
+              <select
+                id="tabs"
+                value={currentTab}
+                onChange={(e) => setCurrentTab(e.target.value)}
+                className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10  focus:border-black focus:outline-none focus:ring-[#4492d3]  "
+              >
+                {tabs.map((tab) => (
+                  <option key={tab} value={tab}>
+                    {tab}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="hidden sm:block">
+              <div className="border-b border-gray-200">
+                <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                  {tabs.map((tab) => (
+                    <a
+                      key={tab}
+                      className={classNames(
+                        tab === currentTab
+                          ? "border-[#4492d3] border-b-4 text-black font-bold"
+                          : "border-transparent border-b-4 text-[#4492d3] hover:border-gray-300 hover:text-gray-700 font-medium",
+                        "  border-b-2 py-4 px-1 hover:cursor-pointer"
+                      )}
+                      onClick={() => setCurrentTab(tab)}
+                    >
+                      {tab}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            </div>
+          </div>
+          {currentTab === "About me" ? (
+            <div className="px-4 flex flex-row w-full gap-2">
+              <div className="w-3/5">
+                <TasksSection
+                  tasks={SectionData}
+                  document={document}
+                ></TasksSection>
+              </div>
+              <div className="w-2/5 flex flex-col gap-4">
+                <div className="flex flex-col gap-4 p-5  bg-white">
+                  <div className="font-bold text-gray-900">
+                    Your Advisor Match Profile Progress
                   </div>
-                  <div className="flex flex-col gap-4 border p-5  bg-white">
-                    <div className="font-bold text-gray-900">
-                      Remaining Incomplete Fields
-                    </div>
-                    <div className="text-gray-900">
-                      Fill out the required fields listed below to complete your
-                      profile
-                    </div>
+                  <div className="text-gray-900">
+                    In order to participate in Merrill Advisor Match, your
+                    profile must be 100% complete. Please fill out all required
+                    fields – these are marked with an *asterisk*.
+                  </div>
+                  <SampleChart></SampleChart>
+                </div>
+                <div className="flex flex-col gap-4 border p-5  bg-white">
+                  <div className="font-bold text-gray-900">
+                    Remaining Incomplete Fields
+                  </div>
+                  <div className="text-gray-900">
+                    Fill out the required fields listed below to complete your
+                    profile
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="flex flex-row gap-4">
-                <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
-                  <div className="text-3xl">Your Website Analytics</div>
-                  <BarChart />
+            </div>
+          ) : currentTab === "Analytics" ? (
+            <div className="flex flex-row gap-4">
+              <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
+                <div className="text-3xl">Your Website Analytics</div>
+                <BarChart />
+              </div>
+              <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
+                <div className="text-3xl capitalize">
+                  How users find my website
                 </div>
-                <div className="p-4 bg-4 w-1/2 bg-white flex flex-col gap-4">
-                  <div className="text-3xl capitalize">
-                    How users find my website
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="flex justify-center items-center text-xs">
-                      <table className="w-4/5 border-collapse">
-                        <thead>
-                          <tr className="bg-gray-200">
-                            <th className="border p-2">Search Term</th>
-                            <th className="border p-2">Impressions</th>
-                            <th className="border p-2">Clicks</th>
-                            <th className="border p-2">CTR</th>
-                            <th className="border p-2">Position</th>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex justify-center items-center text-xs">
+                    <table className="w-4/5 border-collapse">
+                      <thead>
+                        <tr className="bg-gray-200">
+                          <th className="border p-2">Search Term</th>
+                          <th className="border p-2">Impressions</th>
+                          <th className="border p-2">Clicks</th>
+                          <th className="border p-2">CTR</th>
+                          <th className="border p-2">Position</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.map((row, index) => (
+                          <tr key={index} className="border">
+                            <td className="border p-2">{row.SearchTerm}</td>
+                            <td className="border p-2">{row.Impressions}</td>
+                            <td className="border p-2">{row.Clicks}</td>
+                            <td className="border p-2">{row.CTR}</td>
+                            <td className="border p-2">{row.Position}</td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {data.map((row, index) => (
-                            <tr key={index} className="border">
-                              <td className="border p-2">{row.SearchTerm}</td>
-                              <td className="border p-2">{row.Impressions}</td>
-                              <td className="border p-2">{row.Clicks}</td>
-                              <td className="border p-2">{row.CTR}</td>
-                              <td className="border p-2">{row.Position}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <DonutChart />
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                  <div className="bg-white text-center border-t text-gray-800 m-auto flex justify-center items-center w-full py-8 mx-auto">
-                    <div className="flex flex-col gap-4 w-full px-4">
-                      <div className="text-xl font-semibold">
-                        Email, Contact Me, and Phone Call Clicks
+                  <DonutChart />
+                </div>
+                <div className="bg-white text-center border-t text-gray-800 m-auto flex justify-center items-center w-full py-8 mx-auto">
+                  <div className="flex flex-col gap-4 w-full px-4">
+                    <div className="text-xl font-semibold">
+                      Email, Contact Me, and Phone Call Clicks
+                    </div>
+                    <div>Last 60 Days</div>
+                    <div className="w-full grid grid-cols-3 justify-between">
+                      <div className="flex flex-col gap-2 items-center justify-center">
+                        <div className="text-xl">18</div>
+                        <div className="text-sm">Total Email Clicks</div>
                       </div>
-                      <div>Last 60 Days</div>
-                      <div className="w-full grid grid-cols-3 justify-between">
-                        <div className="flex flex-col gap-2 items-center justify-center">
-                          <div className="text-xl">18</div>
-                          <div className="text-sm">Total Email Clicks</div>
-                        </div>
-                        <div className="flex flex-col gap-2 items-center justify-center">
-                          <div className="text-xl">4</div>
-                          <div className="text-sm">Form Fills</div>
-                        </div>
-                        <div className="flex flex-col gap-2 items-center justify-center">
-                          <div className="text-xl">4</div>
-                          <div className="text-sm">Total Phone Call Clicks</div>
-                        </div>
+                      <div className="flex flex-col gap-2 items-center justify-center">
+                        <div className="text-xl">4</div>
+                        <div className="text-sm">Form Fills</div>
+                      </div>
+                      <div className="flex flex-col gap-2 items-center justify-center">
+                        <div className="text-xl">4</div>
+                        <div className="text-sm">Total Phone Call Clicks</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            )}
-          </>
+            </div>
+          ) : (
+            `Team View`
+          )}
         </div>
       </PageLayout>
     </>
   );
 };
 
-export default Location;
+export default Dashboards;
 export const identifyDataType = (data: any) => {
   try {
     JSON.parse(data);
