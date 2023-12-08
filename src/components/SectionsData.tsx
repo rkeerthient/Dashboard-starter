@@ -5,6 +5,7 @@ export const SectionData = [
     name: "Attestation",
     tasks: [
       {
+        readonly: false,
         field: "c_attestation",
         name: "Attestation*",
         question:
@@ -19,72 +20,84 @@ export const SectionData = [
     tasks: [
       {
         description: "Edit your nickname or preferred display name.",
+        readonly: false,
         field: "c_preferredFirstName",
         name: "Preferred First Name",
       },
       {
         description:
           "This is your corporate title (e.g. vice president, managing director, etc.), which is sourced from HR data.",
+        readonly: false,
         field: "c_recognitionTitle",
         name: "Recognition Title",
       },
       {
         description: "This is your functional title from HR data",
+        readonly: false,
         field: "c_jobTitle",
         name: "Functional Title",
       },
       {
         description:
           "Edit how your title will be displayed next to your name. You may choose from your pre-approved HR titles",
+        readonly: false,
         field: "c_titleDisplay",
         name: "Title Display*",
       },
       {
         description:
           "This field allows you to select and rank your top 3 Client Focuses.  Once you select them, drag and drop in the order you want them displayed.  Note: your top 3 focuses will be displayed on the results page, but your full list will be displayed on your profile page.",
+        readonly: false,
         field: "c_clientFocuses",
         name: "Client Focuses*",
       },
       {
         description:
           "This is your headline, which prospects will initially see. TIP: Keep this short and punchy. Describe yourself in 1-2 sentences.",
+        readonly: false,
         field: "c_aboutAdvisorShortDescription",
         name: "Short Description About Me*",
       },
       {
         description:
           "This is your full bio. Highlight your practice, key attributes, and accomplishments. TIP: infuse your personality (e.g. personal interests, hobbies, or passions).",
+        readonly: false,
         field: "c_expertiseCommentsRTv2",
         name: "Full Biography*",
       },
       {
         description:
           "You can delegate your profile management to a team member, except for the Matching Questionnaire. To add a delegate, enter a valid bank email address. They will receive an invitation within 24 hours after approval.",
+        readonly: false,
         field: "c_profileDelegates",
         name: "Profile Delegates",
       },
       {
         description:
           "This is your main team name and website.  If you have more than one, select your preferred team.  If you would like a different team website displayed, please reach out to Broadridge: ml@broadridge.com.",
+        readonly: false,
         field: "c_teamNameAndSite",
         name: "Preferred Team Name",
       },
       {
         description:
           'If "Yes" then your preferred team will be displayed on your Match profile.',
+        readonly: false,
         field: "c_displayTeamName",
         name: "Display Team Name",
       },
       {
         description:
           "Select all languages that you're fluent in. Re-order as necessary on the right side and hit 'Save'. This information is originally sourced from Social Profile Manager (your LinkedIn profile). Remember to keep your compliant LinkedIn profile up to date, as well.",
+        readonly: false,
         field: "c_languagesV2",
         name: "Languages Spoken",
         slider: false,
       },
       {
         description: "This is your email address from HR data.",
-        field: "location.emails",
+        readonly: true,
+        field: "emails",
         name: "Email",
         newSectionHeading: "You can review this core information below.",
         question:
@@ -93,23 +106,20 @@ export const SectionData = [
       },
       {
         description: "This is your main phone number from HR data.",
-        field: "location.main_phone",
+        readonly: true,
+        field: "mainPhone",
         name: "Phone Number",
         slider: false,
       },
       {
         description: "This is your mailing address from HR data.",
-        field: "virtual.address",
+        readonly: true,
+        field: "address",
         name: "Address",
       },
-      // {
-      //   description: "This is your state registration(s) from RILR data",
-      //   field: "c_registrations",
-      //   name: "State Registrations",
-      //   slider: false,
-      // },
       {
         description: "This is your LinkedIn profile link.",
+        readonly: false,
         field: "c_linkedInURL",
         name: "LinkedIn Page",
         slider: false,
@@ -124,36 +134,42 @@ export const SectionData = [
       {
         description:
           "Enter any education you would like to highlight. Education must be verifiable through the firm’s standard process. Pre-filled education is coming from Social Profiles. For any issues, contact AdvisorMatch@ml.com.",
+        readonly: false,
         field: "c_educationDisplay",
         name: "Education",
       },
       {
         description:
           "Review or add any volunteer positions you have and would like to highlight.",
+        readonly: false,
         field: "c_volunteeringDisplay",
         name: "Volunteering",
       },
       {
         description:
           "Review or add any organizations you are affiliated with and would like to highlight.",
+        readonly: false,
         field: "c_organizationsDisplay",
         name: "Organizations",
       },
       {
         description:
           "Choose any awards received from the pre-approved list and select the years received.",
+        readonly: false,
         field: "c_awardsDashboard",
         name: "Awards",
       },
       {
         description:
           "Your Industry Level of Experience is pre-populated from HR, but can be edited.",
+        readonly: false,
         field: "c_industryLevelOfExperience",
         name: "Years of Experience",
         slider: false,
       },
       {
         description: "This is your designations list from PMAC data.",
+        readonly: false,
         field: "c_designations",
         name: "Designations",
       },
@@ -167,12 +183,14 @@ export const SectionData = [
       {
         description:
           "Choose at least 3 hobbies. This will help prospects get to know you outside of work.",
+        readonly: false,
         field: "c_hobbiesAndInterests",
         name: "Hobbies and Interests*",
       },
       {
         description:
           "Select from the pre-approved interview prompts and write a short response (2-3 sentences). This will help prospects get to know both personally and professionally.",
+        readonly: false,
         field: "c_fAQs",
         name: "Interview Questions*",
       },
@@ -185,6 +203,7 @@ export const SectionData = [
     shouldScore: true,
     tasks: [
       {
+        readonly: false,
         field: "c_assetRanges",
         name: "Asset Range*",
         question:
@@ -192,6 +211,7 @@ export const SectionData = [
         slider: false,
       },
       {
+        readonly: false,
         field: "c_meetingPreference",
         name: "Meeting Preference*",
         newSectionHeading:
@@ -204,6 +224,7 @@ export const SectionData = [
         sliderLowText: "Mostly in person",
       },
       {
+        readonly: false,
         field: "c_meetingPlacePreference",
         name: "Meeting Place Preference*",
         question:
@@ -213,12 +234,14 @@ export const SectionData = [
         sliderLowText: "I usually go to my clients",
       },
       {
+        readonly: false,
         field: "c_inTouchPreference",
         name: "In Touch Preference*",
         question:
           "3) Consider typical, average clients (not your largest or most complex relationship). Outside of annual reviews, about how often do you schedule meetings with most of your clients?",
       },
       {
+        readonly: false,
         field: "c_conversationPreference",
         name: "Conversation Preference*",
         question:
@@ -228,6 +251,7 @@ export const SectionData = [
         sliderLowText: "My clients typically initiate",
       },
       {
+        readonly: false,
         field: "c_conversationFocus",
         name: "Conversation Focus*",
         newSectionHeading:
@@ -240,6 +264,7 @@ export const SectionData = [
         sliderLowText: "Let’s keep it all business",
       },
       {
+        readonly: false,
         field: "c_meetingTime",
         name: "Meeting Time*",
         question:
@@ -251,6 +276,7 @@ export const SectionData = [
           "We jump right in and get right to the reason for meeting",
       },
       {
+        readonly: false,
         field: "c_disagreements",
         name: "Disagreements*",
         question:
@@ -260,6 +286,7 @@ export const SectionData = [
         sliderLowText: "I am flexible",
       },
       {
+        readonly: false,
         field: "c_recommendations",
         name: "Recommendations*",
         question:
@@ -271,6 +298,7 @@ export const SectionData = [
           "I typically start by providing all the details and reasoning of my recommendation",
       },
       {
+        readonly: false,
         field: "c_charts",
         name: "Charts*",
         question:
@@ -280,6 +308,7 @@ export const SectionData = [
         sliderLowText: "I use visuals, like graphs or charts",
       },
       {
+        readonly: false,
         field: "c_introvertedOrExtroverted",
         name: "Introverted or Extroverted*",
         newSectionHeading:
@@ -290,6 +319,7 @@ export const SectionData = [
         sliderLowText: "Introverted",
       },
       {
+        readonly: false,
         field: "c_planning",
         name: "Planning*",
         question:
@@ -299,6 +329,7 @@ export const SectionData = [
         sliderLowText: "I’m spontaneous and take things as they come",
       },
       {
+        readonly: false,
         field: "c_laidBack",
         name: "Laid Back*",
         question: "12) Would your close friends say you are laid back?",
@@ -307,6 +338,7 @@ export const SectionData = [
         sliderLowText: "Definitely",
       },
       {
+        readonly: false,
         field: "c_homeRepairs",
         name: "Home Repairs*",
         question:
@@ -322,19 +354,21 @@ export const SectionData = [
       {
         description:
           "Upload photos to this section that you’d like displayed on your Match Page.  Once approved, you can add one as your Advisor Match Photo.",
+        readonly: false,
         field: "c_photoGallery",
         name: "All Photos",
       },
       {
         description:
           "Choose a photo from your approved display photos to highlight in Advisor Match.",
+        readonly: false,
         field: "c_matchFinderPhoto",
         name: "Advisor Match Photo*",
       },
       // {
       //   description:
       //     "Select the approved video(s) you want displayed on your Advisor Match profile page. To display a pop-up video that’s launched from your headshot, select “Yes” in the “Main Profile Video” drop-down.",
-      //   field: "c_kalturaVideo",
+      //   readonly:false, field: "c_kalturaVideo",
       //   name: "Videos",
       // },
     ],

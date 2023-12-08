@@ -7,6 +7,7 @@ import UIPicker from "./UIPicker";
 const Subtasks = ({ subItem, document }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  console.log(JSON.stringify(subItem));
 
   return (
     <div>
@@ -42,7 +43,12 @@ const Subtasks = ({ subItem, document }: any) => {
                   )}
                 </>
               )}
-              <div>{subItem.name}</div>
+              <div>
+                {subItem.name}{" "}
+                {subItem.readonly && (
+                  <span className="text-xs">(readonly fields)</span>
+                )}
+              </div>
             </div>
             <div className="text-xs text-[#c6ccd1]">{subItem.field}</div>
           </div>
@@ -61,6 +67,7 @@ const Subtasks = ({ subItem, document }: any) => {
               isSlider={subItem.slider}
               subItemField={subItem.field}
               initialValue={document[subItem.field]}
+              readonly={subItem.readonly}
             />
           )}
         </div>

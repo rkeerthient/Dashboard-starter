@@ -33,6 +33,7 @@ import PhotoUpload from "../components/DashboardComps/FieldComponents.tsx/PhotoU
 import TestEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
 import LexicalMarkdownEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
 import LexicalRichTextEditor from "../components/DashboardComps/LexicalRichText/LexicalRichTextEditor";
+import { Image } from "@yext/sites-components";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -65,6 +66,7 @@ export const config: TemplateConfig = {
       "c_teamNameAndSite.teamSite",
       "c_displayTeamName",
       "c_languagesV2",
+      "emails",
       "mainPhone",
       "address.line1",
       "address.line2",
@@ -116,6 +118,9 @@ export const config: TemplateConfig = {
       "c_matchFinderPhoto.url",
       "c_matchFinderPhoto.width",
       "c_taskGroups",
+      "c_teamMembers.name",
+      "c_teamMembers.slug",
+      "c_teamMembers.photoGallery",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
@@ -185,6 +190,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     c_languagesV2,
     mainPhone,
     address,
+    emails,
     c_registrations,
     c_educationDisplay,
     c_volunteeringDisplay,
@@ -214,6 +220,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     c_taskGroups,
     c_preferredFirstName,
     headshot,
+    c_teamMembers,
   } = document;
 
   const data = [
@@ -431,7 +438,49 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
               </div>
             </div>
           ) : (
-            `Team View`
+            <div className="border m-4 p-4 bg-white space-y-4">
+              <div className="text-2xl font-bold text-[#003168]">
+                {c_displayTeamName ? c_displayTeamName : `Team name`}
+              </div>
+              <div className=" font-medium text-[#003168]">
+                A team is defined as a group of people who perform
+                interdependent tasks to work toward accomplishing a common
+                mission or specific objective. Some teams have a limited life:
+                for example, a design team developing a new product, or a
+                continuous proces
+              </div>
+              {c_teamMembers && (
+                <div className="grid grid-cols-4 gap-4 border  p-8">
+                  {c_teamMembers.map((item: any, index: any) => (
+                    <div className=" border  !w-[250px] flex flex-col gap-2">
+                      <div>
+                        {item.photoGallery ? (
+                          <Image
+                            image={item.photoGallery[0]}
+                            className=""
+                          ></Image>
+                        ) : (
+                          <img
+                            src="https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg"
+                            alt=""
+                            className="h-[250px] w-[250px]"
+                          />
+                        )}
+                      </div>
+                      <div className="text-[#003168] font-bold text-lg px-2">
+                        {item.name.split(" - ")[0]}
+                      </div>
+                      <a
+                        href={`/{item.slug}`}
+                        className="w-auto flex justify-between items-center text-center border bg-[#e2e8f0] text-black px-8 py-1 rounded-md mx-auto"
+                      >
+                        View Profile
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </PageLayout>
