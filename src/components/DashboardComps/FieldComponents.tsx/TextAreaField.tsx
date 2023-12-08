@@ -6,8 +6,6 @@ interface TextAreaProps {
 }
 
 const TextArea = ({ initialValue, fieldId }: TextAreaProps) => {
-  console.log("entered tyrcy are");
-
   const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;

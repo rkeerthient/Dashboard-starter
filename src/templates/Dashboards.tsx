@@ -121,6 +121,9 @@ export const config: TemplateConfig = {
       "c_teamMembers.name",
       "c_teamMembers.slug",
       "c_teamMembers.photoGallery",
+      "c_associatedBlogs.name",
+      "c_associatedBlogs.slug",
+      "c_associatedBlogs.id",
     ],
     filter: {
       entityTypes: ["financialProfessional"],

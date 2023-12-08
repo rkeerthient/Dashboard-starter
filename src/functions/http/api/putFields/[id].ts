@@ -6,17 +6,17 @@ const putFields = async (
 ): Promise<SitesHttpResponse> => {
   const { method, pathParams, queryParams } = request;
 
-  const { entityId } = pathParams;
-  const api_key = import.meta.env.YEXT_PUBLIC_DEV_API_KEY as string;
+  const { id } = pathParams;
+  const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
 
   const { body, format } = queryParams;
 
-  if (!entityId) {
-    return { body: "Missing entityId", headers: {}, statusCode: 400 };
+  if (!id) {
+    return { body: "Missing id", headers: {}, statusCode: 400 };
   }
 
   const getEntitiesResponse = await fetch(
-    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${api_key}&v=20230601${
+    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${id}?api_key=${api_key}&v=20230601${
       format ? `&format=${format}` : ""
     }`,
     {

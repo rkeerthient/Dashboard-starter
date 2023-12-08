@@ -30,6 +30,7 @@ export interface Type {
   optionType: OptionType;
   stringType: StringType;
   decimalType: DecimalType;
+  entityReferenceType: EntityReferenceType;
 }
 export interface ListType {
   typeId: string;
@@ -51,5 +52,9 @@ export interface Option {
 }
 export interface StringType {
   stereotype: string;
+}
+export interface EntityReferenceType {
+  supportedEntityTypeIds: string[];
+  type: string;
 }
 export interface DecimalType {}
