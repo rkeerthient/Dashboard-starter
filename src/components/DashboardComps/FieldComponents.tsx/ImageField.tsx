@@ -12,7 +12,11 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
   const [isEditable, setIsEditable] = useState(false);
 
   const [imgUrls, setImgUrls] = useState<string[] | string>(
-    initialValue != null && initialValue.map((item: any) => item.url)
+    initialValue
+      ? isMulti
+        ? initialValue.map((item: any) => item.url)
+        : initialValue.url
+      : null
   );
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
   const handleClick = () => {
@@ -23,16 +27,17 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
     setImgUrls(
       isMulti
         ? imgUrls.filter((item: any, currentIndex: any) => item !== imgUrl)
-        : []
+        : null
     );
   };
   useEffect(() => {
-    setIsContentEdited(
-      JSON.stringify(imgUrls) !==
-        JSON.stringify(
-          initialValue && initialValue.map((item: any) => item.url)
-        )
-    );
+    isMulti &&
+      setIsContentEdited(
+        JSON.stringify(imgUrls) !==
+          JSON.stringify(
+            initialValue && initialValue.map((item: any) => item.url)
+          )
+      );
   }, [imgUrls, initialValue]);
 
   const handleSave = async () => {
@@ -47,9 +52,7 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
         })
       );
 
-      const response = await fetch(
-        `/api/fields/4635269/putFields?body=${requestBody}`
-      );
+      const response = await fetch(`/api/putFields?body=${requestBody}`);
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
@@ -132,7 +135,7 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
               <>
                 <div className="flex flex-col gap-4">
                   <>
-                    {imgUrls && imgUrls.length >= 1 ? (
+                    {isMulti && imgUrls && imgUrls.length >= 1 ? (
                       imgUrls.map((item: any, index: any) => {
                         return (
                           <div
