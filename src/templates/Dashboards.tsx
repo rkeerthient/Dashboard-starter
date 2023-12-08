@@ -298,7 +298,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     <>
       <PageLayout>
         <div className="space-y-4 bg-slate-200">
-          {/* <DBBanner name={name} headshot={headshot}></DBBanner>
+          <DBBanner name={name} headshot={headshot}></DBBanner>
           <div className="px-6">
             <div className="sm:hidden">
               <label htmlFor="tabs" className="sr-only">
@@ -433,7 +433,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
             </div>
           ) : (
             `Team View`
-          )} */}
+          )}
         </div>
       </PageLayout>
     </>
