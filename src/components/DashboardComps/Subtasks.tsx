@@ -3,50 +3,10 @@ import { useState } from "react";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import MarkdownView from "react-showdown";
 import UIPicker from "./UIPicker";
-import { Root } from "../../types/fieldSchema";
 
 const Subtasks = ({ subItem, document }: any) => {
-  const [isHover, setIsHover] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({});
-  const [isList, setIsList] = useState(false);
-  const [type, setType] = useState("");
-
-  const getFieldConfig = async (fieldId: string) => {
-    try {
-      const response = await fetch(`/api/fields/${fieldId}/getFields`);
-      let json: Root = await response.json();
-      json.response.typeId === "list" && setIsList(true);
-
-      if (
-        json.response.type.listType &&
-        json.response.type.listType.typeId.includes("c_") &&
-        response.ok
-      ) {
-        const listTypeResponse = await fetch(
-          `/api/fields/${json.response.type.listType.typeId}/getFieldTypes`
-        );
-
-        if (listTypeResponse.ok) {
-          json = await listTypeResponse.json();
-        } else {
-          console.error(
-            `Failed to fetch list type for field ${fieldId}: ${listTypeResponse.status}`
-          );
-        }
-      }
-      setData(json);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${fieldId}:`,
-        error
-      );
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div>
