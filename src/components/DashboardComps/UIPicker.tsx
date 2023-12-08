@@ -11,6 +11,7 @@ import TextBoxList from "./ListsUI/TextboxList";
 import ImageField from "./FieldComponents.tsx/ImageField";
 import RichTextField from "./FieldComponents.tsx/RichTextField";
 import TextArea from "./FieldComponents.tsx/TextAreaField";
+import EntityField from "./FieldComponents.tsx/EntityField";
 
 interface UIPickerProps {
   subItemField: string;
@@ -32,7 +33,6 @@ const UIPicker = ({
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(initialValue, subItemField, readonly);
 
   useEffect(() => {
     let isMounted = true;
@@ -40,7 +40,7 @@ const UIPicker = ({
     const getFieldConfig = async (fieldId: string) => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/fields/${fieldId}/getFields`);
+        const response = await fetch(`/api/getFields/${fieldId}`);
 
         if (!isMounted) {
           return;
@@ -54,7 +54,7 @@ const UIPicker = ({
           mainJson.response.type.listType.typeId.includes("c_")
         ) {
           const listTypeResponse = await fetch(
-            `/api/fields/${mainJson.response.type.listType.typeId}/getFieldTypes`
+            `/api/getFieldTypes/${mainJson.response.type.listType.typeId}`
           );
           if (!isMounted) {
             return;
@@ -243,6 +243,12 @@ const UIPicker = ({
                       "image" ? (
                       <ImageField
                         isMulti={true}
+                        initialValue={initialValue}
+                        fieldId={mainFieldSchema.response.$id}
+                      />
+                    ) : mainFieldSchema.response.type.listType.typeId ===
+                      "entityReference" ? (
+                      <EntityField
                         initialValue={initialValue}
                         fieldId={mainFieldSchema.response.$id}
                       />

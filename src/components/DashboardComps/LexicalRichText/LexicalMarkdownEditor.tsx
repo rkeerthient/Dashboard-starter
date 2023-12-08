@@ -107,7 +107,7 @@ const LexicalMarkdownEditor = ({
             <RichTextPlugin
               contentEditable={<ContentEditable className="editor-input" />}
               ErrorBoundary={LexicalErrorBoundary}
-              placeholder={<Placeholder />}
+              placeholder={<div />}
             />
             <OnChangePlugin
               onChange={(editorState) =>

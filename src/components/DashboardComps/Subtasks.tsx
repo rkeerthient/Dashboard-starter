@@ -7,7 +7,6 @@ import UIPicker from "./UIPicker";
 const Subtasks = ({ subItem, document }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(JSON.stringify(subItem));
 
   return (
     <div>
