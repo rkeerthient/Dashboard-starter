@@ -33,7 +33,6 @@ import PhotoUpload from "../components/DashboardComps/FieldComponents.tsx/PhotoU
 import TestEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
 import LexicalMarkdownEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
 import LexicalRichTextEditor from "../components/DashboardComps/LexicalRichText/LexicalRichTextEditor";
-import ImgbbUploader from "../components/ImgbbUploader";
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -119,7 +118,7 @@ export const config: TemplateConfig = {
       "c_taskGroups",
     ],
     filter: {
-      entityTypes: ["financialProfessional", "ce_dashboardEntity"],
+      entityTypes: ["financialProfessional"],
       savedFilterIds: ["1306250257"],
     },
     localization: {

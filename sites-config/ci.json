@@ -28,37 +28,37 @@
         "functionName": "PagesGenerator"
       },
       {
-        "pluginName": "getFields-51782",
+        "pluginName": "getFields-94324",
         "event": "API",
         "functionName": "default",
         "apiPath": "api/fields/{{fieldId}}/getFields",
         "sourceFiles": [
           {
-            "root": "dist/functions/getFields-51782",
+            "root": "dist/functions/getFields-94324",
             "pattern": "*{.js,.ts}"
           }
         ]
       },
       {
-        "pluginName": "getFieldTypes-19820",
+        "pluginName": "getFieldTypes-92806",
         "event": "API",
         "functionName": "default",
         "apiPath": "api/fields/{{fieldId}}/getFieldTypes",
         "sourceFiles": [
           {
-            "root": "dist/functions/getFieldTypes-19820",
+            "root": "dist/functions/getFieldTypes-92806",
             "pattern": "*{.js,.ts}"
           }
         ]
       },
       {
-        "pluginName": "putFields-00828",
+        "pluginName": "putFields-30018",
         "event": "API",
         "functionName": "default",
         "apiPath": "api/fields/{{entityId}}/putFields",
         "sourceFiles": [
           {
-            "root": "dist/functions/putFields-00828",
+            "root": "dist/functions/putFields-30018",
             "pattern": "*{.js,.ts}"
           }
         ]
