@@ -20,7 +20,6 @@ import {
 import * as React from "react";
 import "../index.css";
 import { useState } from "react";
-import { Switch } from "@headlessui/react";
 import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import DonutChart from "../components/DonutChart";
@@ -28,12 +27,10 @@ import SampleChart from "../components/SampleChart";
 import { SectionData } from "../components/SectionsData";
 import DBBanner from "../components/dbBanner";
 import PageLayout from "../components/page-layout";
-import CustomEditor from "../components/DashboardComps/LexicalRichText/LexicalRichTextEditor";
-import PhotoUpload from "../components/DashboardComps/FieldComponents.tsx/PhotoUpload";
-import TestEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
-import LexicalMarkdownEditor from "../components/DashboardComps/LexicalRichText/LexicalMarkdownEditor";
-import LexicalRichTextEditor from "../components/DashboardComps/LexicalRichText/LexicalRichTextEditor";
 import { Image } from "@yext/sites-components";
+import { getRuntime } from "@yext/pages/util";
+import { isLocal } from "../utils/isLocal";
+
 /**
  * Required when Knowledge Graph data is used for a template.
  */
@@ -162,7 +159,11 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
     ],
   };
 };
-
+declare global {
+  interface Window {
+    YEXT_AUTH: { visitor: { externalId: string } };
+  }
+}
 /**
  * This is the main template. It can have any name as long as it's the default export.
  * The props passed in here are the direct stream document defined by `config`.
@@ -173,58 +174,17 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
  * them in the src/templates folder as this is specific for true template files).
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
-  const {
-    slug,
-    id,
-    name,
-    meta,
-    c_attestation,
-    c_advisorNickname,
-    c_recognitionTitle,
-    c_jobTitle,
-    c_jobTitleAbbreviation,
-    c_titleDisplay,
-    c_clientFocuses,
-    c_aboutAdvisorShortDescription,
-    c_expertiseComments,
-    c_profileDelegates,
-    c_teamNameAndSite,
-    c_displayTeamName,
-    c_languagesV2,
-    mainPhone,
-    address,
-    emails,
-    c_registrations,
-    c_educationDisplay,
-    c_volunteeringDisplay,
-    c_organizationsDisplay,
-    c_awardsDashboard,
-    c_industryLevelOfExperience,
-    c_designations,
-    c_hobbiesAndInterests,
-    c_fAQs,
-    c_fAQs1,
-    c_assetRanges,
-    c_meetingPreference,
-    c_meetingPlacePreference,
-    c_inTouchPreference,
-    c_conversationPreference,
-    c_conversationFocus,
-    c_meetingTime,
-    c_disagreements,
-    c_recommendations,
-    c_charts,
-    c_introvertedOrExtroverted,
-    c_planning,
-    c_laidBack,
-    c_homeRepairs,
-    c_photoGallery,
-    c_matchFinderPhoto,
-    c_taskGroups,
-    c_preferredFirstName,
-    headshot,
-    c_teamMembers,
-  } = document;
+  const runtime = getRuntime();
+
+  // fetch user id from YEXT_AUTH or set it to the test account for local development
+  const userId = isLocal()
+    ? "2676513"
+    : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
+    ? window.YEXT_AUTH.visitor.externalId
+    : "";
+  console.log(userId);
+
+  const { headshot, c_teamMembers } = document;
 
   const data = [
     {
