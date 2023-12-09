@@ -37,7 +37,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
         })
       );
       const response = await fetch(
-        `/api/fields/4635269/putFields?body=${requestBody}&format=${
+        `/api/putFields/${`4635269`}?body=${requestBody}&format=${
           isJsonString(textValue) ? "html" : "markdown"
         }`
       );

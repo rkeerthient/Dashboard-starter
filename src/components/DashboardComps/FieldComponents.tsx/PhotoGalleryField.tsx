@@ -7,16 +7,12 @@ import {
 } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
-const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
+const PhotoField = ({ fieldId, initialValue }: any) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
 
-  const [imgUrls, setImgUrls] = useState<string[] | string>(
-    initialValue
-      ? isMulti
-        ? initialValue.map((item: any) => item.url)
-        : initialValue.url
-      : null
+  const [imgUrls, setImgUrls] = useState<string[]>(
+    initialValue && initialValue.map((item: any) => item.url)
   );
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
   const handleClick = () => {
@@ -25,34 +21,30 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
 
   const handleDelete = (imgUrl: string | string[]) => {
     setImgUrls(
-      isMulti
-        ? imgUrls.filter((item: any, currentIndex: any) => item !== imgUrl)
-        : null
+      imgUrls.filter((item: any, currentIndex: any) => item !== imgUrl)
     );
   };
   useEffect(() => {
-    isMulti &&
-      setIsContentEdited(
-        JSON.stringify(imgUrls) !==
-          JSON.stringify(
-            initialValue && initialValue.map((item: any) => item.url)
-          )
-      );
+    setIsContentEdited(
+      JSON.stringify(imgUrls) !==
+        JSON.stringify(
+          initialValue && initialValue.map((item: any) => item.url)
+        )
+    );
   }, [imgUrls, initialValue]);
 
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
-          [fieldId as string]: isMulti
-            ? imgUrls.map((item: any) => {
-                return { url: item };
-              })
-            : { url: imgUrls[0] },
+          [fieldId as string]: imgUrls.map((item: any) => {
+            return { url: item };
+          }),
         })
       );
-
-      const response = await fetch(`/api/putFields?body=${requestBody}`);
+      const response = await fetch(
+        `/api/putFields/${`4635269`}?body=${requestBody}`
+      );
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
@@ -75,7 +67,7 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
         {isEditable ? (
           <>
             <div className="flex flex-col gap-4">
-              {imgUrls.length ? (
+              {imgUrls.length &&
                 imgUrls.map((item: any, index: any) => {
                   return (
                     <div
@@ -97,30 +89,7 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
                       />
                     </div>
                   );
-                })
-              ) : (
-                <>
-                  {imgUrls ? (
-                    <div className="flex justify-between border-b pb-4">
-                      <div
-                        className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
-                      >
-                        <img
-                          src={item}
-                          className="  max-w-[160px] max-h-[160px] "
-                          alt=""
-                        />
-                      </div>
-                      <TrashIcon
-                        className="w-4 h-4 hover:cursor-pointer"
-                        onClick={() => handleDelete(item)}
-                      />
-                    </div>
-                  ) : (
-                    `Click here`
-                  )}
-                </>
-              )}
+                })}
               <button
                 className={`text-xs text-linkColor mr-auto`}
                 onClick={() => setOpen(true)}
@@ -134,46 +103,22 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
             {
               <>
                 <div className="flex flex-col gap-4">
-                  <>
-                    {isMulti && imgUrls && imgUrls.length >= 1 ? (
-                      imgUrls.map((item: any, index: any) => {
-                        return (
-                          <div
-                            key={index}
-                            className="w-[160px] flex flex-col justify-center h-[160px] border hover:border hover:border-fieldFocusBorder rounded-[3px] p-1"
-                          >
-                            <img
-                              src={item}
-                              className="  max-w-[160px] max-h-[160px] "
-                              alt=""
-                            />
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <>
-                        {imgUrls ? (
-                          <div className="flex justify-between border-b pb-4">
-                            <div
-                              className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
-                            >
-                              <img
-                                src={imgUrls}
-                                className="  max-w-[160px] max-h-[160px] "
-                                alt=""
-                              />
-                            </div>
-                            <TrashIcon
-                              className="w-4 h-4 hover:cursor-pointer"
-                              onClick={() => handleDelete(imgUrls)}
-                            />
-                          </div>
-                        ) : (
-                          `Click here`
-                        )}
-                      </>
-                    )}
-                  </>
+                  {imgUrls &&
+                    imgUrls.length >= 1 &&
+                    imgUrls.map((item: any, index: any) => {
+                      return (
+                        <div
+                          key={index}
+                          className="w-[160px] flex flex-col justify-center h-[160px] border hover:border hover:border-fieldFocusBorder rounded-[3px] p-1"
+                        >
+                          <img
+                            src={item}
+                            className="  max-w-[160px] max-h-[160px] "
+                            alt=""
+                          />
+                        </div>
+                      );
+                    })}
                 </div>
               </>
             }
@@ -222,11 +167,9 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
                   <div className="sm:flex sm:items-start">
                     <PhotoUpload
                       imgUrls={(newUrls) => {
-                        isMulti
-                          ? setImgUrls((prevUrls) => [...prevUrls, ...newUrls])
-                          : setImgUrls(newUrls);
+                        setImgUrls((prevUrls) => [...prevUrls, ...newUrls]);
                       }}
-                      multiple={isMulti}
+                      multiple={true}
                       isOpen={(val: boolean) => setOpen(val)}
                     />
                   </div>
@@ -258,4 +201,4 @@ const ImageField = ({ fieldId, initialValue, isMulti }: any) => {
   );
 };
 
-export default ImageField;
+export default PhotoField;

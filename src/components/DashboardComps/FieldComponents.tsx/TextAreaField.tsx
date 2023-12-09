@@ -25,7 +25,7 @@ const TextArea = ({ initialValue, fieldId }: TextAreaProps) => {
         })
       );
       const response = await fetch(
-        `/api/fields/4635269/putFields?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}`
       );
     } catch (error) {
       console.error(

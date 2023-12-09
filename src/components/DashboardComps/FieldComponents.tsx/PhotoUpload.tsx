@@ -2,7 +2,7 @@ import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 type PhotoUploadProps = {
-  imgUrls: (value: string[]) => void;
+  imgUrls: (value: string[] | string) => void;
   isOpen: (value: boolean) => void;
   multiple: boolean;
 };
@@ -35,7 +35,6 @@ const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
-
       const imgBBUrls = await Promise.all(
         (Array.isArray(files) ? files : [files]).map(async (item) => {
           const formData = new FormData();
@@ -64,7 +63,7 @@ const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
         })
       );
 
-      setUploadedUrl(imgBBUrls);
+      setUploadedUrl(multiple ? imgBBUrls : imgBBUrls[0]);
     } catch (error: any) {
       console.error("Error uploading images:", error.message);
     } finally {
