@@ -8,10 +8,11 @@ import MultiPicklistField from "./FieldComponents.tsx/MultiPicklistField";
 import StructTypeField from "../StructTypeField";
 import Slider from "./FieldComponents.tsx/Slider";
 import TextBoxList from "./ListsUI/TextboxList";
-import ImageField from "./FieldComponents.tsx/ImageField";
 import RichTextField from "./FieldComponents.tsx/RichTextField";
 import TextArea from "./FieldComponents.tsx/TextAreaField";
 import EntityField from "./FieldComponents.tsx/EntityField";
+import PhotoField from "./FieldComponents.tsx/PhotoField";
+import PhotoGalleryField from "./FieldComponents.tsx/PhotoGalleryField";
 
 interface UIPickerProps {
   subItemField: string;
@@ -216,7 +217,7 @@ const UIPicker = ({
                     );
                   case "image":
                     return (
-                      <ImageField
+                      <PhotoField
                         isMulti={false}
                         initialValue={initialValue}
                         fieldId={mainFieldSchema.response.$id}
@@ -241,7 +242,7 @@ const UIPicker = ({
                       />
                     ) : mainFieldSchema.response.type.listType.typeId ===
                       "image" ? (
-                      <ImageField
+                      <PhotoGalleryField
                         isMulti={true}
                         initialValue={initialValue}
                         fieldId={mainFieldSchema.response.$id}
