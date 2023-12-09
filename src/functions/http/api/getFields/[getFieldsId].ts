@@ -13,7 +13,7 @@ const getFields = async (
     return { body: "Method not allowed", headers: {}, statusCode: 405 };
   }
 
-  if (!getFieldsIds) {
+  if (!getFieldsId) {
     return { body: "Missing entityId", headers: {}, statusCode: 400 };
   }
 
