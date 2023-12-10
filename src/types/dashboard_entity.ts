@@ -24,6 +24,7 @@ export interface C_taskGroups {
 
 export default interface Ce_dashboardEntity {
 	richTextDescriptionV2?: any,
+	slug?: string,
 	name: string,
 	c_alternateDashboardHeroDescription?: any,
 	c_currentBRStaging?: string,

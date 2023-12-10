@@ -175,6 +175,7 @@ declare global {
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   const runtime = getRuntime();
+  console.log("enteres");
 
   // fetch user id from YEXT_AUTH or set it to the test account for local development
   const userId = isLocal()
