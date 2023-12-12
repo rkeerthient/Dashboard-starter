@@ -11,7 +11,6 @@ const putFields = async (
 
   const { body, format, userRole } = queryParams;
   let getEntitiesResponse;
-  console.log(JSON.stringify(buildBody(body, putFieldsId)));
 
   userRole !== "2676523"
     ? (getEntitiesResponse = await fetch(
