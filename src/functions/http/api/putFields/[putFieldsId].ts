@@ -10,7 +10,7 @@ const putFields = async (
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
   const { body, format, userRole } = queryParams;
   let getEntitiesResponse;
-  userRole !== "2676523"
+  userRole === "19718"
     ? (getEntitiesResponse = await fetch(
         `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?api_key=${api_key}&v=20230601${
           format ? `&format=${format}` : ""
