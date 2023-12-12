@@ -10,7 +10,6 @@ const putFields = async (
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
 
   const { body, format, userRole } = queryParams;
-  console.log(userRole + "--- 2676513");
   let getEntitiesResponse;
   console.log(JSON.stringify(buildBody(body, putFieldsId)));
 

@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import * as React from "react";
-import { useMyContext } from "../../Context/MyContext";
+import { useMyContext } from "../../context/MyContext";
 interface TextFieldProps {
   initialValue?: string;
   fieldId: string;

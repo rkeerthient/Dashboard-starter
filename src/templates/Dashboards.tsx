@@ -29,7 +29,7 @@ import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
 import { getRuntime } from "@yext/pages/util";
 import { isLocal } from "../utils/isLocal";
-import { useMyContext } from "../components/Context/MyContext";
+import { useMyContext } from "../components/context/MyContext";
 import { Main } from "../layout/main";
 
 /**
