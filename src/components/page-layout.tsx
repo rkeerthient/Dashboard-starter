@@ -25,17 +25,29 @@ const PageLayout = ({ _site, children }: Props) => {
   useEffect(() => {
     const getUserRole = async () => {
       try {
+        setIsLoading(true);
+
         const response = await fetch(`/api/users/${userId}`);
-        let userResp: UserProfile = await response.json();
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch user data: ${response.statusText}`);
+        }
+
+        const userResp: UserProfile = await response.json();
         console.log(JSON.stringify(userResp));
 
-        setUserRole(await userResp.acl[0].roleId);
-        setIsLoading(false);
+        if (userResp.acl && userResp.acl.length > 0 && userResp.acl[0].roleId) {
+          setUserRole(userResp.acl[0].roleId);
+        } else {
+          console.error("User data is incomplete or roleId is missing");
+        }
       } catch (error) {
-        console.log(`${JSON.stringify(error)}:`);
+        console.error(`Error: ${JSON.stringify(error)}`);
+      } finally {
+        setIsLoading(false);
       }
     };
-    setIsLoading(true);
+
     getUserRole();
   }, [userId]);
 
