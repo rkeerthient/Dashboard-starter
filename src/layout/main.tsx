@@ -1,7 +1,7 @@
 import { TemplateRenderProps } from "@yext/pages/*";
 import * as React from "react";
 import { TemplateDataProvider } from "../common/useTemplateData";
-import { MyContextProvider } from "../components/context/MyContext";
+import { MyContextProvider } from "../components/Context/MyContext";
 declare global {
   interface Window {
     YEXT_AUTH: { visitor: { externalId: string } };
