@@ -24,6 +24,8 @@ const PageLayout = ({ _site, children }: Props) => {
 
   useEffect(() => {
     const getUserRole = async () => {
+      console.log(userId);
+
       try {
         const response = await fetch(`/api/users/${userId}`);
         console.log(JSON.stringify(await response));
