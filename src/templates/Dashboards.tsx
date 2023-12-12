@@ -271,7 +271,12 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   return (
     <>
       <PageLayout _site={document._site}>
-        <div className="space-y-4 bg-slate-200">
+        <div
+          style={{
+            fontFamily: document.c_fonts.toLowerCase().replaceAll(" ", ""),
+          }}
+          className="space-y-4 bg-slate-200 "
+        >
           <DBBanner
             name={document.name}
             _site={document._site}

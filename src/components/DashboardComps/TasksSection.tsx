@@ -5,6 +5,8 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Subtasks from "./Subtasks";
 
 const TasksSection = ({ tasks, document }: any) => {
+  let bgColor = document.c_color;
+  bgColor ? bgColor : `#032169`;
   return (
     <>
       {tasks && (
@@ -16,11 +18,7 @@ const TasksSection = ({ tasks, document }: any) => {
                   <>
                     <Disclosure.Button
                       style={{
-                        background: `${
-                          document.c_color
-                            ? `bg-[${document.c_color}]`
-                            : `bg-headerBG`
-                        }`,
+                        background: bgColor,
                       }}
                       className={`flex w-full justify-start  px-4 py-2 text-left text-sm font-medium text-white`}
                     >

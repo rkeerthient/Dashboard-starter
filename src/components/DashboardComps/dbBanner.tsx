@@ -4,7 +4,6 @@ import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
 import { Image } from "../../types/financial_professionals";
 import RTF from "../RTF";
-import { twJoin, twMerge } from "tailwind-merge";
 export type Address = {
   line1: string;
   city: string;
@@ -23,20 +22,8 @@ type DBBanner = {
   color: string;
 };
 
-const renderPrettyAddress = (address?: Address) => {
-  return (
-    <>
-      {address && (
-        <span>
-          {address.line1} in {address.city}, {address.region}
-        </span>
-      )}
-    </>
-  );
-};
-
 const DBBanner = (props: DBBanner) => {
-  const { name, address, children, headshot, color = "#032169" } = props;
+  const { name, children, headshot, color = "#032169" } = props;
 
   return (
     <>
