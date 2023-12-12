@@ -183,11 +183,11 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   const runtime = getRuntime();
 
   // fetch user id from YEXT_AUTH or set it to the test account for local development
-  const userId = isLocal()
-    ? "2676513"
-    : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
-    ? window.YEXT_AUTH.visitor.externalId
-    : "";
+  // const userId = isLocal()
+  //   ? "2676513"
+  //   : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
+  //   ? window.YEXT_AUTH.visitor.externalId
+  //   : "";
 
   const { headshot, c_teamMembers } = document;
 
