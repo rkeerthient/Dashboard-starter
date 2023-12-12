@@ -3,6 +3,7 @@ import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
 import { Image } from "../types/financial_professionals";
+import RTF from "./RTF";
 
 export type Address = {
   line1: string;
@@ -18,6 +19,8 @@ type DBBanner = {
   openTime?: string;
   children?: React.ReactNode;
   headshot: Image;
+  _site?: any;
+  color: string;
 };
 
 const renderPrettyAddress = (address?: Address) => {
@@ -33,11 +36,15 @@ const renderPrettyAddress = (address?: Address) => {
 };
 
 const DBBanner = (props: DBBanner) => {
-  const { name, address, children, headshot } = props;
+  const { name, address, children, headshot, color } = props;
 
   return (
     <>
-      <div className="bg-[#032169]  text-white p-4 flex items-center justify-center flex-row space-x-20 w-full">
+      <div
+        className={`bg-[${
+          color || "#032169"
+        }] text-white p-4 flex items-center justify-center flex-row space-x-20 w-full`}
+      >
         <div className="flex items-center flex-row  gap-4">
           <div>
             {headshot && (
@@ -49,20 +56,16 @@ const DBBanner = (props: DBBanner) => {
               Welcome, {name?.split("-")[0]}!
             </div>
             <div>
-              Welcome to your dashboard – your one-stop-shop to set up and
-              manage your online profile for Merrill Advisor Match. Complete all
-              required fields in each section below to become discoverable. Once
-              edited, all changes will route for approval. For status of your
-              enrollment, review the indicator on the right. For any questions,
-              please contact rbcsupport@yext.com, or call 1-866-226-1723 between
-              9AM-5PM EST, Monday-Friday.
+              {props._site.c_dashboardHeroDescription && (
+                <RTF>{props._site.c_dashboardHeroDescription}</RTF>
+              )}
             </div>
             <div className="flex gap-4">
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">
-                Scott A'Hweam
+                {props.name?.split("-")[0]}
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
-                Preview your Match page
+                {props._site.c_dashboardPagesURLText}
               </div>
             </div>
           </div>

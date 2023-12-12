@@ -13,6 +13,7 @@ import TextArea from "./FieldComponents.tsx/TextAreaField";
 import EntityField from "./FieldComponents.tsx/EntityField";
 import PhotoField from "./FieldComponents.tsx/PhotoField";
 import PhotoGalleryField from "./FieldComponents.tsx/PhotoGalleryField";
+import ColorPickerField from "./FieldComponents.tsx/ColorPickerField";
 
 interface UIPickerProps {
   subItemField: string;
@@ -165,8 +166,13 @@ const UIPicker = ({
                   case "string":
                     return (
                       <>
-                        {mainFieldSchema.response.type.stringType.stereotype ===
-                        "SIMPLE" ? (
+                        {subItemField === "c_color" ? (
+                          <ColorPickerField
+                            initialValue={initialValue}
+                            fieldId={mainFieldSchema.response.$id}
+                          />
+                        ) : mainFieldSchema.response.type.stringType
+                            .stereotype === "SIMPLE" ? (
                           <TextField
                             initialValue={initialValue}
                             fieldId={mainFieldSchema.response.$id}

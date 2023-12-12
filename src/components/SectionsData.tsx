@@ -1,15 +1,12 @@
 export const SectionData = [
   {
-    description:
-      "Please review the attestation below and confirm your agreement in order to receive leads from Advisor Match.",
-    name: "Blohgs test",
+    description: "Add or remove existing blogs liked to the accont",
+    name: "Blogs",
     tasks: [
       {
         readonly: false,
         field: "c_associatedBlogs",
         name: "Blogs",
-        question:
-          'To participate in receiving leads from the Advisor Match Program , you must read and agree to be bound by the <a href="http://policy.bankofamerica.com/content/vcm/static/pmt08020001/GWIM%20Procedure%20Manuals/MLWM%20US%20Procedure%20Manual/Misc%20Processing/DefinedProgramForTheDistributionOfLeadsAndReferralsToGWIM.pdf" target="_blank"> Lead-Referral Distribution Program Policy Document </a>and the <a href="http://resourcecentral.bankofamerica.com/GrowthandAcquisitionDocuments/Bank%20Referral%20Program_Terms_and_Conditions_07-10-2020.pdf" target="_blank">Agreement for Participation in Bank Referral Programs</a> (the "Terms and Conditions" document). You have an obligation to determine the most suitable solution for each prospect/client by assessing client needs, client preference for advice, and client investable asset level. Prospects/clients who prefer a self-directed solution or an advised solution with limited oversight should be referred to Consumer Investments.\n\nIn addition, you agree to 1) attempt to contact the lead within 48 hours and 2) update the ‘Lead Status” field within Salesforce after attempting initial contact.\n\nSelect “I agree” if you have reviewed the materials and understand your obligations.',
       },
     ],
   },

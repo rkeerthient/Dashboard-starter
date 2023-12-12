@@ -1,36 +1,31 @@
+import { useState, ChangeEvent } from "react";
 import * as React from "react";
-import { ChangeEvent, useState } from "react";
-
-type SliderProps = {
-  value: number;
-  highLabel?: string;
-  lowLabel?: string;
+interface ColorPickerFieldProps {
+  initialValue?: string;
   fieldId: string;
-};
+}
 
-const Slider = ({ value = 0, highLabel, lowLabel, fieldId }: SliderProps) => {
-  const initValue: number = parseInt(value);
-
-  const [rangeValue, setRangeValue] = useState<number | undefined>(value);
+const ColorPickerField = ({ initialValue, fieldId }: ColorPickerFieldProps) => {
+  const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
-  const isContentEdited = rangeValue !== initValue;
+  const isContentEdited = textValue !== initialValue;
 
   const handleClick = () => {
-    // setIsEditable(true);
+    setIsEditable(true);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // setTextValue(event.target.value);
+    setTextValue(event.target.value);
   };
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
-          [fieldId as string]: rangeValue?.toString(),
+          [fieldId as string]: textValue,
         })
       );
       const response = await fetch(
-        `/api/fields/4635269/putFields?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}`
       );
     } catch (error) {
       console.error(
@@ -41,25 +36,29 @@ const Slider = ({ value = 0, highLabel, lowLabel, fieldId }: SliderProps) => {
     setIsEditable(false);
   };
   const handleCancel = () => {
-    // Add your save logic here
     setIsEditable(false);
   };
   return (
-    <div className="flex flex-col gap-1">
-      <input
-        type="range"
-        min={0}
-        max={100}
-        className="w-full"
-        value={rangeValue}
-        onChange={(e) => {
-          setIsEditable(true), setRangeValue(parseInt(e.target.value));
-        }}
-      />
-      <div className="flex justify-between">
-        <label className="text-sm italic">{lowLabel}</label>
-        <label className="text-sm italic">{highLabel}</label>
-      </div>
+    <div
+      className={`w-full px-4 py-3 ${
+        isEditable ? `bg-containerBG` : `bg-transparent`
+      }`}
+    >
+      {isEditable ? (
+        <>
+          <input
+            className="border w-full p-1"
+            type="color"
+            value={textValue || ""}
+            onChange={handleChange}
+            readOnly={!isEditable}
+          />
+        </>
+      ) : (
+        <div onClick={handleClick} className="hover:cursor-pointer">
+          {textValue || "Click to add"}
+        </div>
+      )}
       {isEditable && (
         <div className="flex w-full gap-2 text-xs pt-2 font-bold">
           <button
@@ -82,4 +81,4 @@ const Slider = ({ value = 0, highLabel, lowLabel, fieldId }: SliderProps) => {
   );
 };
 
-export default Slider;
+export default ColorPickerField;

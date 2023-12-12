@@ -24,7 +24,7 @@ import {
 } from "@lexical/markdown";
 
 export interface LexicalMarkdownEditorProps {
-  serializedAST: string | object | undefined;
+  serializedAST: string | object;
   nodeClassNames?: EditorThemeClasses;
   editable?: boolean;
   isContentEdited?: (value: boolean) => void;
@@ -38,7 +38,7 @@ const LexicalMarkdownEditor = ({
   isContentEdited,
   setChangedData,
 }: LexicalMarkdownEditorProps) => {
-  const editorStateRef = useRef<EditorState | null>(null);
+  const editorStateRef = useRef<EditorState | null>("");
   const [initJson, setInitJson] = useState<any>();
   TRANSFORMERS.push({
     format: ["underline"],
@@ -81,26 +81,33 @@ const LexicalMarkdownEditor = ({
     editorState.read(() => {
       const markdown = $convertToMarkdownString(TRANSFORMERS);
       const json = editorState.toJSON();
-      !initJson && setInitJson(json);
-      const updatedContent = editorState.toJSON();
 
+      if (!initJson) {
+        setInitJson(json);
+      }
+
+      const updatedContent = editorState.toJSON();
       const contentEdited =
         JSON.stringify(initJson) !== JSON.stringify(updatedContent);
 
       if (isContentEdited) {
         isContentEdited(contentEdited);
+      }
+
+      if (setChangedData) {
         setChangedData(markdown);
       }
     });
   };
 
   return (
-    <div className={`${editable && `border`}`}>
+    <div className={`w-full ${editable && `border`}`}>
       <LexicalComposer
         initialConfig={generateConfig(serializedAST, nodeClassNames)}
       >
-        <span className={`${editable ? `block` : `hidden`}`}>
+        <span className={`${editable ? `block  ` : `hidden`}`}>
           <ToolbarPlugin />
+          <hr />
         </span>
         {editable ? (
           <>

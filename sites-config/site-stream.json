@@ -1,10 +1,22 @@
 {
   "$id": "site-entity",
   "filter": {
-    "entityIds": ["7089236598532783488"]
+    "entityIds": ["1177218108959968853"]
   },
   "source": "knowledgeGraph",
-  "fields": ["name"],
+  "fields": [
+    "name",
+    "c_deskHeader",
+    "c_deskFooter",
+    "c_templateBBanner",
+    "c_brandLogo",
+    "c_taskGroups",
+    "c_templateABanner",
+    "c_dashboardPagesURLText",
+    "c_dashboardCompletionLabel",
+    "c_dashboardCompletionDescription",
+    "c_dashboardHeroDescription"
+  ],
   "localization": {
     "locales": ["en"],
     "primary": false

@@ -119,8 +119,15 @@ export const config: TemplateConfig = {
       "c_teamMembers.slug",
       "c_teamMembers.photoGallery",
       "c_associatedBlogs.name",
+      "c_associatedBlogs.c_body",
       "c_associatedBlogs.slug",
       "c_associatedBlogs.id",
+      "c_associatedBlogs.photoGallery",
+      "c_associatedBlogs.c_category",
+      "c_associatedBlogs.landingPageUrl",
+      "c_color",
+      "c_font",
+      "c_heroBanner",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
@@ -175,7 +182,6 @@ declare global {
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   const runtime = getRuntime();
-  console.log("enteres");
 
   // fetch user id from YEXT_AUTH or set it to the test account for local development
   const userId = isLocal()
@@ -183,7 +189,6 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
-  console.log(userId);
 
   const { headshot, c_teamMembers } = document;
 
@@ -266,9 +271,14 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   }
   return (
     <>
-      <PageLayout>
+      <PageLayout _site={document._site}>
         <div className="space-y-4 bg-slate-200">
-          <DBBanner name={name} headshot={headshot}></DBBanner>
+          <DBBanner
+            name={document.name}
+            _site={document._site}
+            headshot={document.headshot}
+            color={document.c_color}
+          ></DBBanner>
           <div className="px-6">
             <div className="sm:hidden">
               <label htmlFor="tabs" className="sr-only">
@@ -312,19 +322,17 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
             <div className="px-4 flex flex-row w-full gap-2">
               <div className="w-3/5">
                 <TasksSection
-                  tasks={SectionData}
+                  tasks={document._site.c_taskGroups}
                   document={document}
                 ></TasksSection>
               </div>
               <div className="w-2/5 flex flex-col gap-4">
                 <div className="flex flex-col gap-4 p-5  bg-white">
                   <div className="font-bold text-gray-900">
-                    Your Advisor Match Profile Progress
+                    {document._site.c_dashboardCompletionLabel}
                   </div>
                   <div className="text-gray-900">
-                    In order to participate in Merrill Advisor Match, your
-                    profile must be 100% complete. Please fill out all required
-                    fields – these are marked with an *asterisk*.
+                    {document._site.c_dashboardCompletionDescription}
                   </div>
                   <SampleChart></SampleChart>
                 </div>
@@ -404,7 +412,9 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
           ) : (
             <div className="border m-4 p-4 bg-white space-y-4">
               <div className="text-2xl font-bold text-[#003168]">
-                {c_displayTeamName ? c_displayTeamName : `Team name`}
+                {document.c_displayTeamName
+                  ? document.c_displayTeamName
+                  : `Team name`}
               </div>
               <div className=" font-medium text-[#003168]">
                 A team is defined as a group of people who perform

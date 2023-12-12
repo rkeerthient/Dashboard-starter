@@ -39,8 +39,6 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
   }, [imgUrls, initialValue]);
 
   const handleSave = async () => {
-    console.log(imgUrls);
-
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({

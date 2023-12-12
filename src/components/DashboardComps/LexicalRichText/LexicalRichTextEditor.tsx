@@ -94,6 +94,7 @@ const LexicalRichTextEditor = ({
       >
         <span className={`${editable ? `block` : `hidden`} border-b`}>
           <ToolbarPlugin />
+          <hr />
         </span>
         {editable ? (
           <>

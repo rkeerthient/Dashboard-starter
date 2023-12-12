@@ -1,42 +1,58 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import * as React from "react";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
+import Ce_blog from "../../../types/blog";
+import PhotoGalleryField from "./PhotoGalleryField";
 interface EntityFieldProps {
-  initialValue?: string;
+  initialValue?: Ce_blog[];
   fieldId: string;
 }
 
-const EntityField = ({ initialValue, fieldId }: EntityFieldProps) => {
-  const [textValue, setTextValue] = useState<string>(initialValue);
+const EntityField = ({ initialValue }: EntityFieldProps) => {
+  const [blogPosts, setBlogPosts] = useState<Ce_blog[]>(initialValue || []);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState(false);
-  const isContentEdited = textValue !== initialValue;
   const [open, setOpen] = useState<boolean>(false);
+  const [newBlog, setNewBlog] = useState<Ce_blog>({});
   const handleClick = () => {
     setIsEditable(true);
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTextValue(event.target.value);
-  };
   const handleSave = async () => {
+    setIsLoading(true);
+
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
-          [fieldId as string]: textValue,
+          ...newBlog,
+          c_associatedBlogs: ["4635269"],
         })
       );
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
-      );
+
+      const response = await fetch(`/api/createEntity?body=${requestBody}`);
+      const resp = await response.json();
+      const buildRespJson = {
+        c_category: await resp.response.c_category,
+        name: await resp.response.name,
+        id: await resp.response.meta.id,
+      };
+      resp &&
+        buildRespJson &&
+        setBlogPosts((prevPosts: any) => {
+          return [...prevPosts, buildRespJson];
+        });
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
         error
       );
+    } finally {
+      setIsEditable(false);
+      setOpen(false);
+      setIsLoading(false);
     }
-    setIsEditable(false);
   };
   const handleCancel = () => {
     setOpen(false);
@@ -49,29 +65,30 @@ const EntityField = ({ initialValue, fieldId }: EntityFieldProps) => {
           isEditable ? `bg-containerBG` : `bg-transparent`
         }`}
       >
+        {isLoading && <div>isLoading...</div>}
         {isEditable ? (
           <>
             <div className="space-y-2">
-              {textValue.map((item, index) => (
-                <div className="flex flex-col">
+              {blogPosts.map((item, index) => (
+                <div className="flex flex-col" key={index}>
                   <div className="font-bold">{item.name}</div>
                   <div className="text-sm">{item.id}</div>
                 </div>
               ))}
             </div>
             <div
-              className={`text-xs text-linkColor mt-2`}
+              className={`text-sm text-linkColor mt-2 hover:cursor-pointer`}
               onClick={() => setOpen(true)}
             >
-              Add blog
+              + Add blog
             </div>
           </>
         ) : (
           <div onClick={handleClick} className="hover:cursor-pointer">
-            {(textValue && (
+            {(blogPosts && (
               <div className="space-y-2">
-                {textValue.map((item, index) => (
-                  <div className="flex flex-col">
+                {blogPosts.map((item, index) => (
+                  <div className="flex flex-col" key={index}>
                     <div className="font-bold">{item.name}</div>
                     <div className="text-sm">{item.id}</div>
                   </div>
@@ -79,24 +96,6 @@ const EntityField = ({ initialValue, fieldId }: EntityFieldProps) => {
               </div>
             )) ||
               "Click to add"}
-          </div>
-        )}
-        {isEditable && (
-          <div className="flex w-full gap-2 text-xs pt-2 font-bold">
-            <button
-              onClick={handleSave}
-              disabled={!isContentEdited}
-              className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-                !isContentEdited
-                  ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                  : `border-fieldAndBorderBGGrayColor bg-active text-white`
-              }`}
-            >
-              Save for 1 Profile
-            </button>
-            <button onClick={handleCancel} className={`text-xs text-linkColor`}>
-              Cancel
-            </button>
           </div>
         )}
       </div>
@@ -138,35 +137,147 @@ const EntityField = ({ initialValue, fieldId }: EntityFieldProps) => {
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
-                  <div className="p-8">
+                  <div className="p-8 text-sm">
                     <div className="flex flex-col gap-6">
                       <div className="text-xl font-bold">New Blog</div>
-                      <div>
-                        <input
-                          type="text"
-                          className="border"
-                          placeholder="enter blog title"
-                        />
+
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Name</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <input
+                            type="text"
+                            className="border w-full p-1"
+                            onChange={(e) =>
+                              setNewBlog({
+                                ...newBlog,
+                                name: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <LexicalMarkdownEditor
-                          serializedAST={""}
-                          editable={true}
-                        ></LexicalMarkdownEditor>
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Landing page Url</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <input
+                            type="text"
+                            className="border w-full p-1"
+                            onChange={(e) =>
+                              setNewBlog({
+                                ...newBlog,
+                                landingPageUrl: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Category</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <input
+                            type="text"
+                            className="border w-full p-1"
+                            onChange={(e) =>
+                              setNewBlog({
+                                ...newBlog,
+                                c_category: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>PhotoGallery</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <PhotoGalleryField
+                            passDataToParent={true}
+                            setUrlData={(urlData: string[]) =>
+                              setNewBlog((prevNewBlog: any) => ({
+                                ...prevNewBlog,
+                                photoGallery: urlData.map((url) => ({
+                                  image: {
+                                    url: url,
+                                  },
+                                })),
+                              }))
+                            }
+                            editMode={true}
+                            fieldId={""}
+                            initialValue={undefined}
+                          ></PhotoGalleryField>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Date posted</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <input
+                            type="text"
+                            className="border w-full p-1"
+                            onChange={(e) =>
+                              setNewBlog({
+                                ...newBlog,
+                                c_datePublished: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Body</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <LexicalMarkdownEditor
+                            serializedAST={""}
+                            editable={true}
+                            setChangedData={(richText: string) => {
+                              setNewBlog({
+                                ...newBlog,
+                                c_body: richText,
+                              });
+                            }}
+                          ></LexicalMarkdownEditor>
+                        </div>
                       </div>
                     </div>
                     <div className="flex mt-6 gap-3">
-                      <button
-                        onClick={handleSave}
-                        disabled={!isContentEdited}
-                        className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-                          !isContentEdited
-                            ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                            : `border-fieldAndBorderBGGrayColor bg-active text-white`
-                        }`}
-                      >
-                        Save for 1 Profile
-                      </button>
+                      <button onClick={handleSave}>Continue</button>
                       <button
                         onClick={handleCancel}
                         className={`text-xs text-linkColor`}

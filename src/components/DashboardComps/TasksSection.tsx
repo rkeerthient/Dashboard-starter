@@ -14,7 +14,13 @@ const TasksSection = ({ tasks, document }: any) => {
               <Disclosure className="border-4">
                 {({ open }) => (
                   <>
-                    <Disclosure.Button className="flex w-full justify-start bg-headerBG px-4 py-2 text-left text-sm font-medium text-white">
+                    <Disclosure.Button
+                      className={`${
+                        document.c_color
+                          ? `bg-[${document.c_color}]`
+                          : `bg-headerBG`
+                      } flex w-full justify-start  px-4 py-2 text-left text-sm font-medium text-white`}
+                    >
                       <div className="flex flex-col gap-2">
                         <div className="flex gap-4 text-xl">
                           <div>{item.name}</div>

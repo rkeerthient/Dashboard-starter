@@ -1,15 +1,25 @@
 import * as React from "react";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  ExclamationTriangleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
-const PhotoField = ({ fieldId, initialValue }: any) => {
+interface PhotoGalleryFieldProps {
+  fieldId?: string;
+  initialValue?: any;
+  passDataToParent?: boolean;
+  setUrlData?: (urlData: string[]) => void;
+  editMode?: boolean;
+}
+const PhotoGalleryField = ({
+  fieldId,
+  initialValue,
+  passDataToParent = false,
+  setUrlData,
+  editMode = false,
+}: PhotoGalleryFieldProps) => {
   const [open, setOpen] = useState(false);
-  const [isEditable, setIsEditable] = useState(false);
+  const [isEditable, setIsEditable] = useState(editMode);
 
   const [imgUrls, setImgUrls] = useState<string[]>(
     initialValue && initialValue.map((item: any) => item.url)
@@ -25,6 +35,7 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
     );
   };
   useEffect(() => {
+    passDataToParent && imgUrls && setUrlData(imgUrls);
     setIsContentEdited(
       JSON.stringify(imgUrls) !==
         JSON.stringify(
@@ -51,23 +62,27 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
         error
       );
     }
+
     setIsEditable(false);
   };
   const handleCancel = () => {
-    setImgUrls(initialValue.map((item: any) => item.url));
+    initialValue
+      ? setImgUrls(initialValue.map((item: any) => item.url))
+      : setImgUrls([]);
     setIsEditable(false);
   };
   return (
     <>
       <div
         className={`w-full px-4 py-3  max-h-96 overflow-scroll ${
-          isEditable ? `bg-containerBG` : `bg-transparent`
+          !editMode && isEditable ? `bg-containerBG` : `bg-transparent`
         }`}
       >
         {isEditable ? (
           <>
             <div className="flex flex-col gap-4">
-              {imgUrls.length &&
+              {imgUrls &&
+                imgUrls.length &&
                 imgUrls.map((item: any, index: any) => {
                   return (
                     <div
@@ -103,7 +118,7 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
             {
               <>
                 <div className="flex flex-col gap-4">
-                  {imgUrls &&
+                  {imgUrls ? (
                     imgUrls.length >= 1 &&
                     imgUrls.map((item: any, index: any) => {
                       return (
@@ -118,7 +133,10 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
                           />
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <div>Clck here!</div>
+                  )}
                 </div>
               </>
             }
@@ -167,7 +185,10 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
                   <div className="sm:flex sm:items-start">
                     <PhotoUpload
                       imgUrls={(newUrls) => {
-                        setImgUrls((prevUrls) => [...prevUrls, ...newUrls]);
+                        setImgUrls((prevUrls: string[] | undefined) => [
+                          ...(prevUrls || []),
+                          ...newUrls,
+                        ]);
                       }}
                       multiple={true}
                       isOpen={(val: boolean) => setOpen(val)}
@@ -179,7 +200,7 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
           </div>
         </Dialog>
       </Transition.Root>
-      {isEditable && (
+      {!editMode && isEditable && (
         <div className="flex w-full gap-2 text-xs pt-2 font-bold">
           <button
             onClick={handleSave}
@@ -201,4 +222,4 @@ const PhotoField = ({ fieldId, initialValue }: any) => {
   );
 };
 
-export default PhotoField;
+export default PhotoGalleryField;

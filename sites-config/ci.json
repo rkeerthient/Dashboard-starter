@@ -28,37 +28,61 @@
         "functionName": "PagesGenerator"
       },
       {
-        "pluginName": "id-02813",
+        "pluginName": "getSuggestions-45848",
         "event": "API",
         "functionName": "default",
-        "apiPath": "api/putFields/{{id}}",
+        "apiPath": "api/getSuggestions",
         "sourceFiles": [
           {
-            "root": "dist/functions/id-02813",
+            "root": "dist/functions/getSuggestions-45848",
             "pattern": "*{.js,.ts}"
           }
         ]
       },
       {
-        "pluginName": "id-75958",
+        "pluginName": "createEntity-04110",
         "event": "API",
         "functionName": "default",
-        "apiPath": "api/getFields/{{id}}",
+        "apiPath": "api/createEntity",
         "sourceFiles": [
           {
-            "root": "dist/functions/id-75958",
+            "root": "dist/functions/createEntity-04110",
             "pattern": "*{.js,.ts}"
           }
         ]
       },
       {
-        "pluginName": "id-61488",
+        "pluginName": "putFieldsId-82619",
         "event": "API",
         "functionName": "default",
-        "apiPath": "api/getFieldTypes/{{id}}",
+        "apiPath": "api/putFields/{{putFieldsId}}",
         "sourceFiles": [
           {
-            "root": "dist/functions/id-61488",
+            "root": "dist/functions/putFieldsId-82619",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
+      },
+      {
+        "pluginName": "getFieldsId-45509",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/getFields/{{getFieldsId}}",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/getFieldsId-45509",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
+      },
+      {
+        "pluginName": "getFieldTypesId-69221",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/getFieldTypes/{{getFieldTypesId}}",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/getFieldTypesId-69221",
             "pattern": "*{.js,.ts}"
           }
         ]
