@@ -28,18 +28,6 @@
         "functionName": "PagesGenerator"
       },
       {
-        "pluginName": "getSuggestions-45848",
-        "event": "API",
-        "functionName": "default",
-        "apiPath": "api/getSuggestions",
-        "sourceFiles": [
-          {
-            "root": "dist/functions/getSuggestions-45848",
-            "pattern": "*{.js,.ts}"
-          }
-        ]
-      },
-      {
         "pluginName": "createEntity-04110",
         "event": "API",
         "functionName": "default",

@@ -273,7 +273,9 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
       <PageLayout _site={document._site}>
         <div
           style={{
-            fontFamily: document.c_fonts.toLowerCase().replaceAll(" ", ""),
+            fontFamily:
+              document.c_fonts &&
+              document.c_fonts.toLowerCase().replaceAll(" ", ""),
           }}
           className="space-y-4 bg-slate-200 "
         >
