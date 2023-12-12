@@ -14,7 +14,7 @@ type Props = {
 const PageLayout = ({ _site, children }: Props) => {
   const runtime = getRuntime();
   const { setUserRole } = useMyContext();
-  console.log("entered" + JSON.stringify(window.YEXT_AUTH));
+  console.log("entered" + JSON.stringify(window?.YEXT_AUTH));
 
   const userId = isLocal()
     ? "2676513"
@@ -25,7 +25,6 @@ const PageLayout = ({ _site, children }: Props) => {
   useEffect(() => {
     const getUserRole = async () => {
       console.log(userId);
-
       try {
         const response = await fetch(`/api/users/${userId}`);
         console.log(JSON.stringify(await response.json()));
