@@ -11,7 +11,7 @@ const putFields = async (
 
   const { body, format, userRole } = queryParams;
   let getEntitiesResponse;
-
+  console.log(userRole + "--");
   userRole !== "2676523"
     ? (getEntitiesResponse = await fetch(
         `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?api_key=${api_key}&v=20230601${
