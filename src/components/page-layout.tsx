@@ -24,17 +24,15 @@ const PageLayout = ({ _site, children }: Props) => {
 
   useEffect(() => {
     const getUserRole = async () => {
-      console.log(userId);
       try {
         const response = await fetch(`/api/users/${userId}`);
         let userResp: UserProfile = await response.json();
-        setUserRole(userResp.acl[0].roleId);
+        console.log(JSON.stringify(userResp));
+
+        setUserRole(await userResp.acl[0].roleId);
         setIsLoading(false);
       } catch (error) {
-        console.error(
-          `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-          error
-        );
+        console.log(`${JSON.stringify(error)}:`);
       }
     };
     setIsLoading(true);
