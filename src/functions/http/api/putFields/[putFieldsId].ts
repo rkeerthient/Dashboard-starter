@@ -22,7 +22,7 @@ const putFields = async (
           headers: {
             "Content-Type": "application/json",
           },
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify(buildBody(body, putFieldsId)),
         }
       ))
