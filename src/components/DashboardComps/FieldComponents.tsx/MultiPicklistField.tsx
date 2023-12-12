@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useMyContext } from "../../Context/MyContext";
 
 interface MultiPicklistFieldProps {
   initialValue?: string | undefined;
@@ -22,6 +23,7 @@ const MultiPicklistField = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState(false);
   const [initVals, setInitVals] = useState<Option[]>([]);
+  const { userRole } = useMyContext();
   useEffect(() => {
     const initialCheckboxes = options.map((checkbox) => ({
       ...checkbox,
@@ -69,7 +71,7 @@ const MultiPicklistField = ({
     );
     try {
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
     } catch (error) {
       console.error(

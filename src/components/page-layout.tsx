@@ -23,34 +23,15 @@ const PageLayout = ({ _site, children }: Props) => {
     : "";
 
   useEffect(() => {
+    setIsLoading(true);
     const getUserRole = async () => {
       try {
-        setIsLoading(true);
-
         const response = await fetch(`/api/users/${userId}`);
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user data: ${response.statusText}`);
-        }
-
-        const userResp: UserProfile = await response.json();
-        console.log(JSON.stringify(userResp));
-
-        try {
-          if (
-            userResp.acl &&
-            userResp.acl.length > 0 &&
-            userResp.acl[0].roleId
-          ) {
-            setUserRole(userResp.acl[0].roleId);
-          } else {
-            console.error("User data is incomplete or roleId is missing");
-          }
-        } catch (error) {
-          console.error(`Error processing user data: ${JSON.stringify(error)}`);
-        }
-      } catch (error) {
-        console.error(`Error fetching user data: ${JSON.stringify(error)}`);
+        const userResp = await response.json();
+        const userString: UserProfile = await userResp.response;
+        setUserRole(await userString.acl[0].roleId);
+      } catch (error: any) {
+        console.log(`Error fetching user data: ${JSON.stringify(error)}`);
       } finally {
         setIsLoading(false);
       }
@@ -62,6 +43,7 @@ const PageLayout = ({ _site, children }: Props) => {
   return (
     <div className="min-h-screen">
       <Header _site={_site} />
+
       {isLoading ? (
         <div
           className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"

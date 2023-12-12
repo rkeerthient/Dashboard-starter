@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useMyContext } from "../../Context/MyContext";
 interface PicklistFieldProps {
   initialValue: string | undefined;
   options: Option[];
@@ -19,7 +20,7 @@ const PicklistField = ({
   const [selectedItem, setSelectedItem] = useState<Option | null>(null);
   const isContentEdited = selectedItem?.textValue !== initialValue;
   const [isEditable, setIsEditable] = useState(false);
-
+  const { userRole } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };
@@ -42,7 +43,7 @@ const PicklistField = ({
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
     } catch (error) {
       console.error(

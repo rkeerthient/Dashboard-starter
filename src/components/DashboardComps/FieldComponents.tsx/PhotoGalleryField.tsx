@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
+import { useMyContext } from "../../Context/MyContext";
 interface PhotoGalleryFieldProps {
   fieldId?: string;
   initialValue?: any;
@@ -20,7 +21,7 @@ const PhotoGalleryField = ({
 }: PhotoGalleryFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(editMode);
-
+  const { userRole } = useMyContext();
   const [imgUrls, setImgUrls] = useState<string[]>(
     initialValue && initialValue.map((item: any) => item.url)
   );
@@ -54,7 +55,7 @@ const PhotoGalleryField = ({
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
     } catch (error) {
       console.error(

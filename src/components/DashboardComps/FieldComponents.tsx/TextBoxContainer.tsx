@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as React from "react";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
+import { useMyContext } from "../../Context/MyContext";
 
 interface Option {
   displayName: string;
@@ -82,7 +83,7 @@ const TextBoxContainer = ({
   const [showSaveButtons, setShowSaveButtons] = useState<boolean>(false);
   const [initBlocks, setInitBlocks] = useState<Block[]>([]);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
-
+  const { userRole } = useMyContext();
   const booleanData = [
     {
       displayName: "Yes",
@@ -357,7 +358,7 @@ const TextBoxContainer = ({
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}${
           richFormat.length ? `&format=${richFormat}` : ""
-        }`
+        }&userRole=${userRole}`
       );
     } catch (error) {
       console.error(

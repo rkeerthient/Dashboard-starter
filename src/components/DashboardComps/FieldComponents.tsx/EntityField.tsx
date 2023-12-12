@@ -5,6 +5,7 @@ import * as React from "react";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
 import Ce_blog from "../../../types/blog";
 import PhotoGalleryField from "./PhotoGalleryField";
+import { useMyContext } from "../../Context/MyContext";
 interface EntityFieldProps {
   initialValue?: Ce_blog[];
   fieldId: string;
@@ -16,6 +17,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [newBlog, setNewBlog] = useState<Ce_blog>({});
+  const { userRole } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };

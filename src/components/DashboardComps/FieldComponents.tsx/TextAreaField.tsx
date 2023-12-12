@@ -1,5 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import * as React from "react";
+import { useMyContext } from "../../Context/MyContext";
 interface TextAreaProps {
   initialValue?: string;
   fieldId: string;
@@ -9,7 +10,7 @@ const TextArea = ({ initialValue, fieldId }: TextAreaProps) => {
   const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
-
+  const { userRole } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };
@@ -25,7 +26,7 @@ const TextArea = ({ initialValue, fieldId }: TextAreaProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
     } catch (error) {
       console.error(

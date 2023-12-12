@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import LexicalRichTextEditor from "../LexicalRichText/LexicalRichTextEditor";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
+import { useMyContext } from "../../Context/MyContext";
 interface RichTextFieldProps {
   initialValue?: string | undefined;
   fieldId: string;
@@ -12,7 +13,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
   );
   const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
-
+  const { userRole } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };
@@ -37,7 +38,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&format=${
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}&format=${
           isJsonString(textValue) ? "html" : "markdown"
         }`
       );

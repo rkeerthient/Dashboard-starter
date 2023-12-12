@@ -3,6 +3,7 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useMyContext } from "../../Context/MyContext";
 
 interface TextFieldProps {
   initialValue?: string[] | undefined;
@@ -15,7 +16,7 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
   );
   const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState(false);
-
+  const { userRole } = useMyContext();
   useEffect(() => {
     setIsContentEdited(!arraysAreEqual(textboxes || [], initialValue || []));
   }, [textboxes, initialValue]);
@@ -69,7 +70,7 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
 
       const mainJson = await response.json();

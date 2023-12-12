@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect, ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useMyContext } from "../../Context/MyContext";
 
 interface DateFieldProps {
   initialValue: string | undefined;
@@ -12,7 +13,7 @@ const DateField = ({ initialValue = undefined, fieldId }: DateFieldProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     initialValue ? new Date(initialValue) : null
   );
-
+  const { userRole } = useMyContext();
   const [isEditMode, setIsEditMode] = useState(false);
   const isContentEdited = selectedDate?.toISOString() !== initialValue;
 
@@ -28,7 +29,7 @@ const DateField = ({ initialValue = undefined, fieldId }: DateFieldProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
     } catch (error) {
       console.error(
