@@ -20,6 +20,8 @@ const PageLayout = ({ _site, children }: Props) => {
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
+  console.log(userId);
+
   useEffect(() => {
     const getUserRole = async () => {
       try {
