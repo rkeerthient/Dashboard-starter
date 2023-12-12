@@ -2,6 +2,8 @@
 
 module.exports = {
   content: ["./src/**/*.{ts,tsx}", "./lib/**/*.{js,jsx}"],
+  relative: true,
+  jit: true,
   theme: {
     extend: {
       fontFamily: {

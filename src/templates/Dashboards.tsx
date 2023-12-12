@@ -24,7 +24,7 @@ import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import DonutChart from "../components/DonutChart";
 import SampleChart from "../components/SampleChart";
-import DBBanner from "../components/dbBanner";
+import DBBanner from "../components/DashboardComps/dbBanner";
 import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
 import { getRuntime } from "@yext/pages/util";

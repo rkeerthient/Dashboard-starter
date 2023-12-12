@@ -2,9 +2,9 @@ import * as React from "react";
 import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
-import { Image } from "../types/financial_professionals";
-import RTF from "./RTF";
-
+import { Image } from "../../types/financial_professionals";
+import RTF from "../RTF";
+import { twJoin, twMerge } from "tailwind-merge";
 export type Address = {
   line1: string;
   city: string;
@@ -36,14 +36,13 @@ const renderPrettyAddress = (address?: Address) => {
 };
 
 const DBBanner = (props: DBBanner) => {
-  const { name, address, children, headshot, color } = props;
+  const { name, address, children, headshot, color = "#032169" } = props;
 
   return (
     <>
       <div
-        className={`bg-[${
-          color || "#032169"
-        }] text-white p-4 flex items-center justify-center flex-row space-x-20 w-full`}
+        style={{ background: color }}
+        className="text-white p-4 flex items-center justify-center flex-row space-x-20 w-full"
       >
         <div className="flex items-center flex-row  gap-4">
           <div>
