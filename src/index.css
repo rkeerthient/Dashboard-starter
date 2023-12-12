@@ -1,6 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/OpenSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Bowlby";
+  src: url("./assets/fonts/BowlbyOne-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: "Recursive";
+  src: url("./assets/fonts/Recursive-Regular.ttf");
+}
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/fonts/Lato-Regular.ttf");
+}
 
 .centered-container {
   @apply mx-auto px-5 md:px-14 max-w-screen-2xl;
@@ -565,7 +589,7 @@ i.chevron-down {
   display: inline-block;
   height: 8px;
   width: 8px;
- }
+}
 
 #block-controls button:hover {
   background-color: #efefef;

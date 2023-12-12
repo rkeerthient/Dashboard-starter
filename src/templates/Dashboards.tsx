@@ -24,7 +24,6 @@ import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import DonutChart from "../components/DonutChart";
 import SampleChart from "../components/SampleChart";
-import { SectionData } from "../components/SectionsData";
 import DBBanner from "../components/dbBanner";
 import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
@@ -126,7 +125,7 @@ export const config: TemplateConfig = {
       "c_associatedBlogs.c_category",
       "c_associatedBlogs.landingPageUrl",
       "c_color",
-      "c_font",
+      "c_fonts",
       "c_heroBanner",
     ],
     filter: {

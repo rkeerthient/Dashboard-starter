@@ -4,6 +4,15 @@ module.exports = {
   content: ["./src/**/*.{ts,tsx}", "./lib/**/*.{js,jsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        opensans: ["Open-sans", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+        bangers: ["Bangers", "cursive"],
+        bowlby: ["Bowlby", "cursive"],
+        roboto: ["Roboto", "sans-serif"],
+        recursive: ["Recursive", "sans-serif"],
+        lato: ["Lato", "sans-serif"],
+      },
       colors: {
         primary: "var(--primary-color, #2563eb)",
         "primary-light": "var(--primary-color-light, #dbeafe)",
