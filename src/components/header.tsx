@@ -45,7 +45,9 @@ const Header = ({ _site }: any) => {
               style="secondary-cta"
             ></Cta> */}
           {/* </div> */}
-          <Image image={_site.c_deskHeader} className="w-full"></Image>
+          {_site.c_deskHeader && (
+            <Image image={_site.c_deskHeader} className="w-full"></Image>
+          )}{" "}
         </nav>
       </div>
     </>
