@@ -36,13 +36,21 @@ const PageLayout = ({ _site, children }: Props) => {
         const userResp: UserProfile = await response.json();
         console.log(JSON.stringify(userResp));
 
-        if (userResp.acl && userResp.acl.length > 0 && userResp.acl[0].roleId) {
-          setUserRole(userResp.acl[0].roleId);
-        } else {
-          console.error("User data is incomplete or roleId is missing");
+        try {
+          if (
+            userResp.acl &&
+            userResp.acl.length > 0 &&
+            userResp.acl[0].roleId
+          ) {
+            setUserRole(userResp.acl[0].roleId);
+          } else {
+            console.error("User data is incomplete or roleId is missing");
+          }
+        } catch (error) {
+          console.error(`Error processing user data: ${JSON.stringify(error)}`);
         }
       } catch (error) {
-        console.error(`Error: ${JSON.stringify(error)}`);
+        console.error(`Error fetching user data: ${JSON.stringify(error)}`);
       } finally {
         setIsLoading(false);
       }
