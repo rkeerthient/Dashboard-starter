@@ -24,6 +24,7 @@ const PicklistField = ({
   const handleClick = () => {
     setIsEditable(true);
   };
+  console.log(fieldId);
 
   useEffect(() => {
     setSelectedItem(
@@ -117,39 +118,44 @@ const PicklistField = ({
               </Transition>
             </div>
           </Listbox>
-          <div
-            className={`ml-8 text-xs ${
-              selectedItem?.displayName &&
-              `font-${selectedItem?.displayName
-                .toLowerCase()
-                .replaceAll(" ", "")}`
-            } w-2/4`}
-          >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
-            <span className="font-bold"> molestias</span>, dicta asperiores
-            aliquid quae amet tempora excepturi doloremque neque magnam nihil
-            soluta inventore nobis ratione sint repellat optio labore mollitia?
-          </div>
+          {fieldId == "c_fonts" && (
+            <div
+              className={`ml-8 text-xs ${
+                selectedItem?.displayName &&
+                `font-${selectedItem?.displayName
+                  .toLowerCase()
+                  .replaceAll(" ", "")}`
+              } w-2/4`}
+            >
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
+              <span className="font-bold"> molestias</span>, dicta asperiores
+              aliquid quae amet tempora excepturi doloremque neque magnam nihil
+              soluta inventore nobis ratione sint repellat optio labore
+              mollitia?
+            </div>
+          )}
         </div>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer flex">
           <div className="w-1/4">
-            {" "}
             {selectedItem?.displayName || `Click to add`}
           </div>
-          <div
-            className={`ml-8 text-xs ${
-              selectedItem?.displayName &&
-              `font-${selectedItem?.displayName
-                .toLowerCase()
-                .replaceAll(" ", "")}`
-            } w-2/4`}
-          >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
-            <span className="font-bold"> molestias</span>, dicta asperiores
-            aliquid quae amet tempora excepturi doloremque neque magnam nihil
-            soluta inventore nobis ratione sint repellat optio labore mollitia?
-          </div>
+          {fieldId == "c_fonts" && (
+            <div
+              className={`ml-8 text-xs ${
+                selectedItem?.displayName &&
+                `font-${selectedItem?.displayName
+                  .toLowerCase()
+                  .replaceAll(" ", "")}`
+              } w-2/4`}
+            >
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
+              <span className="font-bold"> molestias</span>, dicta asperiores
+              aliquid quae amet tempora excepturi doloremque neque magnam nihil
+              soluta inventore nobis ratione sint repellat optio labore
+              mollitia?
+            </div>
+          )}
         </div>
       )}
       {isEditable && (

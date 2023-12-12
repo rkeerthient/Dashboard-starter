@@ -8,10 +8,6 @@ const getFields = async (
 
   const { userId } = pathParams;
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
-  console.log(userId);
-  console.log(
-    `https://sbx-api.yextapis.com/v2/accounts/me/users/${userId}?api_key=${api_key}&v=20230601`
-  );
 
   if (method !== "GET") {
     return { body: "Method not allowed", headers: {}, statusCode: 405 };

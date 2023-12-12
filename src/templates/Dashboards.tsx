@@ -129,6 +129,7 @@ export const config: TemplateConfig = {
       "c_color",
       "c_fonts",
       "c_heroBanner",
+      "c_template",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
