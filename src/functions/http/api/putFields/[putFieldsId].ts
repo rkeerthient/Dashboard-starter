@@ -9,19 +9,36 @@ const putFields = async (
   const { putFieldsId } = pathParams;
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
 
-  const { body, format } = queryParams;
-  const getEntitiesResponse = await fetch(
-    `https://sbx-api.yextapis.com/v2/accounts/me/entities/${putFieldsId}?api_key=${api_key}&v=20230601${
-      format ? `&format=${format}` : ""
-    }`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "PUT",
-      body: body,
-    }
-  );
+  const { body, format, userRole } = queryParams;
+  console.log(userRole + "--- 2676513");
+  let getEntitiesResponse;
+  console.log(JSON.stringify(buildBody(body, putFieldsId)));
+
+  userRole !== "2676523"
+    ? (getEntitiesResponse = await fetch(
+        `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?api_key=${api_key}&v=20230601${
+          format ? `&format=${format}` : ""
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+          body: JSON.stringify(buildBody(body, putFieldsId)),
+        }
+      ))
+    : (getEntitiesResponse = await fetch(
+        `https://sbx-api.yextapis.com/v2/accounts/me/entities/${putFieldsId}?api_key=${api_key}&v=20230601${
+          format ? `&format=${format}` : ""
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+          body: body,
+        }
+      ));
 
   const resp = await getEntitiesResponse.json();
 
@@ -33,3 +50,22 @@ const putFields = async (
 };
 
 export default putFields;
+
+const buildBody = (extData: any, entityId: any) => {
+  let suggestedContent = extData;
+
+  if (typeof extData === "string") {
+    suggestedContent = JSON.parse(extData);
+  }
+
+  return {
+    entityFieldSuggestion: {
+      entity: {
+        id: entityId,
+      },
+      suggestedContent: {
+        ...suggestedContent,
+      },
+    },
+  };
+};

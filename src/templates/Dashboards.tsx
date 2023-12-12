@@ -19,7 +19,7 @@ import {
 } from "@yext/pages";
 import * as React from "react";
 import "../index.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import DonutChart from "../components/DonutChart";
@@ -29,6 +29,8 @@ import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
 import { getRuntime } from "@yext/pages/util";
 import { isLocal } from "../utils/isLocal";
+import { useMyContext } from "../components/Context/MyContext";
+import { Main } from "../layout/main";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -180,15 +182,6 @@ declare global {
  * them in the src/templates folder as this is specific for true template files).
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
-  const runtime = getRuntime();
-
-  // fetch user id from YEXT_AUTH or set it to the test account for local development
-  // const userId = isLocal()
-  //   ? "2676513"
-  //   : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
-  //   ? window.YEXT_AUTH.visitor.externalId
-  //   : "";
-
   const { headshot, c_teamMembers } = document;
 
   const data = [
@@ -269,7 +262,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     return classes.filter(Boolean).join(" ");
   }
   return (
-    <>
+    <Main>
       <PageLayout _site={document._site}>
         <div
           style={{
@@ -464,7 +457,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
           )}
         </div>
       </PageLayout>
-    </>
+    </Main>
   );
 };
 
