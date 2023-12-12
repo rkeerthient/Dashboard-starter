@@ -20,7 +20,6 @@ const getFields = async (
   const getFieldsResponse = await fetch(
     `https://sbx-api.yextapis.com/v2/accounts/me/users/${userId}?api_key=${api_key}&v=20230601`
   );
-
   const resp = await getFieldsResponse.json();
 
   return {

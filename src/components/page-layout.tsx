@@ -14,13 +14,13 @@ type Props = {
 const PageLayout = ({ _site, children }: Props) => {
   const runtime = getRuntime();
   const { setUserRole } = useMyContext();
+  console.log("entered" + JSON.stringify(window.YEXT_AUTH));
 
   const userId = isLocal()
     ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
-  console.log(userId);
 
   useEffect(() => {
     const getUserRole = async () => {
@@ -28,7 +28,7 @@ const PageLayout = ({ _site, children }: Props) => {
 
       try {
         const response = await fetch(`/api/users/${userId}`);
-        console.log(JSON.stringify(await response));
+        console.log(JSON.stringify(await response.json()));
       } catch (error) {
         console.error(
           `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
@@ -37,7 +37,7 @@ const PageLayout = ({ _site, children }: Props) => {
       }
     };
 
-    !isLocal() && getUserRole();
+    getUserRole();
   }, [userId]);
 
   // useEffect(() => {
