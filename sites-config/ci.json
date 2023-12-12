@@ -40,6 +40,18 @@
         ]
       },
       {
+        "pluginName": "userId-66578",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/users/{{userId}}",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/userId-66578",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
+      },
+      {
         "pluginName": "putFieldsId-82619",
         "event": "API",
         "functionName": "default",
