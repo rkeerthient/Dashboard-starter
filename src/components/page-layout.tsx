@@ -2,9 +2,9 @@ import * as React from "react";
 import Header from "./header";
 import Footer from "./footer";
 import { isLocal } from "../utils/isLocal";
-import { useMyContext } from "./context/MyContext";
 import { getRuntime } from "@yext/pages/util";
 import { useEffect } from "react";
+import { useMyContext } from "./Context/MyContext";
 
 type Props = {
   _site?: any;
