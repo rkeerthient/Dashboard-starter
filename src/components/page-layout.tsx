@@ -6,12 +6,12 @@ import { getRuntime } from "@yext/pages/util";
 import { useEffect, useState } from "react";
 import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
-
+import { io } from "socket.io-client";
+const socket = io("http://localhost:5175");
 type Props = {
   _site?: any;
   children?: React.ReactNode;
 };
-
 const PageLayout = ({ _site, children }: Props) => {
   const runtime = getRuntime();
   const { setUserRole } = useMyContext();
@@ -40,8 +40,17 @@ const PageLayout = ({ _site, children }: Props) => {
     getUserRole();
   }, [userId]);
 
+  const sendMessage = () => {
+    socket.emit("send_message", { message: "hello world!" });
+  };
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      alert(data);
+    });
+  }, [socket]);
   return (
     <div className="min-h-screen">
+      <button onClick={sendMessage}>Send Message</button>
       <Header _site={_site} />
 
       {isLoading ? (
