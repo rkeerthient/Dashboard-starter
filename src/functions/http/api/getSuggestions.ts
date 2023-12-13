@@ -7,7 +7,7 @@ const GetSuggestions = async (
   console.log(JSON.stringify(request));
 
   return {
-    body: JSON.stringify("resp"),
+    body: "hrllo",
     headers: {},
     statusCode: 200,
   };
