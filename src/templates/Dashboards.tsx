@@ -183,9 +183,7 @@ declare global {
  * them in the src/templates folder as this is specific for true template files).
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
-  const { headshot, c_teamMembers } = document;
-
-  const data = [
+  const analyticsData = [
     {
       SearchTerm: "RBC Services",
       Impressions: 56000,
@@ -371,7 +369,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.map((row, index) => (
+                        {analyticsData.map((row, index) => (
                           <tr key={index} className="border">
                             <td className="border p-2">{row.SearchTerm}</td>
                             <td className="border p-2">{row.Impressions}</td>
@@ -423,9 +421,9 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                 for example, a design team developing a new product, or a
                 continuous proces
               </div>
-              {c_teamMembers && (
+              {document.c_teamMembers && (
                 <div className="grid grid-cols-4 gap-4 border  p-8">
-                  {c_teamMembers.map((item: any, index: any) => (
+                  {document.c_teamMembers.map((item: any, index: any) => (
                     <div className=" border  !w-[250px] flex flex-col gap-2">
                       <div>
                         {item.photoGallery ? (

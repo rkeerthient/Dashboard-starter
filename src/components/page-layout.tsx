@@ -21,7 +21,8 @@ const PageLayout = ({ _site, children }: Props) => {
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
-
+  const { data } = useMyContext();
+  console.log(JSON.stringify(data));
   useEffect(() => {
     setIsLoading(true);
     const getUserRole = async () => {

@@ -6,7 +6,6 @@ import Subtasks from "./Subtasks";
 
 const TasksSection = ({ tasks, document }: any) => {
   let bgColor = document.c_color;
-  bgColor ? bgColor : `#032169`;
   return (
     <>
       {tasks && (
@@ -18,9 +17,9 @@ const TasksSection = ({ tasks, document }: any) => {
                   <>
                     <Disclosure.Button
                       style={{
-                        background: bgColor,
+                        backgroundColor: bgColor ? bgColor : `#032169`,
                       }}
-                      className={`flex w-full justify-start  px-4 py-2 text-left text-sm font-medium text-white`}
+                      className={`flex w-full justify-start px-4 py-2 text-left text-sm font-medium text-white`}
                     >
                       <div className="flex flex-col gap-2">
                         <div className="flex gap-4 text-xl">

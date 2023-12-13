@@ -11,11 +11,25 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
   const { userRole } = useMyContext();
+  const { setData } = useMyContext();
 
   const handleClick = () => {
     setIsEditable(true);
   };
-
+  const updateValue = (
+    propertyName: string,
+    newValue: any,
+    isSuggestion: boolean
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      [propertyName]: {
+        ...prevData[propertyName],
+        value: newValue,
+        isSuggestion: isSuggestion,
+      },
+    }));
+  };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextValue(event.target.value);
   };
@@ -30,6 +44,10 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
+      const res = await response.json();
+      const isSuggestion = res.response.meta ? true : false;
+
+      updateValue(fieldId, textValue, isSuggestion);
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,

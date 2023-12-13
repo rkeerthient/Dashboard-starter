@@ -21,7 +21,7 @@ interface PhotoProps {
 const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
-  const { userRole } = useMyContext();
+  const { userRole, setData } = useMyContext();
   const [imgUrls, setImgUrls] = useState<PhotoProps["url"] | null>(
     initialValue ? initialValue.url : null
   );
@@ -29,7 +29,20 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
   const handleClick = () => {
     setIsEditable(true);
   };
-
+  const updateValue = (
+    propertyName: string,
+    newValue: any,
+    isSuggestion: boolean
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      [propertyName]: {
+        ...prevData[propertyName],
+        value: newValue,
+        isSuggestion: isSuggestion,
+      },
+    }));
+  };
   const handleDelete = (imgUrl: string | string[]) => {
     setImgUrls("");
   };
@@ -50,6 +63,10 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
+      const res = await response.json();
+      const isSuggestion = res.response.meta ? true : false;
+
+      updateValue(fieldId, imgUrls, isSuggestion);
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,

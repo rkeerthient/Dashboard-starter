@@ -23,7 +23,7 @@ const MultiPicklistField = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState(false);
   const [initVals, setInitVals] = useState<Option[]>([]);
-  const { userRole } = useMyContext();
+  const { userRole, setData } = useMyContext();
   useEffect(() => {
     const initialCheckboxes = options.map((checkbox) => ({
       ...checkbox,
@@ -60,7 +60,20 @@ const MultiPicklistField = ({
 
     return true;
   };
-
+  const updateValue = (
+    propertyName: string,
+    newValue: any,
+    isSuggestion: boolean
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      [propertyName]: {
+        ...prevData[propertyName],
+        value: newValue,
+        isSuggestion: isSuggestion,
+      },
+    }));
+  };
   const handleSave = async () => {
     let x = selectedItems.filter((item) => item.checked);
     let filteredData = x.map((item) => item.textValue);
@@ -73,6 +86,10 @@ const MultiPicklistField = ({
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
       );
+      const res = await response.json();
+      const isSuggestion = res.response.meta ? true : false;
+
+      updateValue(fieldId, selectedItems, isSuggestion);
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,

@@ -51,7 +51,9 @@ const DBBanner = (props: DBBanner) => {
                 {props.name?.split("-")[0]}
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
+                {/* <a href="/preview.html"> */}
                 {props._site.c_dashboardPagesURLText}
+                {/* </a> */}
               </div>
             </div>
           </div>
