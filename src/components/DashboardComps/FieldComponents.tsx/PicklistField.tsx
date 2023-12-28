@@ -24,7 +24,6 @@ const PicklistField = ({
   const handleClick = () => {
     setIsEditable(true);
   };
-  console.log(fieldId);
 
   useEffect(() => {
     setSelectedItem(

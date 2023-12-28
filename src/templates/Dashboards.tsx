@@ -64,7 +64,9 @@ export const config: TemplateConfig = {
       "c_teamNameAndSite.teamSite",
       "c_displayTeamName",
       "c_languagesV2",
+      "photoGallery",
       "emails",
+      "hours",
       "mainPhone",
       "address.line1",
       "address.line2",
@@ -262,7 +264,8 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   }
   return (
     <Main>
-      <PageLayout _site={document._site}>
+      <PageLayout _site={document._site} document={document}>
+        <div id="portal" />
         <div
           style={{
             fontFamily:

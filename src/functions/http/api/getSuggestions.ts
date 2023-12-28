@@ -4,8 +4,6 @@ import { fetch } from "@yext/pages/util";
 const GetSuggestions = async (
   request: SitesHttpRequest
 ): Promise<SitesHttpResponse> => {
-  console.log(JSON.stringify(request));
-
   return {
     body: "hrllo",
     headers: {},

@@ -3,7 +3,10 @@ import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
 import { Image } from "../../types/financial_professionals";
+import { useState } from "react";
 import RTF from "../RTF";
+import RenderInWindow from "./RenderInWindow";
+import { useMyContext } from "../Context/MyContext";
 export type Address = {
   line1: string;
   city: string;
@@ -24,6 +27,8 @@ type DBBanner = {
 
 const DBBanner = (props: DBBanner) => {
   const { name, children, headshot, color = "#032169" } = props;
+  const [open, setOpen] = useState<boolean>(false);
+  const { data } = useMyContext();
 
   return (
     <>
@@ -51,9 +56,12 @@ const DBBanner = (props: DBBanner) => {
                 {props.name?.split("-")[0]}
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
-                {/* <a href="/preview.html"> */}
-                {props._site.c_dashboardPagesURLText}
-                {/* </a> */}
+                <button onClick={() => setOpen((o) => !o)}>Preview page</button>
+                <RenderInWindow
+                  open={open}
+                  setOpen={setOpen}
+                  data={data}
+                ></RenderInWindow>
               </div>
             </div>
           </div>

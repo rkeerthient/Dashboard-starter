@@ -10,27 +10,82 @@ import { UserProfile } from "../types/user_profile";
 type Props = {
   _site?: any;
   children?: React.ReactNode;
+  document?: any;
 };
 
-const PageLayout = ({ _site, children }: Props) => {
+const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
-  const { setUserRole } = useMyContext();
+  const { setUserRole, setData } = useMyContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const userId = isLocal()
     ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
-  const { data } = useMyContext();
-  console.log(JSON.stringify(data));
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (document) {
+      const {
+        name,
+        mainPhone,
+        emails,
+        c_template,
+        c_color,
+        c_fonts,
+        c_preferredFirstName,
+        c_jobTitle,
+        c_clientFocuses,
+        c_aboutAdvisorShortDescription,
+        c_expertiseCommentsRTv2,
+        c_hobbiesAndInterests,
+        c_teamNameAndSite,
+        c_languagesV2,
+        c_educationDisplay,
+        c_heroBanner,
+        c_associatedBlogs,
+        photoGallery,
+        hours,
+      } = document;
+
+      setData((prevData) => ({
+        ...prevData,
+        ...(name && { name }),
+        ...(mainPhone && { mainPhone }),
+        ...(emails && { emails }),
+        ...(c_template && { c_template }),
+        ...(c_color && { c_color }),
+        ...(c_fonts && { c_fonts }),
+        ...(c_preferredFirstName && { c_preferredFirstName }),
+        ...(c_jobTitle && { c_jobTitle }),
+        ...(c_clientFocuses && { c_clientFocuses }),
+        ...(c_aboutAdvisorShortDescription && {
+          c_aboutAdvisorShortDescription,
+        }),
+        ...(photoGallery && { photoGallery }),
+        ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
+        ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
+        ...(c_teamNameAndSite && { c_teamNameAndSite }),
+        ...(c_languagesV2 && { c_languagesV2 }),
+        ...(c_educationDisplay && { c_educationDisplay }),
+        ...(c_heroBanner && { c_heroBanner }),
+        ...(c_associatedBlogs && { c_associatedBlogs }),
+        ...(hours && { hours }),
+      }));
+    }
+    setIsLoading(false);
+  }, [document]);
+
   useEffect(() => {
     setIsLoading(true);
     const getUserRole = async () => {
       try {
-        const response = await fetch(`/api/users/${userId}`);
-        const userResp = await response.json();
-        const userString: UserProfile = await userResp.response;
-        setUserRole(await userString.acl[0].roleId);
+        if (userId) {
+          const response = await fetch(`/api/users/${userId}`);
+          const userResp = await response.json();
+          const userString: UserProfile = await userResp.response;
+          setUserRole(await userString.acl[0].roleId);
+        }
       } catch (error: any) {
         console.log(`Error fetching user data: ${JSON.stringify(error)}`);
       } finally {

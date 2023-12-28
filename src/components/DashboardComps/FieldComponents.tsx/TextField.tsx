@@ -34,7 +34,6 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
     setTextValue(event.target.value);
   };
   const handleSave = async () => {
-    console.log(userRole);
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
