@@ -1,6 +1,6 @@
-import { useState, ChangeEvent } from "react";
-import * as React from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { useMyContext } from "../../Context/MyContext";
+import * as React from "react";
 interface TextFieldProps {
   initialValue?: string;
   fieldId: string;
@@ -10,8 +10,7 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
   const [textValue, setTextValue] = useState<string>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
-  const { userRole } = useMyContext();
-  const { setData } = useMyContext();
+  const { userRole, setData, data } = useMyContext();
 
   const handleClick = () => {
     setIsEditable(true);
@@ -21,15 +20,14 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
     newValue: any,
     isSuggestion: boolean
   ) => {
+    console.log(propertyName, newValue, isSuggestion);
+
     setData((prevData) => ({
       ...prevData,
-      [propertyName]: {
-        ...prevData[propertyName],
-        value: newValue,
-        isSuggestion: isSuggestion,
-      },
+      [propertyName]: newValue,
     }));
   };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextValue(event.target.value);
   };
