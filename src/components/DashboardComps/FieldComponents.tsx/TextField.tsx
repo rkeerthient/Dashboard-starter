@@ -7,7 +7,7 @@ interface TextFieldProps {
 }
 
 const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
-  const [textValue, setTextValue] = useState<string>(initialValue);
+  const [textValue, setTextValue] = useState<any>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = textValue !== initialValue;
   const { userRole, setData, data } = useMyContext();
