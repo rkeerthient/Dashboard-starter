@@ -3,21 +3,26 @@ import { createPortal } from "react-dom";
 import * as React from "react";
 import Preview from "./Preview";
 
-interface RenderInWindowProps {
+interface PortalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   data: any;
 }
 
-const RenderInWindow: React.FC<RenderInWindowProps> = ({
-  open,
-  setOpen,
-  data,
-}) => {
+const Portal: React.FC<PortalProps> = ({ open, setOpen, data }) => {
   const _window = useRef<Window | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (_window.current && event.target instanceof Node) {
+        if (!_window.current.document.body.contains(event.target)) {
+          setReady(false);
+          setOpen(false);
+        }
+      }
+    };
+
     if (open) {
       _window.current = window.open("", "");
 
@@ -36,12 +41,15 @@ const RenderInWindow: React.FC<RenderInWindowProps> = ({
       styleLink?.setAttribute("type", "text/css");
       styleLink?.setAttribute("href", "/src/index.css");
       curWindow?.document.head.appendChild(
-        styleLink || document.createElement("div")
+        styleLink || curWindow.document.createElement("div")
       );
 
       setReady(true);
 
+      document.addEventListener("mousedown", handleOutsideClick);
+
       return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
         curWindow?.removeEventListener("beforeunload", closeHandler);
         curWindow?.removeEventListener("unload", closeHandler);
         _window.current?.close();
@@ -63,4 +71,4 @@ const RenderInWindow: React.FC<RenderInWindowProps> = ({
   return portal || null;
 };
 
-export default RenderInWindow;
+export default Portal;

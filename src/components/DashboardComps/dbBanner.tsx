@@ -5,8 +5,8 @@ import { FcCancel } from "react-icons/fc";
 import { Image } from "../../types/financial_professionals";
 import { useState } from "react";
 import RTF from "../RTF";
-import RenderInWindow from "./RenderInWindow";
 import { useMyContext } from "../Context/MyContext";
+import Portal from "./Portal";
 export type Address = {
   line1: string;
   city: string;
@@ -57,11 +57,7 @@ const DBBanner = (props: DBBanner) => {
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
                 <button onClick={() => setOpen((o) => !o)}>Preview page</button>
-                <RenderInWindow
-                  open={open}
-                  setOpen={setOpen}
-                  data={data}
-                ></RenderInWindow>
+                <Portal open={open} setOpen={setOpen} data={data}></Portal>
               </div>
             </div>
           </div>

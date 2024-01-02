@@ -3,7 +3,6 @@ import { Image } from "@yext/sites-components";
 import BlogPosts from "../relatedBlogs";
 import Hours from "../hours";
 import { useMyContext } from "../Context/MyContext";
-import "./preview.css";
 
 const Preview = ({ data }: any) => {
   const { data: _data } = useMyContext();
