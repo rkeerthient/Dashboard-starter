@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { useMyContext } from "../../Context/MyContext";
+import Actions from "../common/Actions";
 
 interface PhotoFieldProps {
   fieldId: string;
@@ -21,64 +21,27 @@ interface PhotoProps {
 const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
-  const { userRole, setData } = useMyContext();
-  const [imgUrls, setImgUrls] = useState<PhotoProps["url"] | null>(
+  const [value, setValue] = useState<PhotoProps["url"] | null>(
     initialValue ? initialValue.url : null
   );
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
   const handleClick = () => {
     setIsEditable(true);
   };
-  const updateValue = (
-    propertyName: string,
-    newValue: any,
-    isSuggestion: boolean
-  ) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: {
-        ...prevData[propertyName],
-        value: newValue,
-        isSuggestion: isSuggestion,
-      },
-    }));
-  };
-  const handleDelete = (imgUrl: string | string[]) => {
-    setImgUrls("");
+
+  const handleDelete = (value: string | string[]) => {
+    setValue("");
   };
   useEffect(() => {
     setIsContentEdited(
-      JSON.stringify(imgUrls) !== JSON.stringify(initialValue && initialValue)
+      JSON.stringify(value) !== JSON.stringify(initialValue && initialValue)
     );
-  }, [imgUrls, initialValue]);
+  }, [value, initialValue]);
 
-  const handleSave = async () => {
-    try {
-      const requestBody = encodeURIComponent(
-        JSON.stringify({
-          [fieldId as string]: { url: imgUrls },
-        })
-      );
-
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
-      );
-      const res = await response.json();
-      const isSuggestion = res.response.meta ? true : false;
-
-      updateValue(fieldId, imgUrls, isSuggestion);
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-        error
-      );
-    }
-    setIsEditable(false);
-  };
-  const handleCancel = () => {
-    initialValue ? setImgUrls(initialValue.url) : setImgUrls("");
-    setIsEditable(false);
-  };
+  // const handleCancel = () => {
+  //   initialValue ? setValue(initialValue.url) : setValue("");
+  //   setIsEditable(false);
+  // };
   return (
     <>
       <div
@@ -90,20 +53,20 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
           <>
             <div className="flex flex-col gap-4">
               <>
-                {imgUrls ? (
+                {value ? (
                   <div className="flex justify-between border-b pb-4">
                     <div
                       className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
                     >
                       <img
-                        src={imgUrls}
+                        src={value}
                         className="  max-w-[160px] max-h-[160px] "
                         alt=""
                       />
                     </div>
                     <TrashIcon
                       className="w-4 h-4 hover:cursor-pointer"
-                      onClick={() => handleDelete(imgUrls)}
+                      onClick={() => handleDelete(value)}
                     />
                   </div>
                 ) : (
@@ -124,13 +87,13 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
               <>
                 <div className="flex flex-col gap-4">
                   <>
-                    {imgUrls ? (
+                    {value ? (
                       <div className="flex justify-between border-b pb-4">
                         <div
                           className={`w-[160px] flex flex-col justify-center h-[160px] rounded-[3px]  border`}
                         >
                           <img
-                            src={imgUrls}
+                            src={value}
                             className="  max-w-[160px] max-h-[160px] "
                             alt=""
                           />
@@ -177,7 +140,7 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
                       type="button"
                       className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       onClick={() => {
-                        setImgUrls(imgUrls);
+                        setValue(value);
                         setOpen(false);
                       }}
                     >
@@ -187,7 +150,7 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
                   </div>
                   <div className="sm:flex sm:items-start">
                     <PhotoUpload
-                      imgUrls={(newUrls) => setImgUrls(newUrls)}
+                      value={(newUrls: any) => setValue(newUrls)}
                       multiple={false}
                       isOpen={(val: boolean) => setOpen(val)}
                     />
@@ -199,22 +162,13 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
         </Dialog>
       </Transition.Root>
       {isEditable && (
-        <div className="flex w-full gap-2 text-xs pt-2 font-bold">
-          <button
-            onClick={handleSave}
-            disabled={!isContentEdited}
-            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-              !isContentEdited
-                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                : `border-fieldAndBorderBGGrayColor bg-active text-white`
-            }`}
-          >
-            Save for 1 Profile
-          </button>
-          <button onClick={handleCancel} className={`text-xs text-linkColor`}>
-            Cancel
-          </button>
-        </div>
+        <Actions
+          initialValue={initialValue}
+          isContentEdited={isContentEdited}
+          setIsEditable={(e) => setIsEditable(e)}
+          setValue={(e) => setValue(e)}
+          saveBody={{ [fieldId as string]: { url: value } }}
+        />
       )}
     </>
   );

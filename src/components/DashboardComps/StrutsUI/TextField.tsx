@@ -17,14 +17,7 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextValue(event.target.value);
   };
-  const handleSave = () => {
-    // Add your save logic here
-    setIsEditable(false);
-  };
-  const handleCancel = () => {
-    // Add your save logic here
-    setIsEditable(false);
-  };
+
   return (
     <div
       className={`w-full px-4 py-3 ${

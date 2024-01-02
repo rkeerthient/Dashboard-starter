@@ -3,14 +3,13 @@ import { useState } from "react";
 import LexicalRichTextEditor from "../LexicalRichText/LexicalRichTextEditor";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
 import { useMyContext } from "../../Context/MyContext";
+import Actions from "../common/Actions";
 interface RichTextFieldProps {
   initialValue?: string | undefined;
   fieldId: string;
 }
 const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
-  const [textValue, setTextValue] = useState<string | object | undefined>(
-    initialValue
-  );
+  const [value, setValue] = useState<string | object | undefined>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
   const { userRole } = useMyContext();
@@ -18,7 +17,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
     setIsEditable(true);
   };
   const handleChange = (value: any) => {
-    setTextValue(value);
+    setValue(value);
   };
 
   const isJsonString = (str: any) => {
@@ -30,31 +29,6 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
     }
   };
 
-  const handleSave = async () => {
-    try {
-      const requestBody = encodeURIComponent(
-        JSON.stringify({
-          [fieldId as string]: textValue,
-        })
-      );
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}&format=${
-          isJsonString(textValue) ? "html" : "markdown"
-        }`
-      );
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-        error
-      );
-    }
-
-    setIsEditable(false);
-  };
-  const handleCancel = () => {
-    setIsEditable(false);
-  };
-
   return (
     <div
       className={`w-full px-4 py-3  ${
@@ -63,9 +37,9 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
     >
       {isEditable ? (
         <>
-          {isJsonString(textValue) ? (
+          {isJsonString(value) ? (
             <LexicalRichTextEditor
-              serializedAST={JSON.parse(textValue).json}
+              serializedAST={JSON.parse(value).json}
               editable={true}
               isContentEdited={(value: boolean) => {
                 setIsContentEdited(value);
@@ -74,7 +48,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
             />
           ) : (
             <LexicalMarkdownEditor
-              serializedAST={textValue}
+              serializedAST={value}
               editable={true}
               isContentEdited={(value: boolean) => {
                 setIsContentEdited(value);
@@ -85,34 +59,23 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {isJsonString(textValue) ? (
+          {isJsonString(value) ? (
             <LexicalRichTextEditor
-              serializedAST={
-                JSON.parse(textValue).json || JSON.parse(textValue)
-              }
+              serializedAST={JSON.parse(value).json || JSON.parse(value)}
             />
           ) : (
-            <LexicalMarkdownEditor serializedAST={textValue} />
+            <LexicalMarkdownEditor serializedAST={value} />
           )}
         </div>
       )}
       {isEditable && (
-        <div className="flex w-full gap-2 text-xs pt-2 font-bold">
-          <button
-            onClick={handleSave}
-            disabled={!isContentEdited}
-            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-              !isContentEdited
-                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                : `border-fieldAndBorderBGGrayColor bg-active text-white`
-            }`}
-          >
-            Save for 1 Profile
-          </button>
-          <button onClick={handleCancel} className={`text-xs text-linkColor`}>
-            Cancel
-          </button>
-        </div>
+        <Actions
+          initialValue={initialValue}
+          isContentEdited={isContentEdited}
+          setIsEditable={(e) => setIsEditable(e)}
+          setValue={(e) => setValue(e)}
+          saveBody={{ [fieldId as string]: value }}
+        />
       )}
     </div>
   );

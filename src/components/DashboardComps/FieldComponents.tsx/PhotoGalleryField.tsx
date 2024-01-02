@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { useMyContext } from "../../Context/MyContext";
+import Actions from "../common/Actions";
 interface PhotoGalleryFieldProps {
   fieldId?: string;
   initialValue?: any;
@@ -21,8 +22,7 @@ const PhotoGalleryField = ({
 }: PhotoGalleryFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(editMode);
-  const { userRole } = useMyContext();
-  const [imgUrls, setImgUrls] = useState<string[]>(
+  const [value, setValue] = useState<string[]>(
     initialValue && initialValue.map((item: any) => item.url)
   );
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
@@ -31,47 +31,24 @@ const PhotoGalleryField = ({
   };
 
   const handleDelete = (imgUrl: string | string[]) => {
-    setImgUrls(
-      imgUrls.filter((item: any, currentIndex: any) => item !== imgUrl)
-    );
+    setValue(value.filter((item: any, currentIndex: any) => item !== imgUrl));
   };
   useEffect(() => {
-    passDataToParent && imgUrls && setUrlData(imgUrls);
+    passDataToParent && value && setUrlData(value);
     setIsContentEdited(
-      JSON.stringify(imgUrls) !==
+      JSON.stringify(value) !==
         JSON.stringify(
           initialValue && initialValue.map((item: any) => item.url)
         )
     );
-  }, [imgUrls, initialValue]);
+  }, [value, initialValue]);
 
-  const handleSave = async () => {
-    try {
-      const requestBody = encodeURIComponent(
-        JSON.stringify({
-          [fieldId as string]: imgUrls.map((item: any) => {
-            return { url: item };
-          }),
-        })
-      );
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
-      );
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-        error
-      );
-    }
-
-    setIsEditable(false);
-  };
-  const handleCancel = () => {
-    initialValue
-      ? setImgUrls(initialValue.map((item: any) => item.url))
-      : setImgUrls([]);
-    setIsEditable(false);
-  };
+  // const handleCancel = () => {
+  //   initialValue
+  //     ? setValue(initialValue.map((item: any) => item.url))
+  //     : setValue([]);
+  //   setIsEditable(false);
+  // };
   return (
     <>
       <div
@@ -82,9 +59,9 @@ const PhotoGalleryField = ({
         {isEditable ? (
           <>
             <div className="flex flex-col gap-4">
-              {imgUrls &&
-                imgUrls.length &&
-                imgUrls.map((item: any, index: any) => {
+              {value &&
+                value.length &&
+                value.map((item: any, index: any) => {
                   return (
                     <div
                       key={index}
@@ -119,9 +96,9 @@ const PhotoGalleryField = ({
             {
               <>
                 <div className="flex flex-col gap-4">
-                  {imgUrls ? (
-                    imgUrls.length >= 1 &&
-                    imgUrls.map((item: any, index: any) => {
+                  {value ? (
+                    value.length >= 1 &&
+                    value.map((item: any, index: any) => {
                       return (
                         <div
                           key={index}
@@ -175,7 +152,7 @@ const PhotoGalleryField = ({
                       type="button"
                       className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       onClick={() => {
-                        setImgUrls(initialValue);
+                        setValue(initialValue);
                         setOpen(false);
                       }}
                     >
@@ -185,8 +162,8 @@ const PhotoGalleryField = ({
                   </div>
                   <div className="sm:flex sm:items-start">
                     <PhotoUpload
-                      imgUrls={(newUrls) => {
-                        setImgUrls((prevUrls: string[] | undefined) => [
+                      value={(newUrls) => {
+                        setValue((prevUrls: string[] | undefined) => [
                           ...(prevUrls || []),
                           ...newUrls,
                         ]);
@@ -202,22 +179,13 @@ const PhotoGalleryField = ({
         </Dialog>
       </Transition.Root>
       {!editMode && isEditable && (
-        <div className="flex w-full gap-2 text-xs pt-2 font-bold">
-          <button
-            onClick={handleSave}
-            disabled={!isContentEdited}
-            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-              !isContentEdited
-                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                : `border-fieldAndBorderBGGrayColor bg-active text-white`
-            }`}
-          >
-            Save for 1 Profile
-          </button>
-          <button onClick={handleCancel} className={`text-xs text-linkColor`}>
-            Cancel
-          </button>
-        </div>
+        <Actions
+          initialValue={initialValue}
+          isContentEdited={isContentEdited}
+          setIsEditable={(e) => setIsEditable(e)}
+          setValue={(e) => setValue(e)}
+          saveBody={{ [fieldId as string]: value }}
+        />
       )}
     </>
   );

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect, ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useMyContext } from "../../Context/MyContext";
+import Actions from "../common/Actions";
 
 interface DateFieldProps {
   initialValue: string | undefined;
@@ -10,75 +10,45 @@ interface DateFieldProps {
 }
 
 const DateField = ({ initialValue = undefined, fieldId }: DateFieldProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
+  const [value, setValue] = useState<Date | null>(
     initialValue ? new Date(initialValue) : null
   );
-  const { userRole } = useMyContext();
-  const [isEditMode, setIsEditMode] = useState(false);
-  const isContentEdited = selectedDate?.toISOString() !== initialValue;
+  const [isEditable, setIsEditable] = useState(false);
+  const isContentEdited = value?.toISOString() !== initialValue;
 
   const handleClick = () => {
-    setIsEditMode(true);
+    setIsEditable(true);
   };
 
-  const handleSave = async () => {
-    try {
-      const requestBody = encodeURIComponent(
-        JSON.stringify({
-          [fieldId]: formatDateTime(selectedDate!),
-        })
-      );
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
-      );
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-        error
-      );
-    }
-    setIsEditMode(false);
-  };
-  const handleCancel = () => {
-    setIsEditMode(false);
-  };
   return (
     <div
       className={`w-full px-4 py-3 ${
-        isEditMode ? `bg-containerBG` : `bg-transparent`
+        isEditable ? `bg-containerBG` : `bg-transparent`
       }`}
     >
-      {isEditMode ? (
+      {isEditable ? (
         <>
           <DatePicker
             className="border w-full p-1"
-            selected={selectedDate}
-            onChange={(date: Date) => setSelectedDate(date)}
+            selected={value}
+            onChange={(date: Date) => setValue(date)}
             dateFormat="dd/MM/yyyy"
             showYearDropdown
             scrollableYearDropdown
           />
-          <div className="flex w-full gap-2 text-xs pt-2 font-bold">
-            <button
-              onClick={handleSave}
-              className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-                isContentEdited
-                  ? `border-fieldAndBorderBGGrayColor bg-active text-white`
-                  : `pointer-events-none bg-disabled text-disabledColor `
-              }`}
-            >
-              Save for 1 Profile
-            </button>
-            <button onClick={handleCancel} className={`text-xs text-linkColor`}>
-              Cancel
-            </button>
-          </div>
+          <Actions
+            initialValue={initialValue}
+            isContentEdited={isContentEdited}
+            setIsEditable={(e) => setIsEditable(e)}
+            setValue={(e) => setValue(e)}
+            saveBody={{
+              [fieldId]: formatDateTime(value!),
+            }}
+          ></Actions>
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer">
-          {selectedDate
-            ? selectedDate.toLocaleDateString("en-GB")
-            : "Click to add"}
+          {value ? value.toLocaleDateString("en-GB") : "Click to add"}
         </div>
       )}
     </div>

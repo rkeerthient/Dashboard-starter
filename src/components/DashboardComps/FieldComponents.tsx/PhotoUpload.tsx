@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useCallback, useEffect, useState } from "react";
-import { FileWithPath, useDropzone } from "react-dropzone";
+import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 type PhotoUploadProps = {
   imgUrls: (value: string[] | string) => void;
   isOpen: (value: boolean) => void;
