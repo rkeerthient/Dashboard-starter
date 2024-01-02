@@ -190,7 +190,9 @@ const Preview = ({ data }: any) => {
       {c_associatedFAQs && <FAQs inpData={cpy}></FAQs>}
       {c_associatedSolutions && <Solutions inpData={cpy}></Solutions>} */}
       </div>
-      {c_associatedBlogs && <BlogPosts inpData={data}></BlogPosts>}
+      <div className="mt-16">
+        {c_associatedBlogs && <BlogPosts inpData={data}></BlogPosts>}
+      </div>
     </div>
   );
 };
