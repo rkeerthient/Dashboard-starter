@@ -46,6 +46,8 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_associatedBlogs,
         photoGallery,
         hours,
+        address,
+        geocodedCoordinate,
       } = document;
 
       setData((prevData) => ({
@@ -71,6 +73,8 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(c_heroBanner && { c_heroBanner }),
         ...(c_associatedBlogs && { c_associatedBlogs }),
         ...(hours && { hours }),
+        ...(address && { address }),
+        ...(geocodedCoordinate && { geocodedCoordinate }),
       }));
     }
     setIsLoading(false);

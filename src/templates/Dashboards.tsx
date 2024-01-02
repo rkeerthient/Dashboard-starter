@@ -118,17 +118,17 @@ export const config: TemplateConfig = {
       "c_teamMembers.name",
       "c_teamMembers.slug",
       "c_teamMembers.photoGallery",
-      "c_associatedBlogs.name",
-      "c_associatedBlogs.c_body",
-      "c_associatedBlogs.slug",
-      "c_associatedBlogs.id",
-      "c_associatedBlogs.photoGallery",
-      "c_associatedBlogs.c_category",
       "c_associatedBlogs.landingPageUrl",
+      "c_associatedBlogs.description",
+      "c_associatedBlogs.name",
+      "c_associatedBlogs.c_category",
+      "c_associatedBlogs.c_datePublished",
+      "c_associatedBlogs.photoGallery",
       "c_color",
       "c_fonts",
       "c_heroBanner",
       "c_template",
+      "geocodedCoordinate",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
@@ -262,7 +262,6 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   return (
     <Main>
       <PageLayout _site={document._site} document={document}>
-        <div id="portal" />
         <div
           style={{
             fontFamily:

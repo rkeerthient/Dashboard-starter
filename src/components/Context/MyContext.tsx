@@ -8,9 +8,11 @@ import {
 } from "react";
 import * as React from "react";
 import {
+  Address,
   C_educationDisplay,
   C_teamNameAndSite,
   ComplexImage,
+  Coordinate,
   Hours,
 } from "../../types/financial_professionals";
 
@@ -34,6 +36,8 @@ interface MyContextData {
   c_heroBanner: string;
   c_associatedBlogs: any[];
   hours: Hours;
+  address: Address;
+  geocodedCoordinate: Coordinate;
 }
 
 interface MyContext {
@@ -79,6 +83,8 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_associatedBlogs: [],
     photoGallery: [],
     hours: {},
+    address: {},
+    geocodedCoordinate: {},
   });
 
   return (
