@@ -9,6 +9,8 @@ import {
 import * as React from "react";
 import {
   Address,
+  C_awardsDashboard,
+  C_designations,
   C_educationDisplay,
   C_teamNameAndSite,
   ComplexImage,
@@ -38,6 +40,10 @@ interface MyContextData {
   hours: Hours;
   address: Address;
   geocodedCoordinate: Coordinate;
+  _site: any;
+  c_designations: C_designations[];
+  c_organizationsDisplay: string[];
+  c_awardsDashboard: C_awardsDashboard[];
 }
 
 interface MyContext {
@@ -85,6 +91,10 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     hours: {},
     address: {},
     geocodedCoordinate: {},
+    _site: {},
+    c_organizationsDisplay: [],
+    c_designations: [],
+    c_awardsDashboard: [],
   });
 
   return (

@@ -48,6 +48,10 @@ const PageLayout = ({ _site, children, document }: Props) => {
         hours,
         address,
         geocodedCoordinate,
+        c_designations,
+        _site,
+        c_organizationsDisplay,
+        c_awardsDashboard,
       } = document;
 
       setData((prevData) => ({
@@ -75,6 +79,10 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(hours && { hours }),
         ...(address && { address }),
         ...(geocodedCoordinate && { geocodedCoordinate }),
+        ...(c_designations && { c_designations }),
+        ...(c_organizationsDisplay && { c_organizationsDisplay }),
+        ...(_site && { _site }),
+        ...(c_awardsDashboard && { c_awardsDashboard }),
       }));
     }
     setIsLoading(false);

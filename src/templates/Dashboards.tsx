@@ -182,6 +182,8 @@ declare global {
  * them in the src/templates folder as this is specific for true template files).
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
+  console.log(JSON.stringify(document.c_designations));
+
   const analyticsData = [
     {
       SearchTerm: "RBC Services",
