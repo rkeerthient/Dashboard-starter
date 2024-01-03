@@ -33,7 +33,7 @@ const DBBanner = (props: DBBanner) => {
   return (
     <>
       <div
-        style={{ background: color }}
+        style={{ background: "#006ac3" }}
         className="text-white p-4 flex items-center justify-center flex-row space-x-20 w-full"
       >
         <div className="flex items-center flex-row  gap-4">

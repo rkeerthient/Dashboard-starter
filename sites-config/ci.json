@@ -28,18 +28,6 @@
         "functionName": "PagesGenerator"
       },
       {
-        "pluginName": "getSuggestions-45848",
-        "event": "API",
-        "functionName": "default",
-        "apiPath": "api/getSuggestions",
-        "sourceFiles": [
-          {
-            "root": "dist/functions/getSuggestions-45848",
-            "pattern": "*{.js,.ts}"
-          }
-        ]
-      },
-      {
         "pluginName": "createEntity-04110",
         "event": "API",
         "functionName": "default",
@@ -71,6 +59,18 @@
         "sourceFiles": [
           {
             "root": "dist/functions/putFieldsId-82619",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
+      },
+      {
+        "pluginName": "entityId-83825",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/getSuggestions/{{entityId}}",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/entityId-83825",
             "pattern": "*{.js,.ts}"
           }
         ]

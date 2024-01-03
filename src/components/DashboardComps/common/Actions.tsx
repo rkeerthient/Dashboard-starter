@@ -15,7 +15,7 @@ const Actions = ({
   saveBody,
 }: Action_Props) => {
   const { userRole, setData } = useMyContext();
-  
+
   const updateValue = (
     propertyName: string,
     newValue: any,
@@ -31,25 +31,21 @@ const Actions = ({
     const requestBody = encodeURIComponent(JSON.stringify(saveBody));
     console.log(JSON.stringify(saveBody));
 
-    // try {
-    //   const requestBody = encodeURIComponent(
-    //     JSON.stringify({
-    //       saveBody,
-    //     })
-    //   );
-    //   const response = await fetch(
-    //     `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
-    //   );
-    //   const res = await response.json();
-    //   console.log(await JSON.stringify(res.response.meta));
+    try {
+      const requestBody = encodeURIComponent(JSON.stringify(saveBody));
+      const response = await fetch(
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
+      );
+      const res = await response.json();
+      console.log(JSON.stringify(await res.response));
 
-    //   // const isSuggestion = res.response.meta ? true : false;
-    // } catch (error) {
-    //   console.error(
-    //     `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-    //     error
-    //   );
-    // }
+      // const isSuggestion = res.response.meta ? true : false;
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
+        error
+      );
+    }
     setIsEditable(false);
   };
 

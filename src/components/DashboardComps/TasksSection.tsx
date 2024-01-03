@@ -16,9 +16,7 @@ const TasksSection = ({ tasks, document }: any) => {
                 {({ open }) => (
                   <>
                     <Disclosure.Button
-                      style={{
-                        backgroundColor: bgColor ? bgColor : `#032169`,
-                      }}
+                      style={{ backgroundColor: `#006ac3` }}
                       className={`flex w-full justify-start px-4 py-2 text-left text-sm font-medium text-white`}
                     >
                       <div className="flex flex-col gap-2">

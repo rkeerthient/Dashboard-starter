@@ -96,10 +96,14 @@ const PicklistField = ({
           </Listbox>
           {fieldId == "c_fonts" && (
             <div
-              className={`ml-8 text-xs ${
-                value?.displayName &&
-                `font-${value?.displayName.toLowerCase().replaceAll(" ", "")}`
-              } w-2/4`}
+              className={`ml-8 text-xs w-2/4`}
+              style={{
+                ...(value?.displayName && {
+                  fontFamily: ` ${value.displayName
+                    .toLowerCase()
+                    .replaceAll(" ", "_")}`,
+                }),
+              }}
             >
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
               <span className="font-bold"> molestias</span>, dicta asperiores
@@ -114,10 +118,14 @@ const PicklistField = ({
           <div className="w-1/4">{value?.displayName || `Click to add`}</div>
           {fieldId == "c_fonts" && (
             <div
-              className={`ml-8 text-xs ${
-                value?.displayName &&
-                `font-${value?.displayName.toLowerCase().replaceAll(" ", "")}`
-              } w-2/4`}
+              className={`ml-8 text-xs  w-2/4`}
+              style={{
+                ...(value?.displayName && {
+                  fontFamily: ` ${value.displayName
+                    .toLowerCase()
+                    .replaceAll(" ", "_")}`,
+                }),
+              }}
             >
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
               <span className="font-bold"> molestias</span>, dicta asperiores

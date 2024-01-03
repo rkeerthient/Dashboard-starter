@@ -19,7 +19,7 @@ import {
 } from "@yext/pages";
 import * as React from "react";
 import "../index.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import DonutChart from "../components/DonutChart";
@@ -28,6 +28,7 @@ import DBBanner from "../components/DashboardComps/dbBanner";
 import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
 import { Main } from "../layout/main";
+import Suggestions from "../components/DashboardComps/Suggestions";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -257,20 +258,21 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
       Position: 4.1,
     },
   ];
-  const tabs = ["About me", "My Team", "Analytics"];
+  const tabs = ["About me", "My Team", "Analytics", "Suggestions"];
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
+
   return (
     <Main>
       <PageLayout _site={document._site} document={document}>
         <div
-          style={{
-            fontFamily:
-              document.c_fonts &&
-              document.c_fonts.toLowerCase().replaceAll(" ", ""),
-          }}
+          // style={{
+          //   fontFamily:
+          //     document.c_fonts &&
+          //     document.c_fonts.toLowerCase().replaceAll(" ", ""),
+          // }}
           className="space-y-4 bg-slate-200 "
         >
           <DBBanner
@@ -409,6 +411,8 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                 </div>
               </div>
             </div>
+          ) : currentTab === "Suggestions" ? (
+            <Suggestions />
           ) : (
             <div className="border m-4 p-4 bg-white space-y-4">
               <div className="text-2xl font-bold text-[#003168]">
