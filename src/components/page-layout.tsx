@@ -39,7 +39,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_aboutAdvisorShortDescription,
         c_expertiseCommentsRTv2,
         c_hobbiesAndInterests,
-        c_teamNameAndSite,
+        c_teamDescriptionRTv2,
         c_languagesV2,
         c_educationDisplay,
         c_heroBanner,
@@ -52,7 +52,10 @@ const PageLayout = ({ _site, children, document }: Props) => {
         _site,
         c_organizationsDisplay,
         c_awardsDashboard,
+        c_teamName,
+        c_teamMembers,
       } = document;
+      console.log(JSON.stringify(c_teamMembers));
 
       setData((prevData) => ({
         ...prevData,
@@ -71,7 +74,9 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(photoGallery && { photoGallery }),
         ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
         ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
-        ...(c_teamNameAndSite && { c_teamNameAndSite }),
+        ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
+        ...(c_teamName && { c_teamName }),
+
         ...(c_languagesV2 && { c_languagesV2 }),
         ...(c_educationDisplay && { c_educationDisplay }),
         ...(c_heroBanner && { c_heroBanner }),
@@ -83,6 +88,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(c_organizationsDisplay && { c_organizationsDisplay }),
         ...(_site && { _site }),
         ...(c_awardsDashboard && { c_awardsDashboard }),
+        ...(c_teamMembers && { c_teamMembers }),
       }));
     }
     setIsLoading(false);

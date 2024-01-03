@@ -759,3 +759,12 @@ i.chevron-down {
   width: 20px;
   vertical-align: -0.25em;
 }
+
+.mapPreview svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.mapPreview path {
+  fill: #2a354d;
+}

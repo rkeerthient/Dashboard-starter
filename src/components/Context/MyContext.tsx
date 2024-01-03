@@ -12,7 +12,6 @@ import {
   C_awardsDashboard,
   C_designations,
   C_educationDisplay,
-  C_teamNameAndSite,
   ComplexImage,
   Coordinate,
   Hours,
@@ -32,7 +31,7 @@ interface MyContextData {
   c_aboutAdvisorShortDescription: string;
   c_expertiseCommentsRTv2: string;
   c_hobbiesAndInterests: string[];
-  c_teamNameAndSite: C_teamNameAndSite[];
+  c_teamDescriptionRTv2: any;
   c_languagesV2: string[];
   c_educationDisplay: C_educationDisplay[];
   c_heroBanner: string;
@@ -44,6 +43,8 @@ interface MyContextData {
   c_designations: C_designations[];
   c_organizationsDisplay: string[];
   c_awardsDashboard: C_awardsDashboard[];
+  c_teamName: string;
+  c_teamMembers: any[];
 }
 
 interface MyContext {
@@ -82,7 +83,7 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_aboutAdvisorShortDescription: "",
     c_expertiseCommentsRTv2: "",
     c_hobbiesAndInterests: [],
-    c_teamNameAndSite: [],
+    c_teamDescriptionRTv2: undefined,
     c_languagesV2: [],
     c_educationDisplay: [],
     c_heroBanner: "",
@@ -95,6 +96,8 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_organizationsDisplay: [],
     c_designations: [],
     c_awardsDashboard: [],
+    c_teamName: "",
+    c_teamMembers: [],
   });
 
   return (

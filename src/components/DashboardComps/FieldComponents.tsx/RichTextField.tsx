@@ -48,7 +48,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
             />
           ) : (
             <LexicalMarkdownEditor
-              serializedAST={value}
+              serializedAST={""}
               editable={true}
               isContentEdited={(value: boolean) => {
                 setIsContentEdited(value);
@@ -64,7 +64,7 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
               serializedAST={JSON.parse(value).json || JSON.parse(value)}
             />
           ) : (
-            <LexicalMarkdownEditor serializedAST={value} />
+            `Click here`
           )}
         </div>
       )}

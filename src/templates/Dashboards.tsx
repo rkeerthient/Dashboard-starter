@@ -56,10 +56,7 @@ export const config: TemplateConfig = {
       "c_profileDelegates.delegateEmail",
       "c_profileDelegates.delegateUserID",
       "c_profileDelegates.giveProfileControl",
-      "c_teamNameAndSite.teamEntityId",
-      "c_teamNameAndSite.teamName",
-      "c_teamNameAndSite.teamSite",
-      "c_displayTeamName",
+
       "c_languagesV2",
       "photoGallery",
       "emails",
@@ -116,6 +113,7 @@ export const config: TemplateConfig = {
       "c_matchFinderPhoto.width",
       "c_taskGroups",
       "c_teamMembers.name",
+      "c_teamMembers.c_jobTitle",
       "c_teamMembers.slug",
       "c_teamMembers.photoGallery",
       "c_associatedBlogs.landingPageUrl",
@@ -129,6 +127,8 @@ export const config: TemplateConfig = {
       "c_heroBanner",
       "c_template",
       "geocodedCoordinate",
+      "c_teamDescriptionRTv2",
+      "c_teamName",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
