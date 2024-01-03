@@ -6,7 +6,7 @@ import {
   Marker,
   Annotation,
 } from "react-simple-maps";
-import allStates from "./allstates.json";
+import allStates from "./allStates.json";
 import { geoCentroid } from "d3-geo";
 import { useEffect, useState } from "react";
 import { useMyContext } from "./Context/MyContext";
