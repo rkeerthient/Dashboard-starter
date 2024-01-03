@@ -6,7 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import * as React from "react";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
 import { useMyContext } from "../../Context/MyContext";
-import Actions from "../common/Actions";
 
 interface Option {
   displayName: string;
@@ -80,7 +79,7 @@ const TextBoxContainer = ({
 }: TextBoxContainerProps) => {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [initialData, setInitialData] = useState<any>(initialValue);
-  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
   const [showSaveButtons, setShowSaveButtons] = useState<boolean>(false);
   const [initBlocks, setInitBlocks] = useState<Block[]>([]);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
@@ -167,7 +166,9 @@ const TextBoxContainer = ({
     updatedBlocks.splice(index, 1);
     setBlocks(updatedBlocks);
 
-    setIsEditable(JSON.stringify(updatedBlocks) !== JSON.stringify(initBlocks));
+    setIsDataChanged(
+      JSON.stringify(updatedBlocks) !== JSON.stringify(initBlocks)
+    );
     setShowSaveButtons(true);
   };
 
@@ -179,14 +180,16 @@ const TextBoxContainer = ({
     const updatedBlocks = [...blocks];
     updatedBlocks[index].textValues[property.name] = value;
     setBlocks(updatedBlocks);
-    setIsEditable(JSON.stringify(updatedBlocks) !== JSON.stringify(initBlocks));
+    setIsDataChanged(
+      JSON.stringify(updatedBlocks) !== JSON.stringify(initBlocks)
+    );
   };
 
   const handleRichtextChange = (index: number, value: string) => {
     const updatedBlocks = [...blocks];
     updatedBlocks[index].richTextValues = value;
     setBlocks(updatedBlocks);
-    setIsEditable(!deepEqual(initialData, updatedBlocks));
+    setIsDataChanged(!deepEqual(initialData, updatedBlocks));
   };
 
   const addNewBlock = () => {
@@ -241,14 +244,14 @@ const TextBoxContainer = ({
         multiPickOptions: initialMultiPickValues,
       },
     ]);
-    setIsEditable(JSON.stringify(blocks) !== JSON.stringify(initBlocks));
+    setIsDataChanged(JSON.stringify(blocks) !== JSON.stringify(initBlocks));
   };
 
   const handleOptionChange = (index: number, value: string) => {
     const updatedBlocks = [...blocks];
     updatedBlocks[index].optionValue = value;
     setBlocks(updatedBlocks);
-    setIsEditable(!deepEqual(initialData, updatedBlocks));
+    setIsDataChanged(!deepEqual(initialData, updatedBlocks));
   };
 
   const handleMultiOptionChange = (index: number, changedCheckbox: Option) => {
@@ -266,7 +269,7 @@ const TextBoxContainer = ({
       };
 
       setBlocks(updatedBlocks);
-      setIsEditable(!deepEqual(initialData, updatedBlocks));
+      setIsDataChanged(!deepEqual(initialData, updatedBlocks));
     }
   };
 
@@ -274,7 +277,7 @@ const TextBoxContainer = ({
     const updatedBlocks = [...blocks];
     updatedBlocks[index].booleanValue = Boolean(value);
     setBlocks(updatedBlocks);
-    setIsEditable(!deepEqual(initialData, updatedBlocks));
+    setIsDataChanged(!deepEqual(initialData, updatedBlocks));
   };
 
   const handleDateChange = (
@@ -286,7 +289,7 @@ const TextBoxContainer = ({
 
     updatedBlocks[index].dateValues[dateIndex] = date;
     setBlocks(updatedBlocks);
-    setIsEditable(!deepEqual(initialData, updatedBlocks));
+    setIsDataChanged(!deepEqual(initialData, updatedBlocks));
   };
 
   const saveChanges = async () => {
@@ -363,7 +366,7 @@ const TextBoxContainer = ({
         error
       );
     }
-    setIsEditable(false);
+    setIsDataChanged(false);
     setInitialValues(formattedJsonArray);
     editMode(false);
   };
@@ -577,16 +580,24 @@ const TextBoxContainer = ({
         >
           + Add New
         </button>
-        <Actions
-          initialValue={initialValue}
-          isContentEdited={isContentEdited}
-          setIsEditable={(e) => setIsEditable(e)}
-          setValue={(e) => setBlocks(e)}
-          saveBody={{
-            [fieldId as string]: saveBody(blocks, properties)
-              .formattedJsonArray,
-          }}
-        />
+        <div className="flex gap-4">
+          <button
+            onClick={saveChanges}
+            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
+              !isDataChanged
+                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
+                : `border-fieldAndBorderBGGrayColor bg-active text-white`
+            }`}
+          >
+            Save changes
+          </button>
+          <button
+            className=" mr-auto text-sm text-linkColor"
+            onClick={() => editMode(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -643,58 +654,4 @@ export const formatDateTime = (dateString?: Date) => {
   }
 
   return formattedDate;
-};
-
-export const saveBody = (blocks: any | any[], properties: any | any[]) => {
-  const jsonArray: any[] = [];
-  blocks.forEach((block: any) => {
-    const jsonBlock: Record<string, any> = {};
-    properties.forEach((property: Property) => {
-      switch (property.typeId) {
-        case "string":
-          jsonBlock[property.name] = block.textValues[property.name];
-          break;
-        case "boolean":
-          jsonBlock[property.name] = block.booleanValue;
-          break;
-        case "richText":
-          jsonBlock[property.name] = block.richTextValues;
-          break;
-        case "list":
-          jsonBlock[property.name] = block.multiPickOptions
-            .filter((item: any) => item.checked)
-            .map((item: any) => item.textValue);
-          break;
-        case "option":
-          jsonBlock[property.name] = Array.isArray(block.optionValue)
-            ? block.optionValue
-            : block.optionValue;
-          break;
-        case "date":
-          jsonBlock[property.name] = block.dateValues[0] || null;
-          break;
-        default:
-          break;
-      }
-    });
-    jsonArray.push(jsonBlock);
-  });
-
-  const formattedJsonArray = jsonArray.map((item) => {
-    const formattedItem: Record<string, any> = { ...item };
-    if (formattedItem.date instanceof Date) {
-      formattedItem.date = formatDateTime(formattedItem.date);
-    }
-    return formattedItem;
-  });
-  const isRichTextField = properties.some((item: any) =>
-    ["richText", "richTextV2"].includes(item.typeId)
-  );
-
-  const richFormat = isRichTextField
-    ? isRichTextField
-      ? "markdown"
-      : "html"
-    : "";
-  return { richFormat, formattedJsonArray };
 };
