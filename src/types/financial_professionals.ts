@@ -456,6 +456,19 @@ export enum C_experienceDisplay {
   INDUSTRY_LEVEL_OF_EXPERIENCE = "Industry Level of Experience",
 }
 
+export enum C_fonts {
+  SANS_SERIF = "Sans-serif",
+  SERIF = "Serif",
+  MONOSPACE = "Monospace",
+  BANGERS = "Bangers",
+  ROBOTO = "Roboto",
+  OPEN_SANS = "Open Sans",
+  LATO = "Lato",
+  RECURSIVE = "Recursive",
+  POPPINS = "Poppins",
+  BOWL_BY_ONE = "Bowl by One",
+}
+
 export interface C_fullBiographyPages {
   fullBiography?: any;
 }
@@ -509,14 +522,6 @@ export enum C_hasProfilePicture {
 export enum C_hasTeamWebsite {
   Y = "Y",
   N = "N",
-}
-
-export interface C_heroBanner {
-  image?: Image;
-  textLine1?: string;
-  textLine2?: string;
-  cTAText?: string;
-  cTALink?: string;
 }
 
 export enum C_hobbiesAndInterests {
@@ -940,6 +945,59 @@ export enum C_registrations {
   VI = "VI",
 }
 
+export enum C_serviceAreas {
+  AL = "Alabama",
+  AK = "Alaska",
+  AZ = "Arizona",
+  AR = "Arkansas",
+  CA = "California",
+  CO = "Colorado",
+  CT = "Connecticut",
+  DE = "Delaware",
+  FL = "Florida",
+  GA = "Georgia",
+  HI = "Hawaii",
+  ID = "Idaho",
+  IL = "Illinois",
+  IN = "Indiana",
+  IA = "Iowa",
+  KS = "Kansas",
+  KY = "Kentucky",
+  LA = "Louisiana",
+  ME = "Maine",
+  MD = "Maryland",
+  MA = "Massachusetts",
+  MI = "Michigan",
+  MN = "Minnesota",
+  MS = "Mississippi",
+  MO = "Missouri",
+  MT = "Montana",
+  NE = "Nebraska",
+  NV = "Nevada",
+  NH = "New Hampshire",
+  NJ = "New Jersey",
+  NM = "New Mexico",
+  NY = "New York",
+  NC = "North Carolina",
+  ND = "North Dakota",
+  OH = "Ohio",
+  OK = "Oklahoma",
+  OR = "Oregon",
+  PA = "Pennsylvania",
+  RI = "Rhode Island",
+  SC = "South Carolina",
+  SD = "South Dakota",
+  TN = "Tennessee",
+  TX = "Texas",
+  UT = "Utah",
+  VT = "Vermont",
+  VA = "Virginia",
+  WA = "Washington",
+  WV = "West Virginia",
+  WI = "Wisconsin",
+  WY = "Wyoming",
+}
+
 export interface Address_3 {
   line1?: string;
   line2?: string;
@@ -982,7 +1040,7 @@ export enum C_teamDisplay {
 export interface C_teamNameAndSite {
   teamName?: string;
   teamSite?: string;
-  teamEntityId?: number;
+  teamDescription?: string;
 }
 
 export enum C_tempRemoveFromMatch {
@@ -1242,15 +1300,18 @@ export default interface FinancialProfessional {
   nmlsNumber?: string;
   nudgeEnabled?: boolean;
   onlineServiceHours?: Hours;
+  pinterestUrl?: string;
   primaryConversationContact?: any;
   reviewResponseConversationEnabled?: boolean;
   serviceAreaPlaces?: ServiceAreaPlaces[];
   slug?: string;
   teamName?: string;
+  tikTokUrl?: string;
   what3WordsAddress?: string;
   yearsOfExperience?: number;
   yelpLinkedAccount?: any;
   yelpWebsiteOverride?: string;
+  youTubeChannelUrl?: string;
   additionalHoursText?: string;
   address: Address;
   addressHidden?: boolean;
@@ -1311,6 +1372,7 @@ export default interface FinancialProfessional {
   c_clientChatAndTexting?: boolean;
   c_clientFocuses?: C_clientFocuses[];
   c_clientFocusesReorder?: string[];
+  c_color?: string;
   c_combinedFlexibleHeaderSection?: string;
   c_contactLabel?: string;
   c_continuedAboutTitle?: string;
@@ -1339,6 +1401,7 @@ export default interface FinancialProfessional {
   c_experienceDisplay?: C_experienceDisplay;
   c_fAQHeadingMobile?: string;
   c_firmLevelOfExperience?: number;
+  c_fonts?: C_fonts;
   c_expertiseComments?: string;
   c_expertiseCommentsRTv2?: any;
   c_fullBiographyPages?: C_fullBiographyPages[];
@@ -1359,7 +1422,7 @@ export default interface FinancialProfessional {
   c_headline2?: string;
   c_headline3?: string;
   c_headline4?: string;
-  c_heroBanner?: C_heroBanner;
+  c_heroBanner?: Image;
   c_heroPicture?: Image;
   c_heroQuote?: string;
   c_hideLinkedTeam?: boolean;
@@ -1431,6 +1494,7 @@ export default interface FinancialProfessional {
   c_preferredFirstName?: string;
   c_preferredLinkedTeam?: EntityReference[];
   c_producerID?: string;
+  c_professionalServicePlace?: EntityReference[];
   c_professionalStaff?: C_professionalStaff[];
   c_profileDelegates?: C_profileDelegates[];
   c_profilePicture?: Image;
@@ -1443,6 +1507,7 @@ export default interface FinancialProfessional {
   c_registrations?: C_registrations[];
   c_sECProfileURL?: string;
   c_sEOURL?: string;
+  c_serviceAreas?: C_serviceAreas[];
   c_spanishBio?: any;
   c_specialists?: C_specialists[];
   c_stagingURL?: string;

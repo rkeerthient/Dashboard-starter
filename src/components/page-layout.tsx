@@ -54,6 +54,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_awardsDashboard,
         c_teamName,
         c_teamMembers,
+        c_serviceAreas,
       } = document;
       console.log(JSON.stringify(c_teamMembers));
 
@@ -89,6 +90,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(_site && { _site }),
         ...(c_awardsDashboard && { c_awardsDashboard }),
         ...(c_teamMembers && { c_teamMembers }),
+        ...(c_serviceAreas && { c_serviceAreas }),
       }));
     }
     setIsLoading(false);

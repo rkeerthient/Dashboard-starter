@@ -45,6 +45,7 @@ interface MyContextData {
   c_awardsDashboard: C_awardsDashboard[];
   c_teamName: string;
   c_teamMembers: any[];
+  c_serviceAreas: any[];
 }
 
 interface MyContext {
@@ -98,6 +99,7 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_awardsDashboard: [],
     c_teamName: "",
     c_teamMembers: [],
+    c_serviceAreas: [],
   });
 
   return (

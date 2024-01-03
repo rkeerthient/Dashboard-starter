@@ -12,6 +12,7 @@ import {
   C_clientFocuses,
   C_designations,
   C_hobbiesAndInterests,
+  C_serviceAreas,
 } from "../../types/financial_professionals";
 import PageLayout from "../page-layout";
 import ServiceAreaMap from "../ServiceAreaMap";
@@ -35,8 +36,9 @@ const Preview = ({ data }: any) => {
     c_teamName,
     c_teamDescriptionRTv2,
     c_teamMembers,
+    c_serviceAreas,
   } = _data;
-  console.log(c_teamMembers);
+  console.log(c_serviceAreas);
 
   const { name, mainPhone, photoGallery, c_associatedBlogs, hours, address } =
     data;
@@ -346,7 +348,6 @@ const Preview = ({ data }: any) => {
                 ))}
               </ul>
             </div>
-            <ServiceAreaMap />
           </div>
           // <div className="flex-flex-col mx-auto justify-center">
           //   <div className="flex flex-col gap-2">
@@ -361,6 +362,22 @@ const Preview = ({ data }: any) => {
           // </div>
         )}
       </div>
+      {c_serviceAreas && (
+        <div className="centered-container">
+          <div className=" flex justify-between px-4 bg-white mt-8">
+            <div className="w-1/2 flex justify-between items-center">
+              {c_preferredFirstName} is based out of {address.city},
+              {address.region}, but is licensed in the following states:{" "}
+              {c_serviceAreas
+                .map((item, index) => C_serviceAreas[item])
+                .join(", ")}
+            </div>
+            <div className="w-1/2">
+              <ServiceAreaMap />
+            </div>
+          </div>
+        </div>
+      )}
     </PageLayout>
   );
 };
