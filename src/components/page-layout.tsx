@@ -23,6 +23,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
+  console.log(userId);
 
   useEffect(() => {
     setIsLoading(true);
