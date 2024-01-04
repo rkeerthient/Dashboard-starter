@@ -34,12 +34,12 @@ const Actions = ({
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
+        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
+          userRole.acl[0].roleId
+        }`
       );
       const res = await response.json();
       console.log(JSON.stringify(await res.response));
-
-      // const isSuggestion = res.response.meta ? true : false;
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,

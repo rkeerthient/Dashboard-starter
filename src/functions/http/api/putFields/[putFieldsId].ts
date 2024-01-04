@@ -37,6 +37,7 @@ const putFields = async (
       ));
 
   const resp = await getEntitiesResponse.json();
+  console.log(await resp);
 
   return {
     body: JSON.stringify(resp),

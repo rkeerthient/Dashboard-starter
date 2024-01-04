@@ -19,7 +19,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   //2676513
   const userId = isLocal()
-    ? "2954661906076480599"
+    ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";

@@ -62,7 +62,6 @@ export interface Source {
 const Suggestions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestionsData, setSuggestionsData] = useState<Root[]>([]);
-  const { userRole } = useMyContext();
 
   useEffect(() => {
     let isMounted = true;
