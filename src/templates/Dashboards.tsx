@@ -29,6 +29,7 @@ import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
 import { Main } from "../layout/main";
 import Suggestions from "../components/DashboardComps/Suggestions";
+import { useMyContext } from "../components/Context/MyContext";
 
 /**
  * Required when Knowledge Graph data is used for a template.

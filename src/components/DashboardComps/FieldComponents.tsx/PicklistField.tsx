@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useMyContext } from "../../Context/MyContext";
 import Actions from "../common/Actions";
 interface PicklistFieldProps {
   initialValue: string | undefined;

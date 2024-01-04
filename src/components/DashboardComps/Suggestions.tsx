@@ -61,8 +61,9 @@ export interface Source {
 }
 const Suggestions = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [suggestionsData, setSuggestionsData] = useState([]);
+  const [suggestionsData, setSuggestionsData] = useState<Root[]>([]);
   const { userRole } = useMyContext();
+
   useEffect(() => {
     let isMounted = true;
 
@@ -75,12 +76,15 @@ const Suggestions = () => {
           return;
         }
         const mainJson: any = await response.json();
-        const suggestions: any = mainJson.response.suggestions
+        const suggestions: Root[] = mainJson.response.suggestions
           .sort(
-            (a: any, b: any) =>
-              new Date(b.createdDate) - new Date(a.createdDate)
+            (a: Root, b: Root) =>
+              new Date(b.createdDate).getTime() -
+              new Date(a.createdDate).getTime()
           )
-          .filter((user) => user.source.userId === userRole.id);
+          .filter((user: Root) => user.source.userId === userRole.id);
+        console.log(JSON.stringify(suggestions.length));
+
         setSuggestionsData(suggestions);
       } catch (error) {
         console.error(
@@ -108,9 +112,11 @@ const Suggestions = () => {
             role="status"
           ></div>
         </div>
+      ) : userRole.acl[0].roleId === "1" ? (
+        <div>There are no suggestions created</div>
       ) : (
         <div className="flex flex-col gap-2 px-4 centered-container text-sm text-slate-600 overflow-auto">
-          {suggestionsData.map((item, index) => (
+          {suggestionsData.map((item: Root, index: number) => (
             <div key={index} className="flex   border border-gray-300 w-full">
               <div className="border-r-2 border-gray-300 w-1/3 p-4">
                 <div className="flex flex-col gap-4">

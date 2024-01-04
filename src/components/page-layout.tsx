@@ -17,8 +17,9 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
   const { setUserRole, setData } = useMyContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  //2676513
   const userId = isLocal()
-    ? "2676513"
+    ? "2954661906076480599"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
@@ -105,6 +106,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
           setUserRole(userString);
+          console.log(JSON.stringify(userString));
         }
       } catch (error: any) {
         console.log(`Error fetching user data: ${JSON.stringify(error)}`);
