@@ -70,7 +70,6 @@ const LexicalRichTextEditor = ({
   const onChange = (editorState: EditorState) => {
     editorState.read(() => {
       const json = editorState;
-
       !initJson && setInitJson(json);
       const updatedContent = editorState;
 

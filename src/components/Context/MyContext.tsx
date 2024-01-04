@@ -8,11 +8,15 @@ import {
 } from "react";
 import * as React from "react";
 import {
+  Address,
+  C_awardsDashboard,
+  C_designations,
   C_educationDisplay,
-  C_teamNameAndSite,
   ComplexImage,
+  Coordinate,
   Hours,
 } from "../../types/financial_professionals";
+import { UserProfile } from "../../types/user_profile";
 
 interface MyContextData {
   name: string;
@@ -28,17 +32,26 @@ interface MyContextData {
   c_aboutAdvisorShortDescription: string;
   c_expertiseCommentsRTv2: string;
   c_hobbiesAndInterests: string[];
-  c_teamNameAndSite: C_teamNameAndSite[];
+  c_teamDescriptionRTv2: any;
   c_languagesV2: string[];
   c_educationDisplay: C_educationDisplay[];
   c_heroBanner: string;
   c_associatedBlogs: any[];
   hours: Hours;
+  address: Address;
+  geocodedCoordinate: Coordinate;
+  _site: any;
+  c_designations: C_designations[];
+  c_organizationsDisplay: string[];
+  c_awardsDashboard: C_awardsDashboard[];
+  c_teamName: string;
+  c_teamMembers: any[];
+  c_serviceAreas: any[];
 }
 
 interface MyContext {
-  userRole: string;
-  setUserRole: Dispatch<SetStateAction<string>>;
+  userRole: UserProfile;
+  setUserRole: Dispatch<SetStateAction<UserProfile>>;
   data: MyContextData;
   setData: Dispatch<SetStateAction<MyContextData>>;
 }
@@ -58,7 +71,7 @@ interface MyContextProviderProps {
 }
 
 export const MyContextProvider = ({ children }: MyContextProviderProps) => {
-  const [userRole, setUserRole] = useState<string>("");
+  const [userRole, setUserRole] = useState<UserProfile>();
   const [data, setData] = useState<MyContextData>({
     name: "",
     mainPhone: "",
@@ -72,13 +85,22 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_aboutAdvisorShortDescription: "",
     c_expertiseCommentsRTv2: "",
     c_hobbiesAndInterests: [],
-    c_teamNameAndSite: [],
+    c_teamDescriptionRTv2: undefined,
     c_languagesV2: [],
     c_educationDisplay: [],
     c_heroBanner: "",
     c_associatedBlogs: [],
     photoGallery: [],
     hours: {},
+    address: {},
+    geocodedCoordinate: {},
+    _site: {},
+    c_organizationsDisplay: [],
+    c_designations: [],
+    c_awardsDashboard: [],
+    c_teamName: "",
+    c_teamMembers: [],
+    c_serviceAreas: [],
   });
 
   return (

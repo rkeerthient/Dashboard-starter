@@ -1,7 +1,7 @@
 import { SitesHttpRequest, SitesHttpResponse } from "@yext/pages/*";
 import { fetch } from "@yext/pages/util";
 
-const getFields = async (
+const getUser = async (
   request: SitesHttpRequest
 ): Promise<SitesHttpResponse> => {
   const { method, pathParams } = request;
@@ -29,4 +29,4 @@ const getFields = async (
   };
 };
 
-export default getFields;
+export default getUser;

@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -755,4 +758,13 @@ i.chevron-down {
   height: 20px;
   width: 20px;
   vertical-align: -0.25em;
+}
+
+.mapPreview svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.mapPreview path {
+  fill: #2a354d;
 }

@@ -27,10 +27,9 @@ import SampleChart from "../components/SampleChart";
 import DBBanner from "../components/DashboardComps/dbBanner";
 import PageLayout from "../components/page-layout";
 import { Image } from "@yext/sites-components";
-import { getRuntime } from "@yext/pages/util";
-import { isLocal } from "../utils/isLocal";
-import { useMyContext } from "../components/Context/MyContext";
 import { Main } from "../layout/main";
+import Suggestions from "../components/DashboardComps/Suggestions";
+import { useMyContext } from "../components/Context/MyContext";
 
 /**
  * Required when Knowledge Graph data is used for a template.
@@ -59,10 +58,7 @@ export const config: TemplateConfig = {
       "c_profileDelegates.delegateEmail",
       "c_profileDelegates.delegateUserID",
       "c_profileDelegates.giveProfileControl",
-      "c_teamNameAndSite.teamEntityId",
-      "c_teamNameAndSite.teamName",
-      "c_teamNameAndSite.teamSite",
-      "c_displayTeamName",
+
       "c_languagesV2",
       "photoGallery",
       "emails",
@@ -119,19 +115,23 @@ export const config: TemplateConfig = {
       "c_matchFinderPhoto.width",
       "c_taskGroups",
       "c_teamMembers.name",
+      "c_teamMembers.c_jobTitle",
       "c_teamMembers.slug",
       "c_teamMembers.photoGallery",
-      "c_associatedBlogs.name",
-      "c_associatedBlogs.c_body",
-      "c_associatedBlogs.slug",
-      "c_associatedBlogs.id",
-      "c_associatedBlogs.photoGallery",
-      "c_associatedBlogs.c_category",
       "c_associatedBlogs.landingPageUrl",
+      "c_associatedBlogs.description",
+      "c_associatedBlogs.name",
+      "c_associatedBlogs.c_category",
+      "c_associatedBlogs.c_datePublished",
+      "c_associatedBlogs.photoGallery",
       "c_color",
       "c_fonts",
       "c_heroBanner",
       "c_template",
+      "geocodedCoordinate",
+      "c_teamDescriptionRTv2",
+      "c_teamName",
+      "c_serviceAreas",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
@@ -257,23 +257,16 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
       Position: 4.1,
     },
   ];
-  const tabs = ["About me", "My Team", "Analytics"];
+  const tabs = ["About me", "My Team", "Analytics", "Suggestions"];
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
+
   return (
     <Main>
       <PageLayout _site={document._site} document={document}>
-        <div id="portal" />
-        <div
-          style={{
-            fontFamily:
-              document.c_fonts &&
-              document.c_fonts.toLowerCase().replaceAll(" ", ""),
-          }}
-          className="space-y-4 bg-slate-200 "
-        >
+        <div className="space-y-4 bg-slate-200 ">
           <DBBanner
             name={document.name}
             _site={document._site}
@@ -410,6 +403,8 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                 </div>
               </div>
             </div>
+          ) : currentTab === "Suggestions" ? (
+            <Suggestions />
           ) : (
             <div className="border m-4 p-4 bg-white space-y-4">
               <div className="text-2xl font-bold text-[#003168]">

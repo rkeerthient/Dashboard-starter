@@ -59,16 +59,6 @@ const MultiPicklistField = ({
     return true;
   };
 
-  const handleSave = () => {
-    setIsEditMode(false);
-    setIsContentEdited(false);
-  };
-
-  const handleCancel = () => {
-    setIsEditMode(false);
-    setIsContentEdited(false);
-  };
-
   return (
     <div
       className={`w-full   ${isEditMode ? `bg-containerBG` : `bg-transparent`}`}

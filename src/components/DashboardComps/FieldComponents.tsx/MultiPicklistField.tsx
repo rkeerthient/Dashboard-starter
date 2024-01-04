@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useMyContext } from "../../Context/MyContext";
+import Actions from "../common/Actions";
 
 interface MultiPicklistFieldProps {
   initialValue?: string | undefined;
@@ -19,27 +19,26 @@ const MultiPicklistField = ({
   options,
   fieldId,
 }: MultiPicklistFieldProps) => {
-  const [selectedItems, setSelectedItems] = useState<Option[]>([]);
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [value, setValue] = useState<Option[]>([]);
+  const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState(false);
   const [initVals, setInitVals] = useState<Option[]>([]);
-  const { userRole, setData } = useMyContext();
   useEffect(() => {
     const initialCheckboxes = options.map((checkbox) => ({
       ...checkbox,
       checked: initialValue.includes(checkbox.textValue),
     }));
-    setSelectedItems(initialCheckboxes);
+    setValue(initialCheckboxes);
     setInitVals(initialCheckboxes);
   }, [options, initialValue]);
 
   const handleCheckboxChange = (changedCheckbox: Option) => {
-    const updatedCheckboxes = selectedItems.map((checkbox) =>
+    const updatedCheckboxes = value.map((checkbox) =>
       checkbox.textValue === changedCheckbox.textValue
         ? { ...checkbox, checked: !checkbox.checked }
         : checkbox
     );
-    setSelectedItems(updatedCheckboxes);
+    setValue(updatedCheckboxes);
     const hasContentChanged = !arraysAreEqual(updatedCheckboxes, initVals);
     setIsContentEdited(hasContentChanged);
   };
@@ -60,58 +59,14 @@ const MultiPicklistField = ({
 
     return true;
   };
-  const updateValue = (
-    propertyName: string,
-    newValue: any,
-    isSuggestion: boolean
-  ) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: {
-        ...prevData[propertyName],
-        value: newValue,
-        isSuggestion: isSuggestion,
-      },
-    }));
-  };
-  const handleSave = async () => {
-    let x = selectedItems.filter((item) => item.checked);
-    let filteredData = x.map((item) => item.textValue);
-    const requestBody = encodeURIComponent(
-      JSON.stringify({
-        [fieldId]: filteredData,
-      })
-    );
-    try {
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${userRole}`
-      );
-      const res = await response.json();
-      const isSuggestion = res.response.meta ? true : false;
-
-      updateValue(fieldId, selectedItems, isSuggestion);
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-        error
-      );
-    }
-    setIsEditMode(false);
-    setIsContentEdited(false);
-  };
-
-  const handleCancel = () => {
-    setIsEditMode(false);
-    setIsContentEdited(false);
-  };
 
   return (
     <div
-      className={`w-full   ${isEditMode ? `bg-containerBG` : `bg-transparent`}`}
+      className={`w-full   ${isEditable ? `bg-containerBG` : `bg-transparent`}`}
     >
-      {isEditMode ? (
+      {isEditable ? (
         <>
-          {selectedItems.map((checkbox) => (
+          {value.map((checkbox) => (
             <div key={checkbox.textValue} className="flex gap-2">
               <input
                 type="checkbox"
@@ -127,13 +82,13 @@ const MultiPicklistField = ({
         </>
       ) : (
         <div
-          onClick={() => setIsEditMode(true)}
+          onClick={() => setIsEditable(true)}
           className="hover:cursor-pointer hover:bg-containerBG p-2"
         >
-          {selectedItems.filter((item) => item.checked).length >= 1 ? (
+          {value.filter((item) => item.checked).length >= 1 ? (
             <div className="grid grid-cols-3 ">
-              {selectedItems &&
-                selectedItems
+              {value &&
+                value
                   .filter((checkbox) => checkbox.checked)
                   .map((checkbox) => (
                     <div key={checkbox.textValue}>{checkbox.displayName}</div>
@@ -144,26 +99,22 @@ const MultiPicklistField = ({
           )}
         </div>
       )}
-      {isEditMode && (
-        <div className="flex w-full gap-2 text-xs pt-2 font-bold">
-          <button
-            onClick={handleSave}
-            disabled={!isContentEdited}
-            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-              !isContentEdited
-                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                : `border-fieldAndBorderBGGrayColor bg-active text-white`
-            }`}
-          >
-            Save for 1 Profile
-          </button>
-          <button onClick={handleCancel} className={`text-xs text-linkColor`}>
-            Cancel
-          </button>
-        </div>
+      {isEditable && (
+        <Actions
+          initialValue={initialValue}
+          isContentEdited={isContentEdited}
+          setIsEditable={(e) => setIsEditable(e)}
+          setValue={(e) => setValue(e)}
+          saveBody={{ [fieldId]: buildBody(value) }}
+        />
       )}
     </div>
   );
 };
 
 export default MultiPicklistField;
+export const buildBody = (value: any) => {
+  let x = value.filter((item: any) => item.checked);
+  let filteredData = x.map((item: any) => item.textValue);
+  return filteredData;
+};

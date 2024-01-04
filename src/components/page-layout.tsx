@@ -17,6 +17,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
   const { setUserRole, setData } = useMyContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  //2676513
   const userId = isLocal()
     ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
@@ -39,13 +40,22 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_aboutAdvisorShortDescription,
         c_expertiseCommentsRTv2,
         c_hobbiesAndInterests,
-        c_teamNameAndSite,
+        c_teamDescriptionRTv2,
         c_languagesV2,
         c_educationDisplay,
         c_heroBanner,
         c_associatedBlogs,
         photoGallery,
         hours,
+        address,
+        geocodedCoordinate,
+        c_designations,
+        _site,
+        c_organizationsDisplay,
+        c_awardsDashboard,
+        c_teamName,
+        c_teamMembers,
+        c_serviceAreas,
       } = document;
 
       setData((prevData) => ({
@@ -65,12 +75,22 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(photoGallery && { photoGallery }),
         ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
         ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
-        ...(c_teamNameAndSite && { c_teamNameAndSite }),
+        ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
+        ...(c_teamName && { c_teamName }),
+
         ...(c_languagesV2 && { c_languagesV2 }),
         ...(c_educationDisplay && { c_educationDisplay }),
         ...(c_heroBanner && { c_heroBanner }),
         ...(c_associatedBlogs && { c_associatedBlogs }),
         ...(hours && { hours }),
+        ...(address && { address }),
+        ...(geocodedCoordinate && { geocodedCoordinate }),
+        ...(c_designations && { c_designations }),
+        ...(c_organizationsDisplay && { c_organizationsDisplay }),
+        ...(_site && { _site }),
+        ...(c_awardsDashboard && { c_awardsDashboard }),
+        ...(c_teamMembers && { c_teamMembers }),
+        ...(c_serviceAreas && { c_serviceAreas }),
       }));
     }
     setIsLoading(false);
@@ -78,16 +98,17 @@ const PageLayout = ({ _site, children, document }: Props) => {
 
   useEffect(() => {
     setIsLoading(true);
+
     const getUserRole = async () => {
       try {
         if (userId) {
           const response = await fetch(`/api/users/${userId}`);
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
-          setUserRole(await userString.acl[0].roleId);
+          setUserRole(userString);
         }
       } catch (error: any) {
-        console.log(`Error fetching user data: ${JSON.stringify(error)}`);
+        console.error(`Error fetching user data: ${JSON.stringify(error)}`);
       } finally {
         setIsLoading(false);
       }
