@@ -38,11 +38,9 @@ const Preview = ({ data }: any) => {
     c_teamMembers,
     c_serviceAreas,
   } = _data;
-  console.log(c_serviceAreas);
 
   const { name, mainPhone, photoGallery, c_associatedBlogs, hours, address } =
     data;
-  console.log(JSON.stringify(c_associatedBlogs));
 
   return (
     <PageLayout _site={_site}>

@@ -6,7 +6,6 @@ import { Image } from "@yext/sites-components";
 
 const TeamCarousel = (props: any) => {
   const { data } = props;
-  console.log(JSON.stringify(data));
 
   const settings = {
     dots: false,

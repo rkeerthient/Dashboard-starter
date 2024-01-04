@@ -81,8 +81,6 @@ const Suggestions = () => {
             new Date(a.createdDate).getTime()
         );
 
-        console.log(JSON.stringify(suggestions.length));
-
         setSuggestionsData(suggestions);
       } catch (error) {
         console.error(

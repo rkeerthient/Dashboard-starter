@@ -23,7 +23,6 @@ const PageLayout = ({ _site, children, document }: Props) => {
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";
-  console.log(userId);
 
   useEffect(() => {
     setIsLoading(true);
@@ -58,7 +57,6 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_teamMembers,
         c_serviceAreas,
       } = document;
-      console.log(JSON.stringify(c_teamMembers));
 
       setData((prevData) => ({
         ...prevData,
@@ -100,7 +98,6 @@ const PageLayout = ({ _site, children, document }: Props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log(userId);
 
     const getUserRole = async () => {
       try {
@@ -109,10 +106,9 @@ const PageLayout = ({ _site, children, document }: Props) => {
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
           setUserRole(userString);
-          console.log(JSON.stringify(userString));
         }
       } catch (error: any) {
-        console.log(`Error fetching user data: ${JSON.stringify(error)}`);
+        console.error(`Error fetching user data: ${JSON.stringify(error)}`);
       } finally {
         setIsLoading(false);
       }

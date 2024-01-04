@@ -16,11 +16,7 @@ const Actions = ({
 }: Action_Props) => {
   const { userRole, setData } = useMyContext();
 
-  const updateValue = (
-    propertyName: string,
-    newValue: any,
-    isSuggestion: boolean
-  ) => {
+  const updateValue = (propertyName: string, newValue: any) => {
     setData((prevData) => ({
       ...prevData,
       [propertyName]: newValue,
@@ -28,9 +24,6 @@ const Actions = ({
   };
 
   const handleSave = async () => {
-    const requestBody = encodeURIComponent(JSON.stringify(saveBody));
-    console.log(JSON.stringify(saveBody));
-
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
       const response = await fetch(
@@ -39,7 +32,8 @@ const Actions = ({
         }`
       );
       const res = await response.json();
-      console.log(JSON.stringify(await res.response));
+
+      !res.meta.errors.length && updateValue;
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,

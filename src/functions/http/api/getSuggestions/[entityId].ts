@@ -10,10 +10,6 @@ const getSugestions = async (
 
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
 
-  console.log(
-    `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?entityIds=${entityId}&api_key=${api_key}&v=20230601`
-  );
-
   if (!entityId) {
     return {
       body: "Missing entitygetFieldTypesId",
