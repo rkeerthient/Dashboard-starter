@@ -184,8 +184,6 @@ declare global {
  * them in the src/templates folder as this is specific for true template files).
  */
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
-  console.log(JSON.stringify(document.c_designations));
-
   const analyticsData = [
     {
       SearchTerm: "RBC Services",
@@ -267,14 +265,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   return (
     <Main>
       <PageLayout _site={document._site} document={document}>
-        <div
-          // style={{
-          //   fontFamily:
-          //     document.c_fonts &&
-          //     document.c_fonts.toLowerCase().replaceAll(" ", ""),
-          // }}
-          className="space-y-4 bg-slate-200 "
-        >
+        <div className="space-y-4 bg-slate-200 ">
           <DBBanner
             name={document.name}
             _site={document._site}

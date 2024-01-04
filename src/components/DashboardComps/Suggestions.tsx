@@ -1,9 +1,68 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useMyContext } from "../Context/MyContext";
+export interface Root {
+  uid: string;
+  accountId: string;
+  createdDate: string;
+  lastUpdatedDate: string;
+  resolvedDate: string;
+  source: Source;
+  entityFieldSuggestion: EntityFieldSuggestion;
+  status: string;
+  locked: boolean;
+  comments: any[];
+  approver: Approver;
+}
 
+export interface Source {
+  userId: string;
+}
+
+export interface EntityFieldSuggestion {
+  entity: Entity;
+  existingContent: ExistingContent;
+  suggestedContent: SuggestedContent;
+}
+
+export interface Entity {
+  id: string;
+  uid: string;
+  type: string;
+  language: string;
+  folderId: string;
+  labels: string[];
+}
+
+export interface ExistingContent {
+  c_fAQs: CFAq[];
+}
+
+export interface CFAq {
+  question: string;
+  answer: string;
+}
+
+export interface SuggestedContent {
+  c_fAQs: CFAq2[];
+}
+
+export interface CFAq2 {
+  question: string;
+  answer: string;
+}
+
+export interface Approver {
+  userId: string;
+}
+
+export interface Source {
+  userId: string;
+}
 const Suggestions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestionsData, setSuggestionsData] = useState([]);
+  const { userRole } = useMyContext();
   useEffect(() => {
     let isMounted = true;
 
@@ -16,9 +75,12 @@ const Suggestions = () => {
           return;
         }
         const mainJson: any = await response.json();
-        const suggestions = mainJson.response.suggestions.sort(
-          (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
-        );
+        const suggestions: any = mainJson.response.suggestions
+          .sort(
+            (a: any, b: any) =>
+              new Date(b.createdDate) - new Date(a.createdDate)
+          )
+          .filter((user) => user.source.userId === userRole.id);
         setSuggestionsData(suggestions);
       } catch (error) {
         console.error(

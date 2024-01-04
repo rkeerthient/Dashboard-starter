@@ -104,7 +104,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
           const response = await fetch(`/api/users/${userId}`);
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
-          setUserRole(await userString.acl[0].roleId);
+          setUserRole(userString);
         }
       } catch (error: any) {
         console.log(`Error fetching user data: ${JSON.stringify(error)}`);

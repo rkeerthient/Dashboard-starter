@@ -16,6 +16,7 @@ import {
   Coordinate,
   Hours,
 } from "../../types/financial_professionals";
+import { UserProfile } from "../../types/user_profile";
 
 interface MyContextData {
   name: string;
@@ -49,8 +50,8 @@ interface MyContextData {
 }
 
 interface MyContext {
-  userRole: string;
-  setUserRole: Dispatch<SetStateAction<string>>;
+  userRole: UserProfile;
+  setUserRole: Dispatch<SetStateAction<UserProfile>>;
   data: MyContextData;
   setData: Dispatch<SetStateAction<MyContextData>>;
 }
@@ -70,7 +71,7 @@ interface MyContextProviderProps {
 }
 
 export const MyContextProvider = ({ children }: MyContextProviderProps) => {
-  const [userRole, setUserRole] = useState<string>("");
+  const [userRole, setUserRole] = useState<UserProfile>();
   const [data, setData] = useState<MyContextData>({
     name: "",
     mainPhone: "",
