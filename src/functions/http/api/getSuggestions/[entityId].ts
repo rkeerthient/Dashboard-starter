@@ -1,7 +1,7 @@
 import { SitesHttpRequest, SitesHttpResponse } from "@yext/pages/*";
 import { fetch } from "@yext/pages/util";
 
-const getSuugestions = async (
+const getSugestions = async (
   request: SitesHttpRequest
 ): Promise<SitesHttpResponse> => {
   const { method, queryParams, pathParams } = request;
@@ -34,4 +34,4 @@ const getSuugestions = async (
   };
 };
 
-export default getSuugestions;
+export default getSugestions;

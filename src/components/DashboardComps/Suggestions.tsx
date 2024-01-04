@@ -76,13 +76,12 @@ const Suggestions = () => {
           return;
         }
         const mainJson: any = await response.json();
-        const suggestions: Root[] = mainJson.response.suggestions
-          .sort(
-            (a: Root, b: Root) =>
-              new Date(b.createdDate).getTime() -
-              new Date(a.createdDate).getTime()
-          )
-          .filter((user: Root) => user.source.userId === userRole.id);
+        const suggestions: Root[] = mainJson.response.suggestions.sort(
+          (a: Root, b: Root) =>
+            new Date(b.createdDate).getTime() -
+            new Date(a.createdDate).getTime()
+        );
+
         console.log(JSON.stringify(suggestions.length));
 
         setSuggestionsData(suggestions);
@@ -112,8 +111,6 @@ const Suggestions = () => {
             role="status"
           ></div>
         </div>
-      ) : userRole.acl[0].roleId === "1" ? (
-        <div>There are no suggestions created</div>
       ) : (
         <div className="flex flex-col gap-2 px-4 centered-container text-sm text-slate-600 overflow-auto">
           {suggestionsData.map((item: Root, index: number) => (
