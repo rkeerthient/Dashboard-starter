@@ -99,6 +99,8 @@ const PageLayout = ({ _site, children, document }: Props) => {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log(userId);
+
     const getUserRole = async () => {
       try {
         if (userId) {
