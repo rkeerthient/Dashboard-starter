@@ -4,7 +4,7 @@ import { fetch } from "@yext/pages/util";
 const putFields = async (
   request: SitesHttpRequest
 ): Promise<SitesHttpResponse> => {
-  const { method, pathParams, queryParams } = request;
+  const { pathParams, queryParams } = request;
 
   const { putFieldsId } = pathParams;
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
