@@ -41,6 +41,7 @@ const Preview = ({ data }: any) => {
 
   const { name, mainPhone, photoGallery, c_associatedBlogs, hours, address } =
     data;
+  console.log(c_fonts);
 
   return (
     <PageLayout _site={_site}>

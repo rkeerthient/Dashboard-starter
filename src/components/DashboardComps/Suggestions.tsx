@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useMyContext } from "../Context/MyContext";
 export interface Root {
   uid: string;
   accountId: string;

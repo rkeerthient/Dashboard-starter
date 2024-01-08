@@ -17,29 +17,30 @@ const Actions = ({
   const { userRole, setData } = useMyContext();
 
   const updateValue = (propertyName: string, newValue: any) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: newValue,
-    }));
+    console.log(propertyName);
+    console.log(newValue);
+
+    setData(propertyName + "", "newValue", true);
   };
 
   const handleSave = async () => {
-    try {
-      const requestBody = encodeURIComponent(JSON.stringify(saveBody));
-      const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
-          userRole.acl[0].roleId
-        }`
-      );
-      const res = await response.json();
+    // try {
+    //   const requestBody = encodeURIComponent(JSON.stringify(saveBody));
+    //   const response = await fetch(
+    //     `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
+    //       userRole.acl[0].roleId
+    //     }`
+    //   );
+    //   const res = await response.json();
 
-      !res.meta.errors.length && updateValue;
-    } catch (error) {
-      console.error(
-        `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
-        error
-      );
-    }
+    //   !res.meta.errors.length && updateValue;
+    // } catch (error) {
+    //   console.error(
+    //     `Failed to fetch field configuration for ${JSON.stringify(error)}:`,
+    //     error
+    //   );
+    // }
+    updateValue(Object.keys(saveBody)[0], "hello");
     setIsEditable(false);
   };
 

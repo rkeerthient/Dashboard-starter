@@ -3,9 +3,13 @@ import { C_taskGroups, Tasks } from "../../types/dashboard_entity";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Subtasks from "./Subtasks";
+import { useMyContext } from "../Context/MyContext";
 
 const TasksSection = ({ tasks, document }: any) => {
-  let bgColor = document.c_color;
+  const { data } = useMyContext();
+  React.useEffect(() => {
+    console.log(JSON.stringify(data));
+  }, [data]);
   return (
     <>
       {tasks && (
