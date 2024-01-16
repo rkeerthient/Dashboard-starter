@@ -14,7 +14,7 @@ const Actions = ({
   setValue,
   saveBody,
 }: Action_Props) => {
-  const { userRole, setData } = useMyContext();
+  const { userRole, setData, setNotification } = useMyContext();
 
   const updateValue = (propertyName: string, newValue: any) => {
     setData((prevData) => ({
@@ -32,7 +32,26 @@ const Actions = ({
         }`
       );
       const res = await response.json();
-
+      // if (!res.meta.errors.length) {
+      //   res.operationType === "Update"
+      //     ? setNotification({
+      //         content: `Value updated for ${Object.keys(saveBody)[0]}`,
+      //         type: `Update`,
+      //       })
+      //     : setNotification({
+      //         content: `Suggestion Created for ${Object.keys(saveBody)[0]}`,
+      //         type: `Suggestion`,
+      //       });
+      //   updateValue(
+      //     Object.keys(saveBody)[0],
+      //     saveBody[Object.keys(saveBody)[0]]
+      //   );
+      // } else {
+      //   setNotification({
+      //     content: `Suggestion Created for ${Object.keys(saveBody)[0]}`,
+      //     type: `Suggestion`,
+      //   });
+      // }
       !res.meta.errors.length && updateValue;
     } catch (error) {
       console.error(

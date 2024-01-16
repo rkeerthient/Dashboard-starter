@@ -17,7 +17,8 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
   const { setUserRole, setData } = useMyContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  //2676513
+  //Admin user - 2676513
+  //Suggestions user - 2954661906076480599
   const userId = isLocal()
     ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId

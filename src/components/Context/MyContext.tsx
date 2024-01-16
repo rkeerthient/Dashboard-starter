@@ -48,12 +48,17 @@ interface MyContextData {
   c_teamMembers: any[];
   c_serviceAreas: any[];
 }
-
+interface NotificationDetails {
+  content: string;
+  type: string;
+}
 interface MyContext {
   userRole: UserProfile;
   setUserRole: Dispatch<SetStateAction<UserProfile>>;
   data: MyContextData;
   setData: Dispatch<SetStateAction<MyContextData>>;
+  notification: NotificationDetails;
+  setNotification: Dispatch<SetStateAction<NotificationDetails>>;
 }
 
 const MyContext = createContext<MyContext | undefined>(undefined);
@@ -72,6 +77,10 @@ interface MyContextProviderProps {
 
 export const MyContextProvider = ({ children }: MyContextProviderProps) => {
   const [userRole, setUserRole] = useState<UserProfile>();
+  const [notification, setNotification] = useState<NotificationDetails>({
+    type: "",
+    content: "",
+  });
   const [data, setData] = useState<MyContextData>({
     name: "",
     mainPhone: "",
@@ -110,6 +119,8 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
         setUserRole,
         data,
         setData,
+        notification,
+        setNotification,
       }}
     >
       {children}
