@@ -6,14 +6,16 @@ import { useMyContext } from "./Context/MyContext";
 
 type ToastProps = {
   visibility: boolean;
-  content: string;
+  fieldKey: string;
   type: string;
+  fieldName: string;
 };
 
-const Toast = ({ visibility, content, type }: ToastProps) => {
-  const [visible, setVisible] = useState(visibility);
+const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
+  const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(100);
   const { setNotification } = useMyContext();
+  console.log(fieldKey);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -56,7 +58,7 @@ const Toast = ({ visibility, content, type }: ToastProps) => {
             >
               <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="p-4">
-                  <div className="flex items-start">
+                  <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <CheckCircleIcon
                         className="h-6 w-6 text-[#0069c3]"
@@ -64,13 +66,19 @@ const Toast = ({ visibility, content, type }: ToastProps) => {
                       />
                     </div>
                     <div className="ml-3 w-0 flex-1 pt-0.5">
-                      <p className="text-sm font-medium text-gray-900">
-                        {type}
+                      <p className=" font-medium text-gray-900">
+                        {type === "Suggestion"
+                          ? `New Suggestion Posted`
+                          : `Field Update`}
                       </p>
-                      <p className="mt-1 text-sm text-gray-500">{content}</p>
+                      <p className="mt-2 text-sm text-gray-500">
+                        {type === "Suggestion"
+                          ? `New Suggestion Created for ${fieldName}(${fieldKey}).`
+                          : `Field value is updated for ${fieldName}(${fieldKey})`}
+                      </p>
 
                       <p
-                        className={` mt-1 h-2 bg-[#0069c3] transition-all duration-100 ease-in-out`}
+                        className={` mt-2 h-2 bg-[#0069c3] transition-all duration-100 ease-in-out`}
                         style={{ width: `${progress}%` }}
                       ></p>
                     </div>

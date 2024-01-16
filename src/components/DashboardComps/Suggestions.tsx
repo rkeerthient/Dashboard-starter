@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useMyContext } from "../Context/MyContext";
 export interface Root {
   uid: string;
   accountId: string;
@@ -99,10 +98,27 @@ const Suggestions = () => {
       isMounted = false;
     };
   }, []);
+  const formattedDate = (createdDate: string) => {
+    const dateObject = new Date(Date.parse(createdDate));
+
+    const dateString = dateObject.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    });
+
+    const timeString = dateObject.toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return `${dateString} at ${timeString}`;
+  };
   return (
-    <>
+    <div className=" h-[800px] overflow-scroll p-4 bg-white">
       {isLoading ? (
-        <div className="px-4 py-3 ">
+        <div className="px-4 py-8 ">
           <div
             className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status"
@@ -145,7 +161,7 @@ const Suggestions = () => {
               <div className=" w-1/3 flex flex-col gap-2 p-4 ">
                 <div className="flex flex-col ">
                   <div className="font-bold">Created</div>
-                  <div>{item.createdDate}</div>
+                  <div>{formattedDate(item.createdDate)}</div>{" "}
                 </div>
                 <div className="flex flex-col ">
                   <div className="font-bold">Status</div>
@@ -156,7 +172,7 @@ const Suggestions = () => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -49,7 +49,7 @@ interface MyContextData {
   c_serviceAreas: any[];
 }
 interface NotificationDetails {
-  content: string;
+  fieldKey: string;
   type: string;
 }
 interface MyContext {

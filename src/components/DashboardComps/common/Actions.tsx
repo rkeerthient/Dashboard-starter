@@ -55,12 +55,12 @@ const Actions = ({
       if (!res.meta.errors.length) {
         res.operationType === "Update"
           ? setNotification({
-              content: `Value updated for ${Object.keys(saveBody)[0]}`,
-              type: `Entity Update`,
+              fieldKey: `${Object.keys(saveBody)[0]}`,
+              type: `Update`,
             })
           : setNotification({
-              content: `Suggestion Created for ${Object.keys(saveBody)[0]}`,
-              type: `New Suggestion`,
+              fieldKey: `${Object.keys(saveBody)[0]}`,
+              type: `Suggestion`,
             });
         updateValue(
           Object.keys(saveBody)[0],

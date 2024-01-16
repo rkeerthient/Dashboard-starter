@@ -17,8 +17,9 @@ type Props = {
 const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
   const { setUserRole, setData, notification } = useMyContext();
+  const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  console.log(JSON.stringify(notification));
+  const { fieldKey, type } = notification;
   /* 
   update {"content":"Value updated for c_preferredFirstName","type":"Update"}
   suggestion {"content":"Suggestion Created for c_preferredFirstName","type":"Suggestion"}
@@ -123,14 +124,27 @@ const PageLayout = ({ _site, children, document }: Props) => {
 
     getUserRole();
   }, [userId]);
-
+  useEffect(() => {
+    const resultObject = _site.c_taskGroups.reduce((acc: any, item: any) => {
+      if (item.tasks) {
+        item.tasks.forEach((task: any) => {
+          if (task.field && task.name) {
+            acc[task.field] = task.name;
+          }
+        });
+      }
+      return acc;
+    }, {});
+    setResObject(resultObject);
+  }, []);
   return (
     <div className="min-h-screen">
       {JSON.stringify(notification) !== "{}" && (
         <Toast
           visibility={true}
-          content={notification.content}
-          type={notification.type}
+          fieldKey={fieldKey}
+          type={type}
+          fieldName={resObject[fieldKey]}
         />
       )}
 
