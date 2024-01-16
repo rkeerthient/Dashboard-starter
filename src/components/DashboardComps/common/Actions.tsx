@@ -23,6 +23,25 @@ const Actions = ({
     }));
   };
 
+  /*  suggestions output 
+
+ {
+    "meta": {
+    "uuid": "018d13ea-29d4-61eb-44c0-87d7e541b88c",
+    "errors": []
+    },
+    "response": {
+    "id": "2071919"
+    },
+    "operationType": ""
+    }
+ */
+
+  /* entity output
+   
+    
+    */
+
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
@@ -31,29 +50,23 @@ const Actions = ({
           userRole.acl[0].roleId
         }`
       );
+
       const res = await response.json();
-      // Test Here
-      // if (!res.meta.errors.length) {
-      //   res.operationType === "Update"
-      //     ? setNotification({
-      //         content: `Value updated for ${Object.keys(saveBody)[0]}`,
-      //         type: `Update`,
-      //       })
-      //     : setNotification({
-      //         content: `Suggestion Created for ${Object.keys(saveBody)[0]}`,
-      //         type: `Suggestion`,
-      //       });
-      //   updateValue(
-      //     Object.keys(saveBody)[0],
-      //     saveBody[Object.keys(saveBody)[0]]
-      //   );
-      // } else {
-      //   setNotification({
-      //     content: `Suggestion Created for ${Object.keys(saveBody)[0]}`,
-      //     type: `Suggestion`,
-      //   });
-      // }
-      !res.meta.errors.length && updateValue;
+      if (!res.meta.errors.length) {
+        res.operationType === "Update"
+          ? setNotification({
+              content: `Value updated for ${Object.keys(saveBody)[0]}`,
+              type: `Entity Update`,
+            })
+          : setNotification({
+              content: `Suggestion Created for ${Object.keys(saveBody)[0]}`,
+              type: `New Suggestion`,
+            });
+        updateValue(
+          Object.keys(saveBody)[0],
+          saveBody[Object.keys(saveBody)[0]]
+        );
+      }
     } catch (error) {
       console.error(
         `Failed to fetch field configuration for ${JSON.stringify(error)}:`,

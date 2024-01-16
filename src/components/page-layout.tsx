@@ -6,6 +6,7 @@ import { getRuntime } from "@yext/pages/util";
 import { useEffect, useState } from "react";
 import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
+import Toast from "./Toast";
 
 type Props = {
   _site?: any;
@@ -15,8 +16,13 @@ type Props = {
 
 const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
-  const { setUserRole, setData } = useMyContext();
+  const { setUserRole, setData, notification } = useMyContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  console.log(JSON.stringify(notification));
+  /* 
+  update {"content":"Value updated for c_preferredFirstName","type":"Update"}
+  suggestion {"content":"Suggestion Created for c_preferredFirstName","type":"Suggestion"}
+  */
   //Admin user - 2676513
   //Suggestions user - 2954661906076480599
   const userId = isLocal()
@@ -120,8 +126,15 @@ const PageLayout = ({ _site, children, document }: Props) => {
 
   return (
     <div className="min-h-screen">
-      <Header _site={_site} />
+      {JSON.stringify(notification) !== "{}" && (
+        <Toast
+          visibility={true}
+          content={notification.content}
+          type={notification.type}
+        />
+      )}
 
+      <Header _site={_site} />
       {isLoading ? (
         <div
           className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
