@@ -20,12 +20,14 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { fieldKey, type } = notification;
-  /* 
+
+/* 
   update {"content":"Value updated for c_preferredFirstName","type":"Update"}
   suggestion {"content":"Suggestion Created for c_preferredFirstName","type":"Suggestion"}
-  */
-  //Admin user - 2676513
-  //Suggestions user - 2954661906076480599
+  Admin user - 2676513
+  Suggestions user - 2954661906076480599
+*/
+
   const userId = isLocal()
     ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
