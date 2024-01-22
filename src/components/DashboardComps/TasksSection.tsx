@@ -5,7 +5,6 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Subtasks from "./Subtasks";
 
 const TasksSection = ({ tasks, document }: any) => {
-  let bgColor = document.c_color;
   return (
     <>
       {tasks && (

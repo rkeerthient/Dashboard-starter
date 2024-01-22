@@ -61,6 +61,7 @@ const Subtasks = ({ subItem, document }: any) => {
             ></div>
           ) : (
             <UIPicker
+              fieldName={subItem.name}
               minText={subItem.sliderLowText}
               maxText={subItem.sliderHighText}
               isSlider={subItem.slider}

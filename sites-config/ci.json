@@ -28,6 +28,18 @@
         "functionName": "PagesGenerator"
       },
       {
+        "pluginName": "getEntities-98958",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/getEntities",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/getEntities-98958",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
+      },
+      {
         "pluginName": "createEntity-04110",
         "event": "API",
         "functionName": "default",

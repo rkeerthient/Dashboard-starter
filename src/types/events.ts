@@ -115,6 +115,7 @@ export default interface Event {
 	name: string,
 	categories?: any,
 	cityCoordinate?: Coordinate,
+	c_advisorTeam?: EntityReference[],
 	displayCoordinate?: Coordinate,
 	dropoffCoordinate?: Coordinate,
 	photoGallery?: ComplexImage[],

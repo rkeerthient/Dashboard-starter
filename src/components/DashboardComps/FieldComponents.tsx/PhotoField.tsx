@@ -10,6 +10,7 @@ interface PhotoFieldProps {
   fieldId: string;
   initialValue: PhotoProps | null;
   isMulti?: boolean;
+  setUrlData?: (urlData: string | undefined) => void;
 }
 
 interface PhotoProps {
@@ -18,7 +19,12 @@ interface PhotoProps {
   width?: number;
 }
 
-const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
+const PhotoField = ({
+  fieldId,
+  initialValue,
+  isMulti,
+  setUrlData,
+}: PhotoFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [value, setValue] = useState<PhotoProps["url"] | null>(
@@ -32,16 +38,14 @@ const PhotoField = ({ fieldId, initialValue, isMulti }: PhotoFieldProps) => {
   const handleDelete = (value: string | string[]) => {
     setValue("");
   };
+
   useEffect(() => {
+    setUrlData !== undefined && value && setUrlData(value);
     setIsContentEdited(
       JSON.stringify(value) !== JSON.stringify(initialValue && initialValue)
     );
   }, [value, initialValue]);
 
-  // const handleCancel = () => {
-  //   initialValue ? setValue(initialValue.url) : setValue("");
-  //   setIsEditable(false);
-  // };
   return (
     <>
       <div
