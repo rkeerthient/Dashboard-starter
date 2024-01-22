@@ -44,7 +44,7 @@ const EntityAddOrDeleteField = ({
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
-          fieldId: entityValues.map((item) => item.id),
+          [fieldId]: entityValues.map((item) => item.id),
         })
       );
       const response = await fetch(
