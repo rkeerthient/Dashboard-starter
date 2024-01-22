@@ -2,11 +2,12 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 type PhotoUploadProps = {
-  imgUrls: (value: string[] | string) => void;
+  value: (newUrls: string | string[]) => void;
   isOpen: (value: boolean) => void;
   multiple: boolean;
 };
-const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
+
+const PhotoUpload = ({ value, isOpen, multiple }: PhotoUploadProps) => {
   const [files, setFiles] = useState<
     (File & { preview: string }) | (File & { preview: string })[]
   >([]);
@@ -82,6 +83,7 @@ const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
     };
     cleanup();
   }, [files]);
+
   return (
     <div className="w-full bg-white text-[#374151] p-4">
       <div className="flex flex-col gap-4 m-4">
@@ -171,7 +173,8 @@ const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
         <div className="flex justify-end gap-6">
           <div
             onClick={() => {
-              imgUrls([]);
+              value([]);
+
               setFiles([]);
               isOpen(false);
             }}
@@ -179,6 +182,7 @@ const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
           >
             Cancel
           </div>
+
           <div
             className={`h-8 flex items-center bg-active rounded-md px-4 py-0 text-white text-sm ${
               isLoading
@@ -186,7 +190,7 @@ const PhotoUpload = ({ imgUrls, isOpen, multiple }: PhotoUploadProps) => {
                 : `bg-active hover:cursor-pointer`
             }`}
             onClick={() => {
-              imgUrls(uploadedUrls);
+              value(uploadedUrls);
               isOpen(false);
             }}
           >

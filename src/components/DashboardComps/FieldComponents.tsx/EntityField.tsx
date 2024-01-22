@@ -278,8 +278,17 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex mt-6 gap-3">
-                      <button onClick={handleSave}>Continue</button>
+                    <div className="flex mt-6 gap-3 justify-end">
+                      <div
+                        className={`h-8 flex items-center bg-active rounded-md px-4 py-0 text-white text-sm ${
+                          isLoading
+                            ? `bg-disabled pointer-events-none`
+                            : `bg-active hover:cursor-pointer`
+                        }`}
+                        onClick={handleSave}
+                      >
+                        Continue
+                      </div>
                       <button
                         onClick={handleCancel}
                         className={`text-xs text-linkColor`}

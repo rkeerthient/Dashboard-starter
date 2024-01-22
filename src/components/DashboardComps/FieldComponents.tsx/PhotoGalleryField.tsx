@@ -4,7 +4,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { useMyContext } from "../../Context/MyContext";
 import Actions from "../common/Actions";
 interface PhotoGalleryFieldProps {
   fieldId?: string;
@@ -12,6 +11,7 @@ interface PhotoGalleryFieldProps {
   passDataToParent?: boolean;
   setUrlData?: (urlData: string[]) => void;
   editMode?: boolean;
+  textSize?: string;
 }
 const PhotoGalleryField = ({
   fieldId,
@@ -19,6 +19,7 @@ const PhotoGalleryField = ({
   passDataToParent = false,
   setUrlData,
   editMode = false,
+  textSize = `text-xs`,
 }: PhotoGalleryFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(editMode);
@@ -52,7 +53,7 @@ const PhotoGalleryField = ({
   return (
     <>
       <div
-        className={`w-full px-4 py-3  max-h-96 overflow-scroll ${
+        className={`w-full  py-3  max-h-96 overflow-scroll ${
           !editMode && isEditable ? `bg-containerBG` : `bg-transparent`
         }`}
       >
@@ -84,7 +85,7 @@ const PhotoGalleryField = ({
                   );
                 })}
               <button
-                className={`text-xs text-linkColor mr-auto`}
+                className={`${textSize}  text-linkColor mr-auto`}
                 onClick={() => setOpen(true)}
               >
                 Select Photos

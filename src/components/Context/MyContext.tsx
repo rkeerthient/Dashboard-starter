@@ -49,7 +49,7 @@ interface MyContextData {
   c_serviceAreas: any[];
 }
 interface NotificationDetails {
-  content: string;
+  fieldKey: string;
   type: string;
 }
 interface MyContext {
@@ -77,10 +77,8 @@ interface MyContextProviderProps {
 
 export const MyContextProvider = ({ children }: MyContextProviderProps) => {
   const [userRole, setUserRole] = useState<UserProfile>();
-  const [notification, setNotification] = useState<NotificationDetails>({
-    type: "",
-    content: "",
-  });
+  const [notification, setNotification] = useState<NotificationDetails>({});
+
   const [data, setData] = useState<MyContextData>({
     name: "",
     mainPhone: "",

@@ -14,8 +14,10 @@ import EntityField from "./FieldComponents.tsx/EntityField";
 import PhotoField from "./FieldComponents.tsx/PhotoField";
 import PhotoGalleryField from "./FieldComponents.tsx/PhotoGalleryField";
 import ColorPickerField from "./FieldComponents.tsx/ColorPickerField";
+import EntityAddOrDeleteField from "./FieldComponents.tsx/EntityAddOrDeleteField";
 
 interface UIPickerProps {
+  fieldName: string;
   subItemField: string;
   initialValue?: string;
   isSlider?: boolean;
@@ -25,6 +27,7 @@ interface UIPickerProps {
 }
 
 const UIPicker = ({
+  fieldName,
   subItemField,
   initialValue,
   isSlider = false,
@@ -119,7 +122,7 @@ const UIPicker = ({
                 </div>
               );
             default:
-              return null; // Add a default case or handle it accordingly
+              return null;
           }
         })()
       ) : (
@@ -255,10 +258,19 @@ const UIPicker = ({
                       />
                     ) : mainFieldSchema.response.type.listType.typeId ===
                       "entityReference" ? (
-                      <EntityField
-                        initialValue={initialValue}
-                        fieldId={mainFieldSchema.response.$id}
-                      />
+                      ["Upcoming Events", "Related Insights"].includes(
+                        fieldName
+                      ) ? (
+                        <EntityAddOrDeleteField
+                          initialValue={initialValue}
+                          fieldId={mainFieldSchema.response.$id}
+                        />
+                      ) : (
+                        <EntityField
+                          initialValue={initialValue}
+                          fieldId={mainFieldSchema.response.$id}
+                        />
+                      )
                     ) : (
                       subFieldSchema &&
                       subFieldSchema.response.type.structType && (

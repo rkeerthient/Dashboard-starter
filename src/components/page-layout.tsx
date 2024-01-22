@@ -6,6 +6,7 @@ import { getRuntime } from "@yext/pages/util";
 import { useEffect, useState } from "react";
 import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
+import Toast from "./Toast";
 
 type Props = {
   _site?: any;
@@ -15,10 +16,18 @@ type Props = {
 
 const PageLayout = ({ _site, children, document }: Props) => {
   const runtime = getRuntime();
-  const { setUserRole, setData } = useMyContext();
+  const { setUserRole, setData, notification } = useMyContext();
+  const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  //Admin user - 2676513
-  //Suggestions user - 2954661906076480599
+  const { fieldKey, type } = notification;
+
+/* 
+  update {"content":"Value updated for c_preferredFirstName","type":"Update"}
+  suggestion {"content":"Suggestion Created for c_preferredFirstName","type":"Suggestion"}
+  Admin user - 2676513
+  Suggestions user - 2954661906076480599
+*/
+
   const userId = isLocal()
     ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
@@ -117,11 +126,31 @@ const PageLayout = ({ _site, children, document }: Props) => {
 
     getUserRole();
   }, [userId]);
-
+  useEffect(() => {
+    const resultObject = _site.c_taskGroups.reduce((acc: any, item: any) => {
+      if (item.tasks) {
+        item.tasks.forEach((task: any) => {
+          if (task.field && task.name) {
+            acc[task.field] = task.name;
+          }
+        });
+      }
+      return acc;
+    }, {});
+    setResObject(resultObject);
+  }, []);
   return (
     <div className="min-h-screen">
-      <Header _site={_site} />
+      {JSON.stringify(notification) !== "{}" && (
+        <Toast
+          visibility={true}
+          fieldKey={fieldKey}
+          type={type}
+          fieldName={resObject[fieldKey]}
+        />
+      )}
 
+      <Header _site={_site} />
       {isLoading ? (
         <div
           className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
