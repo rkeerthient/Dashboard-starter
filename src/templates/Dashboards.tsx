@@ -269,7 +269,6 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
-  console.log(JSON.stringify(document.c_UpcomingEvents));
 
   return (
     <Main>

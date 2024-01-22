@@ -15,8 +15,7 @@ const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(100);
   const { setNotification } = useMyContext();
-  console.log(fieldKey);
-
+ 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (visible) {
