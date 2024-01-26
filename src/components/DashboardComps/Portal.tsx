@@ -45,7 +45,10 @@ const Portal: React.FC<PortalProps> = ({
       const styleLink = curWindow?.document.createElement("link");
       styleLink?.setAttribute("rel", "stylesheet");
       // styleLink?.setAttribute("href", "/src/index.css");
-      styleLink?.setAttribute("href", styleSheetRef);
+      styleLink?.setAttribute(
+        "href",
+        "https://valuably-more-harrier.sbx.pgsdemo.com/assets/static/Dashboards-5726ad67.css"
+      );
       curWindow?.document.head.appendChild(
         styleLink || curWindow.document.createElement("div")
       );
