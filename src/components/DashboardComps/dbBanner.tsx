@@ -23,10 +23,11 @@ type DBBanner = {
   headshot: Image;
   _site?: any;
   color: string;
+  styleSheetRef: string;
 };
 
 const DBBanner = (props: DBBanner) => {
-  const { name, children, headshot, color = "#032169" } = props;
+  const { name, children, headshot, color = "#032169", styleSheetRef } = props;
   const [open, setOpen] = useState<boolean>(false);
   const { data } = useMyContext();
 
@@ -57,7 +58,12 @@ const DBBanner = (props: DBBanner) => {
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
                 <button onClick={() => setOpen((o) => !o)}>Preview page</button>
-                <Portal open={open} setOpen={setOpen} data={data}></Portal>
+                <Portal
+                  open={open}
+                  setOpen={setOpen}
+                  data={data}
+                  styleSheetRef={styleSheetRef}
+                ></Portal>
               </div>
             </div>
           </div>

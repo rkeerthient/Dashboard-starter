@@ -16,6 +16,10 @@ import {
 } from "../../types/financial_professionals";
 import PageLayout from "../page-layout";
 import ServiceAreaMap from "../ServiceAreaMap";
+import ClientStories from "../clientStories";
+import FAQs from "../faqs";
+import Insights from "../relatedInsights";
+import Solutions from "../solutions";
 const Preview = ({ data }: any) => {
   const { data: _data } = useMyContext();
   const {
@@ -37,6 +41,10 @@ const Preview = ({ data }: any) => {
     c_teamDescriptionRTv2,
     c_teamMembers,
     c_serviceAreas,
+    c_associatedClientStories,
+    c_associatedFAQs,
+    c_associatedInsights,
+    c_associatedSolutions,
   } = _data;
 
   const { name, mainPhone, photoGallery, c_associatedBlogs, hours, address } =
@@ -256,16 +264,16 @@ const Preview = ({ data }: any) => {
               </div>
             </div>
           </div>
-          {/* {c_associatedClientStories && (
-        <ClientStories inpData={cpy}></ClientStories>
-      )}
-      {c_associatedInsights && <Insights inpData={cpy} />}
-      {c_associatedFAQs && <FAQs inpData={cpy}></FAQs>}
-      {c_associatedSolutions && <Solutions inpData={cpy}></Solutions>} */}
         </div>
-        <div className="mt-16">
-          {c_associatedBlogs && <BlogPosts inpData={data}></BlogPosts>}
-        </div>
+      </div>
+      <div className="mt-16">
+        {c_associatedClientStories && (
+          <ClientStories inpData={_data}></ClientStories>
+        )}
+        {c_associatedInsights && <Insights inpData={_data} />}
+        {c_associatedFAQs && <FAQs inpData={_data}></FAQs>}
+        {c_associatedSolutions && <Solutions inpData={_data}></Solutions>}
+        {c_associatedBlogs && <BlogPosts inpData={data}></BlogPosts>}
       </div>
       <div className="centered-container mt-8">
         {c_teamName && c_teamDescriptionRTv2 && (

@@ -19,7 +19,7 @@ import {
 } from "@yext/pages";
 import * as React from "react";
 import "../index.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BarChart from "../components/BarChart";
 import TasksSection from "../components/DashboardComps/TasksSection";
 import DonutChart from "../components/DonutChart";
@@ -57,12 +57,6 @@ export const config: TemplateConfig = {
       "c_profileDelegates.delegateEmail",
       "c_profileDelegates.delegateUserID",
       "c_profileDelegates.giveProfileControl",
-      "c_associatedInsights.title",
-      "c_associatedInsights.description",
-      "c_associatedInsights.name",
-      "c_associatedInsights.externalArticlePostDate",
-      "c_associatedInsights.c_category",
-      "c_associatedInsights.photoGallery",
       "c_associatedInsights.id",
       "c_languagesV2",
       "photoGallery",
@@ -123,12 +117,6 @@ export const config: TemplateConfig = {
       "c_teamMembers.c_jobTitle",
       "c_teamMembers.slug",
       "c_teamMembers.photoGallery",
-      "c_associatedBlogs.landingPageUrl",
-      "c_associatedBlogs.description",
-      "c_associatedBlogs.name",
-      "c_associatedBlogs.c_category",
-      "c_associatedBlogs.c_datePublished",
-      "c_associatedBlogs.photoGallery",
       "c_UpcomingEvents.name",
       "c_UpcomingEvents.id",
       "c_color",
@@ -139,6 +127,31 @@ export const config: TemplateConfig = {
       "c_teamDescriptionRTv2",
       "c_teamName",
       "c_serviceAreas",
+      "c_associatedBlogs.landingPageUrl",
+      "c_associatedBlogs.description",
+      "c_associatedBlogs.name",
+      "c_associatedBlogs.c_category",
+      "c_associatedBlogs.c_datePublished",
+      "c_associatedBlogs.photoGallery",
+      "c_associatedClientStories.landingPageUrl",
+      "c_associatedClientStories.title",
+      "c_associatedClientStories.description",
+      "c_associatedClientStories.name",
+      "c_associatedClientStories.photoGallery",
+      "c_associatedInsights.title",
+      "c_associatedInsights.description",
+      "c_associatedInsights.name",
+      "c_associatedInsights.externalArticlePostDate",
+      "c_associatedInsights.c_category",
+      "c_associatedInsights.photoGallery",
+      "c_associatedSolutions.landingPageUrl",
+      "c_associatedSolutions.title",
+      "c_associatedSolutions.description",
+      "c_associatedSolutions.name",
+      "c_associatedSolutions.c_category",
+      "c_associatedSolutions.photoGallery",
+      "c_associatedFAQs.answer",
+      "c_associatedFAQs.question",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
@@ -265,16 +278,24 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     },
   ];
   const tabs = ["About me", "My Team", "Analytics", "Suggestions"];
+  const [styleSheetRef, setStyleSheetRef] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
+  useEffect(() => {
+    const element = window.parent.document
+      .querySelector(`head>link`)
+      ?.getAttribute("href");
+    element && setStyleSheetRef(element);
+  }, []);
 
   return (
     <Main>
       <PageLayout _site={document._site} document={document}>
         <div className="space-y-4 bg-slate-200 ">
           <DBBanner
+            styleSheetRef={styleSheetRef}
             name={document.name}
             _site={document._site}
             headshot={document.headshot}

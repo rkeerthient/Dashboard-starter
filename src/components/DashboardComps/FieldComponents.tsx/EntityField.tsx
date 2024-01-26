@@ -17,11 +17,16 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [newBlog, setNewBlog] = useState<Ce_blog>({});
-  const { userRole } = useMyContext();
+  const { userRole, setData, setNotification } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };
-
+  const updateValue = (propertyName: string, newValue: any) => {
+    setData((prevData) => ({
+      ...prevData,
+      [propertyName]: newValue,
+    }));
+  };
   const handleSave = async () => {
     setIsLoading(true);
 
