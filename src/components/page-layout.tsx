@@ -21,7 +21,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { fieldKey, type } = notification;
 
-/* 
+  /* 
   update {"content":"Value updated for c_preferredFirstName","type":"Update"}
   suggestion {"content":"Suggestion Created for c_preferredFirstName","type":"Suggestion"}
   Admin user - 2676513
@@ -55,6 +55,10 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_educationDisplay,
         c_heroBanner,
         c_associatedBlogs,
+        c_associatedClientStories,
+        c_associatedFAQs,
+        c_associatedInsights,
+        c_associatedSolutions,
         photoGallery,
         hours,
         address,
@@ -66,6 +70,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_teamName,
         c_teamMembers,
         c_serviceAreas,
+        c_fAQs,
       } = document;
 
       setData((prevData) => ({
@@ -87,11 +92,15 @@ const PageLayout = ({ _site, children, document }: Props) => {
         ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
         ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
         ...(c_teamName && { c_teamName }),
-
+        ...(c_fAQs && { c_fAQs }),
         ...(c_languagesV2 && { c_languagesV2 }),
         ...(c_educationDisplay && { c_educationDisplay }),
         ...(c_heroBanner && { c_heroBanner }),
         ...(c_associatedBlogs && { c_associatedBlogs }),
+        ...(c_associatedClientStories && { c_associatedClientStories }),
+        ...(c_associatedFAQs && { c_associatedFAQs }),
+        ...(c_associatedInsights && { c_associatedInsights }),
+        ...(c_associatedSolutions && { c_associatedSolutions }),
         ...(hours && { hours }),
         ...(address && { address }),
         ...(geocodedCoordinate && { geocodedCoordinate }),

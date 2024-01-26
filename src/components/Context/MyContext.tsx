@@ -37,6 +37,11 @@ interface MyContextData {
   c_educationDisplay: C_educationDisplay[];
   c_heroBanner: string;
   c_associatedBlogs: any[];
+  c_associatedClientStories: any[];
+  c_associatedFAQs: any[];
+  c_associatedInsights: any[];
+  c_associatedSolutions: any[];
+  c_fAQs: any[];
   hours: Hours;
   address: Address;
   geocodedCoordinate: Coordinate;
@@ -97,6 +102,11 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_educationDisplay: [],
     c_heroBanner: "",
     c_associatedBlogs: [],
+    c_associatedClientStories: [],
+    c_associatedFAQs: [],
+    c_associatedInsights: [],
+    c_associatedSolutions: [],
+    c_fAQs: [],
     photoGallery: [],
     hours: {},
     address: {},

@@ -125,7 +125,7 @@ const Suggestions = () => {
           ></div>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 px-4 centered-container text-sm text-slate-600 overflow-auto">
+        <div className="flex flex-col gap-2 px-4  text-sm text-slate-600 overflow-auto">
           {suggestionsData.map((item: Root, index: number) => (
             <div key={index} className="flex   border border-gray-300 w-full">
               <div className="border-r-2 border-gray-300 w-1/3 p-4">
