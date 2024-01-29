@@ -1,11 +1,5 @@
-import * as React from "react";
-import BlogPosts from "../relatedBlogs";
-import Hours from "../hours";
-import { useMyContext } from "../Context/MyContext";
-import StaticMap from "../static-map";
 import { LexicalRichText } from "@yext/react-components";
-import PhotoCarousel from "../PhotoCarousel";
-import { EnumData } from "../EnumData";
+import * as React from "react";
 import {
   C_awardsDashboard,
   C_clientFocuses,
@@ -13,15 +7,20 @@ import {
   C_hobbiesAndInterests,
   C_serviceAreas,
 } from "../../types/financial_professionals";
-import PageLayout from "../page-layout";
+import { useMyContext } from "../Context/MyContext";
+import { EnumData } from "../EnumData";
+import PhotoCarousel from "../PhotoCarousel";
 import ServiceAreaMap from "../ServiceAreaMap";
-import ClientStories from "../clientStories";
-import FAQs from "../faqs";
-import Insights from "../relatedInsights";
-import Solutions from "../solutions";
 import TeamCarousel from "../TeamCarousel";
 import Banner from "../banner";
-import EventsCarousel from "../EventsCarousel";
+import ClientStories from "../clientStories";
+import FAQs from "../faqs";
+import Hours from "../hours";
+import PageLayout from "../page-layout";
+import BlogPosts from "../relatedBlogs";
+import Insights from "../relatedInsights";
+import Solutions from "../solutions";
+import StaticMap from "../static-map";
 const Preview = ({ data }: any) => {
   const { data: _data } = useMyContext();
   const {

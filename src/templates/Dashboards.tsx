@@ -285,7 +285,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     "My Team",
     "Analytics",
     "Suggestions",
-    "Contact Us",
+    "Learning & Support",
   ];
   const [styleSheetRef, setStyleSheetRef] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
@@ -442,69 +442,56 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
             </div>
           ) : currentTab === "Suggestions" ? (
             <Suggestions />
-          ) : currentTab === "Contact Us" ? (
-            <div className="w-full bg-white p-8">
-              <div className="w-1/2 mx-auto">
-                <div className="flex flex-row justify-between w-full">
-                  <div className="mx-auto flex h-44 w-full items-center justify-center rounded-full flex-col gap-4 ">
-                    <div className="font-light text-4xl">Contact the Team</div>
-                    <div className="text-slate-400 text-lg font-light">
-                      * Required Fields
-                    </div>
+          ) : currentTab === "Learning & Support" ? (
+            <div className="flex flex-col p-4 pb-12  m-4 gap-16  bg-white w-2/3">
+              <div className="text-2xl font-bold text-[#003168]">
+                Learning Center
+              </div>
+              <div className="flex justify-center gap-8  ">
+                <div className="flex flex-col gap-2 text-center">
+                  <img
+                    className="w-60 mx-auto"
+                    src="https://www.pngplay.com/wp-content/uploads/5/Live-Webinar-Gray-Logo-PNG.png"
+                    alt=""
+                  />
+                  <div className="font-bold text-sm">Webinars</div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Register for Yext 101: New Agent Website Set-Up
+                  </div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Register for Yext 201: SEO & Reviews
+                  </div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Register for Yext 201: Google Business Profile & Community
+                    Engagement
+                  </div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Register for Yext 301: Analytics & Website Performance
+                  </div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Register for Yext Monthly Special Feature Webinar
+                  </div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Sign Up for White Glove Office Hours
                   </div>
                 </div>
-                <div className=" mt-5 flex flex-col gap-2 space-y-6 w-full">
-                  <div className="flex flex-col gap-2">
-                    <div className="text-base font-medium">Your Name*</div>
-                    <div className="flex justify-between w-full gap-6">
-                      <input
-                        type="text"
-                        placeholder="First Name"
-                        className="border text-lg border-black rounded-full p-4 h-14 w-1/2"
-                      />
-
-                      <input
-                        type="text"
-                        placeholder="Last Name"
-                        className="border text-lg border-black rounded-full p-4 h-14 w-1/2"
-                      />
-                    </div>
+                <div className="flex flex-col gap-2  text-center">
+                  <img
+                    className="w-32 mx-auto"
+                    src="https://www.seekpng.com/png/full/242-2425880_one-click-support-customer-service-icon-png.png"
+                    alt=""
+                  />
+                  <div className="font-bold text-sm mt-12 ">
+                    One-on-one Call with an Advisor
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="text-base font-medium">
-                      How can we contact you?*
-                    </div>
-                    <div className="flex w-full">
-                      <input
-                        type="email"
-                        placeholder="Email"
-                        className="border text-lg border-black rounded-full  p-4 h-14 w-full"
-                      />
-                    </div>
+                  <div className="text-left">
+                    As part of the Agency Program, you receive assistance with
+                    optimizing your website from a Yext advisor.
                   </div>
-                  <div className="flex justify-between w-full">
-                    <div className="flex justify-between w-full gap-6">
-                      <input
-                        placeholder="Work Phone (optional)"
-                        type="phone"
-                        className="border text-lg border-black rounded-full  p-4 h-14 w-1/2"
-                      />
-
-                      <input
-                        type="phone"
-                        placeholder="Work Phone (optional)"
-                        className="border text-lg border-black rounded-full  p-4 h-14 w-1/2"
-                      />
-                    </div>
+                  <div></div>
+                  <div className="text-sm hover:cursor-pointer text-blue-700">
+                    Schedule a call
                   </div>
-                </div>
-                <div className="mt-5 sm:mt-6">
-                  <button
-                    type="button"
-                    className="  w-fit flex justify-center  mx-auto rounded-md bg-[#015cad] px-3 py-2  font-semibold text-white shadow-sm  "
-                  >
-                    Submit
-                  </button>
                 </div>
               </div>
             </div>
