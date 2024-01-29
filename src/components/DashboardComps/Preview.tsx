@@ -20,6 +20,8 @@ import ClientStories from "../clientStories";
 import FAQs from "../faqs";
 import Insights from "../relatedInsights";
 import Solutions from "../solutions";
+import TeamCarousel from "../TeamCarousel";
+import Banner from "../banner";
 const Preview = ({ data }: any) => {
   const { data: _data } = useMyContext();
   const {
@@ -45,64 +47,81 @@ const Preview = ({ data }: any) => {
     c_associatedFAQs,
     c_associatedInsights,
     c_associatedSolutions,
+    yearsOfExperience,
+    c_template,
   } = _data;
 
   const { name, mainPhone, photoGallery, c_associatedBlogs, hours, address } =
     data;
+  console.log(c_template);
 
   return (
     <PageLayout _site={_site}>
       <div
-        className={`bg-white `}
+        className={`bg-white py-16`}
         style={{
           fontFamily: c_fonts && c_fonts.toLowerCase().replaceAll(" ", ""),
         }}
       >
-        <div className="relative text-center">
-          {c_heroBanner && (
-            <Image
-              image={c_heroBanner}
-              className="w-full !max-w-full"
-              style={{ maxHeight: "470px" }}
-            ></Image>
-          )}
-          <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2	">
-            <div className="text-4xl headColor font-light h-64">
-              <div className="flex gap-6">
-                <div>
-                  {photoGallery && (
-                    <Image
-                      className="inline-block h-32 !w-32 rounded-full"
-                      image={photoGallery[0]}
-                    />
+        <Banner
+          headshot={photoGallery[0]}
+          bannerImg={c_heroBanner}
+          name={name.split("-")[0]}
+          mainPhone={mainPhone}
+          title={name.split("-")[1]}
+        ></Banner>
+        <div className="centered-container flex flex-col gap-4 text-[#252525]">
+          {c_template !== "HORIZON" ? (
+            <div className="centered-container my-4">
+              <div className="flex w-full justify-evenly items-center">
+                <div className=" ">
+                  <div className="flex flex-col gap-2 ">
+                    <div className="gap-y-8">
+                      <div className="text-xl font-semibold mb-4">Address</div>
+                      <div className=" gap-y-3">
+                        <div>{address.line1}</div>
+                        {address.line2 && <div>{address.line2}</div>}
+                        <div>
+                          {address.city}, {address.region} {address.postalCode}
+                        </div>
+                      </div>
+                      <div className="w-fit mt-4 text-sm hover:border-b bg-[#025cae] text-white py-2 px-4 rounded-full font-bold border hover:cursor-pointer hover:border-[#d62211] hover:bg-white hover:text-[#d62211]">
+                        Get Directions
+                      </div>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+                <div className="w-1/3">
+                  {geocodedCoordinate && (
+                    <StaticMap
+                      latitude={geocodedCoordinate.latitude}
+                      longitude={geocodedCoordinate.longitude}
+                    ></StaticMap>
                   )}
                 </div>
-                <div className="flex flex-col gap-3">
-                  <div>{name.includes("-") ? name.split("-")[0] : name}</div>
-                  <div className="text-3xl">
-                    {name.includes("-")
-                      ? name.split("-")[1].replace("RBC Wealth Management ", "")
-                      : ""}
-                  </div>
-                  <div className="text-2xl">
-                    {mainPhone &&
-                      mainPhone
-                        .replace("+1", "")
-                        .replace(/\D+/g, "")
-                        .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
-                  </div>
+                <div className=" ">
+                  {hours && (
+                    <div className="mt-2 !text-sm">
+                      {JSON.stringify(hours) !== "{}" && (
+                        <Hours title={"I'm available on"} hours={hours} />
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="centered-container flex flex-col gap-4 ">
-          <div className="flex gap-4 mt-4 px-8">
-            <div className="flex flex-col gap-2 w-4/5  ">
-              <div className="flex flex-col gap-2">
-                <div className="text-xl font-semibold">About me</div>
+              <div className="flex flex-col gap-2 my-4 mb-8">
+                <div className="text-xl font-semibold ">About me</div>
                 <div className="">{c_aboutAdvisorShortDescription}</div>
-                <div className="py-4 px-16 mx-auto my-auto hidden md:block">
+              </div>
+            </div>
+          ) : (
+            <div className="w-full flex  flex-row gap-14 mt-4 centered-container">
+              <div className="w-full md:w-2/3 ">
+                <div className="text-xl font-semibold ">About me</div>
+                <div className="">{c_aboutAdvisorShortDescription}</div>
+
+                <div className="py-4 px-16 mx-auto my-auto hidden md:block h-3/4 w-3/4">
                   {geocodedCoordinate && (
                     <StaticMap
                       latitude={geocodedCoordinate.latitude}
@@ -111,16 +130,55 @@ const Preview = ({ data }: any) => {
                   )}
                 </div>
               </div>
-              <div className="flex w-full justify-between border-t pt-4">
-                <div className="w-1/3 flex flex-col gap-2">
+              <div className="w-full md:w-1/3">
+                <span className=" hidden md:block">
+                  <div className="gap-y-5">
+                    <div className="text-xl font-semibold mb-4">Address</div>
+                    <div className="  gap-y-3">
+                      <div>{address.line1}</div>
+                      {address.line2 && <div>{address.line2}</div>}
+                      <div>
+                        {address.city}, {address.region} {address.postalCode}
+                      </div>
+                    </div>
+                  </div>
+                </span>
+                {hours && (
+                  <div className="mt-8">
+                    {JSON.stringify(hours) !== "{}" && (
+                      <Hours title={"I'm available on"} hours={hours} />
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="centered-container flex flex-col gap-4 text-[#252525]">
+          <div className="flex gap-4 mt-4 px-8">
+            <div className="flex flex-col gap-2 w-4/5  text-[#252525]">
+              <div className="flex w-full justify-between border-t pt-4 px-8">
+                <div className=" flex flex-col gap-6">
                   <div className="flex flex-col gap-1">
                     <div className="font-semibold text-lg">Experience</div>
-                    <div>3 years</div>
+                    <div className=" font-light">{yearsOfExperience} years</div>
                   </div>
+                  {c_languagesV2 && (
+                    <div className="flex flex-col gap-1">
+                      <div className="font-semibold text-lg">Languages</div>
+                      <div className="flex flex-col font-light">
+                        {c_languagesV2.map((item, index) => (
+                          <div key={index}>{item}</div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className=" flex flex-col gap-6">
                   {c_educationDisplay && (
                     <div className="flex flex-col gap-1">
                       <div className="font-semibold text-lg">Education</div>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col font-light">
                         {c_educationDisplay.map((item, index) => (
                           <div key={index}>
                             {item.degree}, {item.school}
@@ -129,144 +187,111 @@ const Preview = ({ data }: any) => {
                       </div>
                     </div>
                   )}
-                  {c_languagesV2 && (
-                    <div className="flex flex-col gap-1">
-                      <div className="font-semibold text-lg">Languages</div>
-                      <div className="flex flex-col">
-                        {c_languagesV2.map((item, index) => (
-                          <div key={index}>{item}</div>
-                        ))}{" "}
-                      </div>
-                    </div>
-                  )}
                 </div>
-                <div className="w-1/3 flex flex-col gap-2">
+                <div className=" flex flex-col gap-6">
                   <div className="flex flex-col gap-1">
                     <div className="font-semibold text-lg">Client Focuses</div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col font-light">
                       {c_clientFocuses.map((item, index) => (
                         <div key={item}>{C_clientFocuses[item]}</div>
                       ))}
                     </div>
                   </div>
                 </div>
-                <div className="w-1/3 flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <div className="font-semibold text-lg">Certifications</div>
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-1/5 flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <div className="text-xl font-semibold">Address</div>
-                <div className="gap-y-3">
-                  <div>{address.line1}</div>
-                  {address.line2 && <div>{address.line2}</div>}
-                  <div>
-                    {address.city}, {address.region} {address.postalCode}
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div className="font-semibold text-xl">I'm available on</div>
-                {hours && <Hours hours={hours}></Hours>}
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 p-4 bg-yellow-100">
-            <div className="text-xl font-semibold">
-              More about {c_preferredFirstName}!
-            </div>
-            <div>
-              <LexicalRichText
-                serializedAST={JSON.stringify(c_expertiseCommentsRTv2.json)}
-              />
-            </div>
-            <PhotoCarousel data={photoGallery}></PhotoCarousel>
-          </div>
-          <div className="grid grid-cols-3 w-full">
-            <div className="flex flex-col gap-2">
-              {c_organizationsDisplay && (
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <div className="font-semibold text-lg">Organizations</div>
-                    <div className="flex flex-col">
-                      {c_organizationsDisplay.map(
-                        (item: string, index: number) => (
-                          <div key={index}>{item}</div>
-                        )
-                      )}
-                    </div>{" "}
-                  </div>
-                </div>
-              )}
-              {c_designations && (
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <div className="font-semibold text-lg">Designations</div>
-                    <div className="flex flex-col">
-                      {c_designations.map(
-                        (item: C_designations, index: number) => (
-                          <div key={index}>
-                            {item.name}{" "}
-                            {item.abbreviation && `(${item.abbreviation})`} -{" "}
-                            {item.date.toLocaleString("en-US")}
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              {c_awardsDashboard && (
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <div className="font-semibold text-lg">Awards</div>
-                    <div className="flex flex-col">
-                      {c_awardsDashboard.map(
-                        (item: C_awardsDashboard, index: number) => (
-                          <div key={index}>
-                            {item.nameOfAwardOrHonor} -{" "}
-                            {item.yearsReceived
-                              ?.sort((a, b) => a - b)
-                              .join(", ")}
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-1">
-                <div className="font-semibold text-lg">
-                  Volunteer Experience
-                </div>
-                <div className="flex flex-col">
-                  {c_clientFocuses.map((item, index) => (
-                    <div key={item}>{EnumData[item]}</div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-1">
-                <div className="font-semibold text-lg">Hobbies & Interests</div>
-                <div className="flex flex-col">
-                  {c_hobbiesAndInterests.map((item, index) => (
-                    <div key={index}>{C_hobbiesAndInterests[item]}</div>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="mt-16">
+      <div className="w-full !bg-[#025cae] !text-white ">
+        <div className="flex flex-col gap-2 p-4 py-16 centered-container">
+          <div className="text-xl font-semibold">
+            More about {c_preferredFirstName}!
+          </div>
+          <div>
+            <LexicalRichText
+              serializedAST={JSON.stringify(c_expertiseCommentsRTv2.json)}
+            />
+          </div>
+          <PhotoCarousel data={photoGallery}></PhotoCarousel>
+        </div>
+      </div>
+      <div className="w-full bg-white text-[#252525]">
+        <div className="flex justify-between max-w-screen-2xl mx-auto p-16 py-10">
+          <div className="w-1/3 px-4 flex flex-col gap-6">
+            {c_organizationsDisplay && (
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
+                  <div className="font-semibold text-lg">Organizations</div>
+                  <div className="flex flex-col font-light">
+                    {c_organizationsDisplay.map(
+                      (item: string, index: number) => (
+                        <div key={index}>{item}</div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {c_designations && (
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
+                  <div className="font-semibold text-lg">Designations</div>
+                  <div className="flex flex-col font-light">
+                    {c_designations.map(
+                      (item: C_designations, index: number) => (
+                        <div key={index}>
+                          {item.name}{" "}
+                          {item.abbreviation && `(${item.abbreviation})`} -{" "}
+                          {item.date.toLocaleString("en-US")}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex px-4 w-1/3 flex-col gap-6">
+            <div className="flex flex-col gap-1">
+              <div className="font-semibold text-lg">Volunteer Experience</div>
+              <div className="flex flex-col font-light">
+                {c_clientFocuses.map((item, index) => (
+                  <div key={item}>{EnumData[item]}</div>
+                ))}
+              </div>
+            </div>
+            {c_awardsDashboard && (
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
+                  <div className="font-semibold text-lg">Awards</div>
+                  <div className="flex flex-col font-light">
+                    {c_awardsDashboard.map(
+                      (item: C_awardsDashboard, index: number) => (
+                        <div key={index}>
+                          {item.nameOfAwardOrHonor} -{" "}
+                          {item.yearsReceived?.sort((a, b) => a - b).join(", ")}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex px-4 w-1/3 flex-col gap-6">
+            <div className="flex flex-col gap-1">
+              <div className="font-semibold text-lg">Hobbies & Interests</div>
+              <div className="flex flex-col font-light">
+                {c_hobbiesAndInterests.map((item, index) => (
+                  <div key={index}>{C_hobbiesAndInterests[item]}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col ">
         {c_associatedClientStories && (
           <ClientStories inpData={_data}></ClientStories>
         )}
@@ -275,102 +300,9 @@ const Preview = ({ data }: any) => {
         {c_associatedSolutions && <Solutions inpData={_data}></Solutions>}
         {c_associatedBlogs && <BlogPosts inpData={data}></BlogPosts>}
       </div>
-      <div className="centered-container mt-8">
-        {c_teamName && c_teamDescriptionRTv2 && (
-          <div className="bg-white py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <div className="mx-auto max-w-2xl lg:mx-0">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  {c_teamName}
-                </h2>
-                <LexicalRichText
-                  serializedAST={JSON.stringify(c_teamDescriptionRTv2.json)}
-                />
-              </div>
-              <ul
-                role="list"
-                className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
-              >
-                {c_teamMembers.map((person: any, index: any) => (
-                  <li key={index}>
-                    {person.photoGallery ? (
-                      <img
-                        className="aspect-[3/2] w-full rounded-2xl object-cover"
-                        src={person.photoGallery[0].image.url}
-                        alt=""
-                      />
-                    ) : (
-                      <img
-                        className="aspect-[3/2] w-full rounded-2xl object-cover"
-                        src={`https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg`}
-                        alt=""
-                      />
-                    )}
-                    <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">
-                      {person.name.split(" - ")[0]}
-                    </h3>
-                    <p className="text-base leading-7 text-gray-600">
-                      {person.c_jobTitle}
-                    </p>
-                    <ul role="list" className="mt-6 flex gap-x-6">
-                      <li>
-                        <a
-                          href={person.twitterUrl}
-                          className="text-gray-400 hover:text-gray-500"
-                        >
-                          <span className="sr-only">Twitter</span>
-                          <svg
-                            className="h-5 w-5"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href={person.linkedinUrl}
-                          className="text-gray-400 hover:text-gray-500"
-                        >
-                          <span className="sr-only">LinkedIn</span>
-                          <svg
-                            className="h-5 w-5"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          // <div className="flex-flex-col mx-auto justify-center">
-          //   <div className="flex flex-col gap-2">
-          //     <div>{c_teamName}</div>
-          //     <div>
-          //       <LexicalRichText
-          //         serializedAST={JSON.stringify(c_teamDescriptionRTv2.json)}
-          //       />
-          //     </div>
-          //     <TeamCarousel data={c_teamMembers}></TeamCarousel>
-          //   </div>
-          // </div>
-        )}
-      </div>
       {c_serviceAreas && (
-        <div className="centered-container">
-          <div className=" flex justify-between px-4 bg-white mt-8">
+        <div className="w-full bg-white ">
+          <div className=" flex justify-between px-4 py-8 centered-container">
             <div className="w-1/2 flex justify-between items-center">
               {c_preferredFirstName} is based out of {address.city},
               {address.region}, but is licensed in the following states:{" "}
@@ -384,6 +316,17 @@ const Preview = ({ data }: any) => {
           </div>
         </div>
       )}
+      <div className="!bg-[#025cae] !text-white">
+        {c_teamName && c_teamMembers && (
+          <div className=" bg-[#f7f0e4] teamCarousel">
+            <TeamCarousel
+              teamName={c_teamName}
+              teamMembersData={c_teamMembers}
+              teamDescription={c_teamDescriptionRTv2}
+            ></TeamCarousel>
+          </div>
+        )}
+      </div>
     </PageLayout>
   );
 };

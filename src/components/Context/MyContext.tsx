@@ -52,6 +52,7 @@ interface MyContextData {
   c_teamName: string;
   c_teamMembers: any[];
   c_serviceAreas: any[];
+  yearsOfExperience: string;
 }
 interface NotificationDetails {
   fieldKey: string;
@@ -118,6 +119,7 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_teamName: "",
     c_teamMembers: [],
     c_serviceAreas: [],
+    yearsOfExperience: "",
   });
 
   return (

@@ -11,7 +11,7 @@ const PhotoCarousel = (props: any) => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: props.slidesToShow,
+    slidesToShow: 3,
     slidesToScroll: 1,
     initialSlide: 0,
     responsive: [
@@ -45,7 +45,7 @@ const PhotoCarousel = (props: any) => {
     <Slider {...settings}>
       {data &&
         data.map((item: any, index: any) => (
-          <div key={index} className="p-4 border flex flex-row">
+          <div key={index} className="p-4  flex flex-row">
             <Image image={item}></Image>
           </div>
         ))}
