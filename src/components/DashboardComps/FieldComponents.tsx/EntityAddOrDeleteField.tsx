@@ -34,7 +34,6 @@ const EntityAddOrDeleteField = ({
   };
 
   const updateValue = (propertyName: string, newValue: any) => {
-    console.log(JSON.stringify(newValue));
     setData((prevData) => ({
       ...prevData,
       [propertyName]: newValue,
@@ -86,7 +85,7 @@ const EntityAddOrDeleteField = ({
   const handleOpen = async (pageToken?: string, isMore: boolean = false) => {
     const getEntities = async () => {
       const url = `/api/getEntities?entityType=${
-        fieldId === "c_associatedInsights" ? "ce_insights" : "events"
+        fieldId === "c_associatedInsights" ? "ce_insights" : "event"
       }${value ? `&inputString=${value}` : ""}${
         pageToken ? `&pageToken=${pageToken}` : ""
       }&filterIds=${JSON.stringify(filterIds)}`;
@@ -95,33 +94,50 @@ const EntityAddOrDeleteField = ({
       try {
         const response = await fetch(url);
         const resp = await response.json();
-        console.log(JSON.stringify(response));
 
         if (resp && resp.response.entities) {
           resp.response.pageToken && setPageToken(resp.response.pageToken);
           isMore
             ? setResponseValues((prevValue) => [
                 ...prevValue,
-                ...resp.response.entities.map((entity: any) => ({
-                  name: entity.name,
-                  id: entity.meta.id,
-                  c_category: entity.c_category,
-                  photoGallery: entity.photoGallery,
-                  externalArticlePostDate: entity.externalArticlePostDate,
-                  description: entity.description,
-                  title: entity.title,
-                })),
+                ...resp.response.entities.map((entity: any) =>
+                  fieldId === "c_associatedInsights"
+                    ? {
+                        name: entity.name,
+                        id: entity.meta.id,
+                        c_category: entity.c_category,
+                        photoGallery: entity.photoGallery,
+                        externalArticlePostDate: entity.externalArticlePostDate,
+                        description: entity.description,
+                        title: entity.title,
+                      }
+                    : {
+                        name: entity.name,
+                        id: entity.meta.id,
+                        c_category: entity.c_category,
+                        time: entity.time,
+                      }
+                ),
               ])
             : setResponseValues(
-                resp.response.entities.map((entity: any) => ({
-                  name: entity.name,
-                  id: entity.meta.id,
-                  c_category: entity.c_category,
-                  photoGallery: entity.photoGallery,
-                  externalArticlePostDate: entity.externalArticlePostDate,
-                  description: entity.description,
-                  title: entity.title,
-                }))
+                resp.response.entities.map((entity: any) =>
+                  fieldId === "c_associatedInsights"
+                    ? {
+                        name: entity.name,
+                        id: entity.meta.id,
+                        c_category: entity.c_category,
+                        photoGallery: entity.photoGallery,
+                        externalArticlePostDate: entity.externalArticlePostDate,
+                        description: entity.description,
+                        title: entity.title,
+                      }
+                    : {
+                        name: entity.name,
+                        id: entity.meta.id,
+                        c_category: entity.c_category,
+                        time: entity.time,
+                      }
+                )
               );
         }
       } catch (error) {
@@ -136,20 +152,28 @@ const EntityAddOrDeleteField = ({
 
   const updateList = async (item: any) => {
     setShowTextbox(false);
-    console.log(JSON.stringify(item));
 
-    setEntityValues((prevValues) => [
-      ...prevValues,
-      {
-        name: item.name,
-        id: item.id,
-        c_category: item.c_category,
-        photoGallery: item.photoGallery,
-        externalArticlePostDate: item.externalArticlePostDate,
-        description: item.description,
-        title: item.title,
-      },
-    ]);
+    fieldId === "c_associatedInsights"
+      ? setEntityValues((prevValues) => [
+          ...prevValues,
+          {
+            name: item.name,
+            id: item.id,
+            c_category: item.c_category,
+            photoGallery: item.photoGallery,
+            externalArticlePostDate: item.externalArticlePostDate,
+            description: item.description,
+            title: item.title,
+          },
+        ])
+      : setEntityValues((prevValues) => [
+          ...prevValues,
+          {
+            name: item.name,
+            id: item.id,
+            time: item.time,
+          },
+        ]);
   };
 
   useEffect(() => {

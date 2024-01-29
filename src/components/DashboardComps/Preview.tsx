@@ -109,6 +109,19 @@ const Preview = ({ data }: any) => {
                       )}
                     </div>
                   )}
+                  {c_UpcomingEvents && (
+                    <div className="flex flex-col gap-2 mt-8">
+                      <div className="font-bold">Upcoming Events</div>
+                      {c_UpcomingEvents.map((item, index) => (
+                        <div key={index}>
+                          {item.name} at{" "}
+                          {new Date(item.time.start).toLocaleDateString(
+                            "en-US"
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-2 my-4 mb-8">
@@ -121,7 +134,6 @@ const Preview = ({ data }: any) => {
               <div className="w-full md:w-2/3 ">
                 <div className="text-xl font-semibold ">About me</div>
                 <div className="">{c_aboutAdvisorShortDescription}</div>
-
                 <div className="py-4 px-16 mx-auto my-auto hidden md:block  h-3/4 w-3/4">
                   {geocodedCoordinate && (
                     <StaticMap
@@ -149,6 +161,18 @@ const Preview = ({ data }: any) => {
                     {JSON.stringify(hours) !== "{}" && (
                       <Hours title={"I'm available on"} hours={hours} />
                     )}
+                  </div>
+                )}
+
+                {c_UpcomingEvents && (
+                  <div className="flex flex-col gap-2 mt-8">
+                    <div className="font-bold">Upcoming Events</div>
+                    {c_UpcomingEvents.map((item, index) => (
+                      <div key={index}>
+                        {item.name} at{" "}
+                        {new Date(item.time.start).toLocaleDateString("en-US")}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
