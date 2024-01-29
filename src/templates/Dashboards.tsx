@@ -152,6 +152,7 @@ export const config: TemplateConfig = {
       "c_associatedSolutions.photoGallery",
       "c_associatedFAQs.answer",
       "c_associatedFAQs.question",
+      "yearsOfExperience",
     ],
     filter: {
       entityTypes: ["financialProfessional"],

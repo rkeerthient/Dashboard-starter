@@ -84,7 +84,7 @@
   width: 2.5rem;
   height: 2.5rem;
   z-index: 2;
-  top: 40% !important;
+  /* top: 40% !important; */
 }
 
 .slick-list {
@@ -120,6 +120,7 @@
 }
 .slick-slider .slick-slide {
   padding: 0 15px;
+  height: max-content;
 }
 
 /* Editor Styles */
