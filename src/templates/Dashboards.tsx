@@ -280,7 +280,13 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
       Position: 4.1,
     },
   ];
-  const tabs = ["About me", "My Team", "Analytics", "Suggestions"];
+  const tabs = [
+    "About me",
+    "My Team",
+    "Analytics",
+    "Suggestions",
+    "Contact Us",
+  ];
   const [styleSheetRef, setStyleSheetRef] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
   function classNames(...classes: any) {
@@ -436,6 +442,72 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
             </div>
           ) : currentTab === "Suggestions" ? (
             <Suggestions />
+          ) : currentTab === "Contact Us" ? (
+            <div className="w-full bg-white p-8">
+              <div className="w-1/2 mx-auto">
+                <div className="flex flex-row justify-between w-full">
+                  <div className="mx-auto flex h-44 w-full items-center justify-center rounded-full flex-col gap-4 ">
+                    <div className="font-light text-4xl">Contact the Team</div>
+                    <div className="text-slate-400 text-lg font-light">
+                      * Required Fields
+                    </div>
+                  </div>
+                </div>
+                <div className=" mt-5 flex flex-col gap-2 space-y-6 w-full">
+                  <div className="flex flex-col gap-2">
+                    <div className="text-base font-medium">Your Name*</div>
+                    <div className="flex justify-between w-full gap-6">
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        className="border text-lg border-black rounded-full p-4 h-14 w-1/2"
+                      />
+
+                      <input
+                        type="text"
+                        placeholder="Last Name"
+                        className="border text-lg border-black rounded-full p-4 h-14 w-1/2"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="text-base font-medium">
+                      How can we contact you?*
+                    </div>
+                    <div className="flex w-full">
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        className="border text-lg border-black rounded-full  p-4 h-14 w-full"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <div className="flex justify-between w-full gap-6">
+                      <input
+                        placeholder="Work Phone (optional)"
+                        type="phone"
+                        className="border text-lg border-black rounded-full  p-4 h-14 w-1/2"
+                      />
+
+                      <input
+                        type="phone"
+                        placeholder="Work Phone (optional)"
+                        className="border text-lg border-black rounded-full  p-4 h-14 w-1/2"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 sm:mt-6">
+                  <button
+                    type="button"
+                    className="  w-fit flex justify-center  mx-auto rounded-md bg-[#015cad] px-3 py-2  font-semibold text-white shadow-sm  "
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="border m-4 p-4 bg-white space-y-4">
               <div className="text-2xl font-bold text-[#003168]">
