@@ -72,10 +72,12 @@ const PageLayout = ({ _site, children, document }: Props) => {
         c_serviceAreas,
         c_fAQs,
         yearsOfExperience,
+        c_UpcomingEvents,
       } = document;
 
       setData((prevData) => ({
         ...prevData,
+        ...(c_UpcomingEvents && { c_UpcomingEvents }),
         ...(name && { name }),
         ...(mainPhone && { mainPhone }),
         ...(emails && { emails }),

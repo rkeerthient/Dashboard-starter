@@ -38,6 +38,7 @@ interface MyContextData {
   c_heroBanner: string;
   c_associatedBlogs: any[];
   c_associatedClientStories: any[];
+  c_UpcomingEvents: any[];
   c_associatedFAQs: any[];
   c_associatedInsights: any[];
   c_associatedSolutions: any[];
@@ -109,6 +110,7 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_associatedSolutions: [],
     c_fAQs: [],
     photoGallery: [],
+    c_UpcomingEvents: [],
     hours: {},
     address: {},
     geocodedCoordinate: {},

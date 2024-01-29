@@ -119,6 +119,8 @@ export const config: TemplateConfig = {
       "c_teamMembers.photoGallery",
       "c_UpcomingEvents.name",
       "c_UpcomingEvents.id",
+      "c_UpcomingEvents.photoGallery",
+      "c_UpcomingEvents.time",
       "c_color",
       "c_fonts",
       "c_heroBanner",

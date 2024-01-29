@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Image } from "@yext/sites-components";
 import BlogPosts from "../relatedBlogs";
 import Hours from "../hours";
 import { useMyContext } from "../Context/MyContext";
@@ -22,6 +21,7 @@ import Insights from "../relatedInsights";
 import Solutions from "../solutions";
 import TeamCarousel from "../TeamCarousel";
 import Banner from "../banner";
+import EventsCarousel from "../EventsCarousel";
 const Preview = ({ data }: any) => {
   const { data: _data } = useMyContext();
   const {
@@ -49,11 +49,12 @@ const Preview = ({ data }: any) => {
     c_associatedSolutions,
     yearsOfExperience,
     c_template,
+    c_associatedBlogs,
+    c_UpcomingEvents,
   } = _data;
+  console.log(JSON.stringify(c_UpcomingEvents));
 
-  const { name, mainPhone, photoGallery, c_associatedBlogs, hours, address } =
-    data;
-  console.log(c_template);
+  const { name, mainPhone, photoGallery, hours, address } = data;
 
   return (
     <PageLayout _site={_site}>
@@ -121,7 +122,7 @@ const Preview = ({ data }: any) => {
                 <div className="text-xl font-semibold ">About me</div>
                 <div className="">{c_aboutAdvisorShortDescription}</div>
 
-                <div className="py-4 px-16 mx-auto my-auto hidden md:block h-3/4 w-3/4">
+                <div className="py-4 px-16 mx-auto my-auto hidden md:block  h-3/4 w-3/4">
                   {geocodedCoordinate && (
                     <StaticMap
                       latitude={geocodedCoordinate.latitude}

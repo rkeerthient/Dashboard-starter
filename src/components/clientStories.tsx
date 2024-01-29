@@ -68,7 +68,7 @@ export default function ClientStories(inpData: any) {
                 className="testimonial-card shadow-lg w-full mt-4"
               >
                 <figure className="h-full rounded-2xl bg-gray-50 p-8 text-sm leading-6 flex flex-col shadow-md ">
-                  <blockquote className="text-gray-900 h-48">
+                  <blockquote className="text-gray-900 h-80">
                     <p className="font-bold mb-2">{`“${testimonial.title}”`}</p>
                     <p>{`“${testimonial.description}”`}</p>
                   </blockquote>

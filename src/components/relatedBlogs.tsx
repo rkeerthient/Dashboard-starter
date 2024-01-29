@@ -1,9 +1,8 @@
-import * as React from "react";
-import Ce_blog from "../types/blog";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { Image } from "@yext/sites-components";
+import * as React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 export default function BlogPosts(inpData: any) {
   let data = inpData.inpData;

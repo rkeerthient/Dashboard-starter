@@ -34,6 +34,7 @@ const EntityAddOrDeleteField = ({
   };
 
   const updateValue = (propertyName: string, newValue: any) => {
+    console.log(JSON.stringify(newValue));
     setData((prevData) => ({
       ...prevData,
       [propertyName]: newValue,
@@ -41,6 +42,8 @@ const EntityAddOrDeleteField = ({
   };
 
   const handleSave = async () => {
+    console.log(JSON.stringify(entityValues));
+
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
@@ -92,6 +95,8 @@ const EntityAddOrDeleteField = ({
       try {
         const response = await fetch(url);
         const resp = await response.json();
+        console.log(JSON.stringify(response));
+
         if (resp && resp.response.entities) {
           resp.response.pageToken && setPageToken(resp.response.pageToken);
           isMore
@@ -100,12 +105,22 @@ const EntityAddOrDeleteField = ({
                 ...resp.response.entities.map((entity: any) => ({
                   name: entity.name,
                   id: entity.meta.id,
+                  c_category: entity.c_category,
+                  photoGallery: entity.photoGallery,
+                  externalArticlePostDate: entity.externalArticlePostDate,
+                  description: entity.description,
+                  title: entity.title,
                 })),
               ])
             : setResponseValues(
                 resp.response.entities.map((entity: any) => ({
                   name: entity.name,
                   id: entity.meta.id,
+                  c_category: entity.c_category,
+                  photoGallery: entity.photoGallery,
+                  externalArticlePostDate: entity.externalArticlePostDate,
+                  description: entity.description,
+                  title: entity.title,
                 }))
               );
         }
@@ -121,11 +136,18 @@ const EntityAddOrDeleteField = ({
 
   const updateList = async (item: any) => {
     setShowTextbox(false);
+    console.log(JSON.stringify(item));
+
     setEntityValues((prevValues) => [
       ...prevValues,
       {
         name: item.name,
         id: item.id,
+        c_category: item.c_category,
+        photoGallery: item.photoGallery,
+        externalArticlePostDate: item.externalArticlePostDate,
+        description: item.description,
+        title: item.title,
       },
     ]);
   };
@@ -133,7 +155,6 @@ const EntityAddOrDeleteField = ({
   useEffect(() => {
     entityValues && setFilterIds(entityValues.map((item) => item.id));
     setFilterIds(filterIds);
-
     setIsContentEdited(
       JSON.stringify(initialValue) !== JSON.stringify(entityValues)
     );
