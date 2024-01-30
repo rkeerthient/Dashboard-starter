@@ -1,5 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { FcCancel } from "react-icons/fc";
+import { FiCheck, FiRefreshCw } from "react-icons/fi";
+import { GrFormClose } from "react-icons/gr";
+import { EnumData } from "../EnumData";
+import RTF from "../RTF";
 export interface Root {
   uid: string;
   accountId: string;
@@ -61,43 +66,44 @@ export interface Source {
 const Suggestions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestionsData, setSuggestionsData] = useState<Root[]>([]);
+  const [pageToken, setPageToken] = useState<string>("");
 
   useEffect(() => {
-    let isMounted = true;
-
-    const getFieldConfig = async () => {
-      const entityId = `4635269`;
-      try {
-        const response = await fetch(`/api/getSuggestions/${entityId}`);
-
-        if (!isMounted) {
-          return;
-        }
-        const mainJson: any = await response.json();
-        const suggestions: Root[] = mainJson.response.suggestions.sort(
-          (a: Root, b: Root) =>
-            new Date(b.createdDate).getTime() -
-            new Date(a.createdDate).getTime()
-        );
-
-        setSuggestionsData(suggestions);
-      } catch (error) {
-        console.error(
-          `Failed to fetch field configuration for ${`4635269`}:`,
-          error
-        );
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
     getFieldConfig();
-
-    return () => {
-      isMounted = false;
-    };
   }, []);
+
+  const getFieldConfig = async (pageToken?: string) => {
+    setIsLoading(true);
+    const entityId = `4635269`;
+    try {
+      const response = await fetch(
+        `/api/getSuggestions/${entityId}${
+          pageToken ? `?pageToken=${pageToken}` : ""
+        }`
+      );
+      const mainJson: any = await response.json();
+      const suggestions: Root[] = mainJson.response.suggestions.sort(
+        (a: Root, b: Root) =>
+          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+      );
+      console.log(mainJson.response.nextPageToken);
+
+      setPageToken(
+        mainJson.response.nextPageToken.length >= 1
+          ? mainJson.response.nextPageToken
+          : undefined
+      );
+      setSuggestionsData((prev) => [...prev, ...suggestions]);
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${entityId}:`,
+        error
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const formattedDate = (createdDate: string) => {
     const dateObject = new Date(Date.parse(createdDate));
 
@@ -118,62 +124,190 @@ const Suggestions = () => {
   return (
     <div className=" h-[800px] overflow-scroll p-4 bg-white">
       {isLoading ? (
-        <div className="px-4 py-8 ">
-          <div
-            className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-            role="status"
-          ></div>
+        <div className="px-4 py-8 flex justify-center items-center h-full">
+          <>
+            {suggestionsData && suggestionsData.length === 0 && (
+              <div
+                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              ></div>
+            )}
+          </>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 px-4  text-sm text-slate-600 overflow-auto">
-          {suggestionsData.map((item: Root, index: number) => (
-            <div key={index} className="flex   border border-gray-300 w-full">
-              <div className="border-r-2 border-gray-300 w-1/3 p-4">
-                <div className="flex flex-col gap-4">
-                  <div className="font-bold">Existing</div>
-                  <div className="flex flex-col">
-                    {Object.entries(
-                      item.entityFieldSuggestion.existingContent
-                    ).map(([key, value]) => (
-                      <div key={index}>
-                        <div>{key}</div>
-                        <div>{value}</div>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="mt-8 flow-root">
+            <div
+              className={`-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ${
+                suggestionsData && suggestionsData.length >= 1 && isLoading
+                  ? `opacity-60`
+                  : `opacity-100`
+              }`}
+            >
+              <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div className="min-w-full divide-y divide-gray-300">
+                  <div className="flex text-left text-sm font-semibold text-gray-900">
+                    <div className="w-2/12 flex justify-start py-3.5  px-4 sm:pl-0">
+                      Field
+                    </div>
+                    <div className="w-3/12 flex justify-start px-3 py-3.5">
+                      Existing Content
+                    </div>
+                    <div className="w-3/12 flex justify-start px-3 py-3.5">
+                      Suggested Content
+                    </div>
+                    <div className="w-2/12 flex justify-start px-3 py-3.5">
+                      Created Date Time
+                    </div>
+                    <div className="w-2/12 flex justify-start px-3 py-3.5">
+                      Status
+                    </div>
+                  </div>
+                  <div className="divide-y divide-gray-200 text-gray-500">
+                    {suggestionsData.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex gap-4 justify-between w-full"
+                      >
+                        <div className="px-4 py-3 text-sm flex justify-start w-2/12 font-medium text-gray-900 whitespace-normal">
+                          {Object.entries(
+                            JSON.stringify(
+                              item.entityFieldSuggestion.existingContent
+                            ) !== "{}"
+                              ? item.entityFieldSuggestion.existingContent
+                              : item.entityFieldSuggestion.suggestedContent
+                          ).map(([key, value], index1) => (
+                            <div key={index1}>{key}</div>
+                          ))}
+                        </div>
+                        <div className="w-3/12 px-4 py-3 text-sm flex justify-start text-gray-500">
+                          {JSON.stringify(
+                            item.entityFieldSuggestion.existingContent
+                          ) !== "{}" ? (
+                            Object.entries(
+                              item.entityFieldSuggestion.existingContent
+                            ).map(([key, value], index1) => (
+                              <div key={index1}>
+                                <div className="flex flex-col gap-4">
+                                  {getFormattedSuggestionResponse(value)}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <span className="italic">New Content</span>
+                          )}
+                        </div>
+                        <div className="w-3/12 px-4 py-3 text-sm flex justify-start text-gray-500">
+                          {Object.entries(
+                            item.entityFieldSuggestion.suggestedContent
+                          ).map(([key, value], index1) => (
+                            <div key={index1}>
+                              <div className="flex flex-col gap-4">
+                                {getFormattedSuggestionResponse(value)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="px-4  w-2/12 py-3 text-sm flex justify-start">
+                          {formattedDate(item.createdDate)}
+                        </div>
+                        <div className="px-4 py-3  w-2/12 text-sm flex items-baseline font-medium ">
+                          <div className="flex gap-2 items-center">
+                            {" "}
+                            <div>
+                              {item.status[0].toUpperCase() +
+                                item.status.slice(1).toLocaleLowerCase()}
+                            </div>
+                            <div>
+                              {(() => {
+                                switch (
+                                  item.status[0].toUpperCase() +
+                                  item.status.slice(1).toLowerCase()
+                                ) {
+                                  case "Pending":
+                                    return (
+                                      <FiRefreshCw className="h-3 w-3 text-orange-500" />
+                                    );
+                                  case "Approved":
+                                    return (
+                                      <FiCheck className="h-4 w-4 text-green-500" />
+                                    );
+                                  case "Rejected":
+                                    return (
+                                      <GrFormClose className="h-4 w-4 text-red-500" />
+                                    );
+                                  case "Cancelled":
+                                    return (
+                                      <FcCancel className="h-4 w-4 text-gray-800" />
+                                    );
+                                  default:
+                                    return null;
+                                }
+                              })()}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
-              <div className=" w-1/3 flex p-4 border-r-2 border-gray-300 ">
-                <div className="flex flex-col gap-4 ">
-                  <div className="font-bold">Suggested</div>
-                  <div className="flex flex-col">
-                    {Object.entries(
-                      item.entityFieldSuggestion.suggestedContent
-                    ).map(([key, value]) => (
-                      <div key={index}>
-                        <div>{key}</div>
-                        <div>{value}</div>
-                      </div>
-                    ))}
+                {pageToken && (
+                  <div
+                    onClick={() => getFieldConfig(pageToken)}
+                    className="w-fit mx-auto text-sm hover:cursor-pointer text-center px-6 py-2 border-[#002750] border text-[#002750] bg-white mt-16"
+                  >
+                    Load more
                   </div>
-                </div>
-              </div>
-              <div className=" w-1/3 flex flex-col gap-2 p-4 ">
-                <div className="flex flex-col ">
-                  <div className="font-bold">Created</div>
-                  <div>{formattedDate(item.createdDate)}</div>{" "}
-                </div>
-                <div className="flex flex-col ">
-                  <div className="font-bold">Status</div>
-                  <div>{item.status}</div>
-                </div>
+                )}
               </div>
             </div>
-          ))}
+          </div>
         </div>
       )}
     </div>
   );
 };
+
+function getFormattedSuggestionResponse(data: any): JSX.Element | string {
+  if (Array.isArray(data)) {
+    if (data.length > 0 && typeof data[0] === "object") {
+      return (
+        <>
+          {data.map((item, index) => (
+            <div key={index} className="flex flex-col gap-1">
+              {Object.entries(item).map(([key, value], index1) => (
+                <div key={index1}>
+                  <div className="flex flex-col ">
+                    <div className="font-medium">{key}:</div>
+                    {<RTF>{value}</RTF>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </>
+      );
+    } else {
+      return (
+        <div className="flex flex-col">
+          {data.map((item, index) => (
+            <div key={index}>
+              {item.toUpperCase() === item ? EnumData[item] : { item }}
+            </div>
+          ))}
+        </div>
+      );
+    }
+  } else if (typeof data === "string") {
+    return (
+      <div className="flex flex-col gap-2">
+        {data === data.toUpperCase() ? EnumData[data] : data}
+      </div>
+    );
+  } else if (typeof data === "object" && data !== null) {
+    return "Object (Question-Answer Pair)";
+  }
+  return "Unknown";
+}
 
 export default Suggestions;

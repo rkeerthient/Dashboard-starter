@@ -7,7 +7,7 @@ const getSugestions = async (
   const { method, queryParams, pathParams } = request;
 
   const { entityId } = pathParams;
-
+  const { pageToken } = queryParams;
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
 
   if (!entityId) {
@@ -17,8 +17,11 @@ const getSugestions = async (
       statusCode: 400,
     };
   }
+
   const getFieldsResponse = await fetch(
-    `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?entityIds=${entityId}&api_key=${api_key}&v=20230601&sortBy=[{"lastUpdatedDate":"descending"}]`
+    `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?entityIds=${entityId}&api_key=${api_key}&v=20230601&sortBy=[{"lastUpdatedDate":"descending"}]${
+      pageToken ? `&pageToken=${pageToken}` : ``
+    }`
   );
 
   const resp = await getFieldsResponse.json();

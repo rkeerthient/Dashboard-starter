@@ -42,6 +42,11 @@ export default function RTF({
     const tag = underlineTagCount % 2 === 0 ? "<ins>" : "</ins>";
     setUnderlined(underlined.replace("++", tag));
     setUnderlineTagCount(underlineTagCount + 1);
+
+    if (!underlined.includes("**")) return;
+    const tag1 = underlineTagCount % 2 === 0 ? "<b>" : "</b>";
+    setUnderlined(underlined.replace("**", tag1));
+    setUnderlineTagCount(underlineTagCount + 1);
   }
 
   transformChildren();
@@ -49,7 +54,7 @@ export default function RTF({
 
   return (
     <Markdown
-      className={className + " mb-6 sm:mb-8 text-brand-text-light"}
+      className={className + " text-brand-text-light"}
       children={underlined}
       options={
         options || {
