@@ -17,10 +17,12 @@ type Banner = {
   mainPhone: string;
   title: string;
   headshot: any;
+  showPopUp?: (value: boolean) => void;
 };
 
 const Banner = (props: Banner) => {
-  const { name, children, bannerImg, mainPhone, headshot, title } = props;
+  const { name, children, bannerImg, mainPhone, headshot, title, showPopUp } =
+    props;
 
   return (
     <>
@@ -55,6 +57,12 @@ const Banner = (props: Banner) => {
                             .replace("+1", "")
                             .replace(/\D+/g, "")
                             .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
+                      </div>{" "}
+                      <div
+                        onClick={(e) => showPopUp(true)}
+                        className="w-fit hover:cursor-pointer text-center px-6 py-2 border-[#002750] border text-[#002750] bg-white text-sm"
+                      >
+                        Contact Us
                       </div>
                     </div>
                   </div>
