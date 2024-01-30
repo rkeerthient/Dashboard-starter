@@ -57,14 +57,13 @@ const Preview = ({ data }: any) => {
   const { name, mainPhone, photoGallery, hours, address } = data;
 
   return (
-    <PageLayout _site={_site} id="previewPage">
+    <PageLayout _site={_site}>
       {showPopUp && <ContactUs showPopUp={(e) => setShowPopUp(e)} />}
       <div
         style={{
           fontFamily: c_fonts && c_fonts.toLowerCase().replaceAll(" ", ""),
         }}
       >
-         
         <div className={`bg-white py-16`}>
           <Banner
             headshot={photoGallery[0]}
