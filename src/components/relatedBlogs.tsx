@@ -70,7 +70,7 @@ export default function BlogPosts(inpData: any) {
                   </div>
                   <div className="flex flex-1 flex-col justify-between bg-white p-6">
                     <div className="flex-1">
-                      <p className="text-sm font-medium flex gap-2">
+                      <div className="text-sm font-medium flex gap-2">
                         <time dateTime={data.c_datePublished} className="text-gray-600">
                           {post.c_datePublished}
                         </time>
@@ -78,7 +78,7 @@ export default function BlogPosts(inpData: any) {
                         <div className="hover:underline relative z-10 rounded-full bg-gray-200   px-3 font-medium text-gray-600 hover:bg-gray-100">
                           {post.c_category}
                         </div>
-                      </p>
+                      </div>
                       <a href={post.landingPageUrl} className="mt-2 block">
                         <p className="text-xl font-semibold text-gray-900">
                           {post.name}

@@ -326,7 +326,7 @@ const Preview = ({ data }: any) => {
                         </div>
                         <div className="flex flex-col font-light">
                           {c_clientFocuses.map((item, index) => (
-                            <div key={item}>{C_clientFocuses[item]}</div>
+                            <div key={index}>{C_clientFocuses[item]}</div>
                           ))}
                         </div>
                       </div>
@@ -392,7 +392,7 @@ const Preview = ({ data }: any) => {
                   </div>
                   <div className="flex flex-col font-light">
                     {c_clientFocuses.map((item, index) => (
-                      <div key={item}>{EnumData[item]}</div>
+                      <div key={index}>{EnumData[item]}</div>
                     ))}
                   </div>
                 </div>
@@ -446,7 +446,7 @@ const Preview = ({ data }: any) => {
                   {c_preferredFirstName} is based out of {address.city},
                   {address.region}, but is licensed in the following states:{" "}
                   {c_serviceAreas
-                    .map((item, index) => C_serviceAreas[item])
+                    .map((item) => C_serviceAreas[item])
                     .join(", ")}
                 </div>
                 <div className="w-1/2">

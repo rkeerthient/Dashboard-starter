@@ -29,12 +29,17 @@ const ServiceAreaMap = () => {
 
   const initStates = data.c_serviceAreas;
   useEffect(() => {
+    let isMounted = true;
     let x = allStates
       .filter((item: any) => initStates.includes(item.id))
-      .map((item) => item.val);
-    setStateCodes(x);
+      .map((item: any) => item.val);
+    if (isMounted) {
+      setStateCodes(x);
+    }
+    return () => {
+      isMounted = false;
+    };
   }, []);
-
   return (
     <div className="flex items-center justify-center p-16">
       <ComposableMap projection="geoAlbersUsa">

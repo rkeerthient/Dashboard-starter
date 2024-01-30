@@ -19,9 +19,9 @@ export default function Insights(inpData: any) {
             style={{ height: "500px", overflow: "scroll" }}
           >
             {clData &&
-              clData.map((post: any) => (
+              clData.map((post: any, index:any) => (
                 <article
-                  key={post.entityId}
+                  key={index}
                   className="relative isolate flex flex-col gap-8 lg:flex-row"
                 >
                   <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
