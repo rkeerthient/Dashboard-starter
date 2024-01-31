@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Actions from "../common/Actions";
+import Assets from "./Assets";
 
 interface PhotoFieldProps {
   fieldId: string;
@@ -45,7 +46,6 @@ const PhotoField = ({
       JSON.stringify(value) !== JSON.stringify(initialValue && initialValue)
     );
   }, [value, initialValue]);
-
   return (
     <>
       <div
@@ -153,11 +153,18 @@ const PhotoField = ({
                     </button>
                   </div>
                   <div className="sm:flex sm:items-start">
-                    <PhotoUpload
-                      value={(newUrls: any) => setValue(newUrls)}
-                      multiple={false}
-                      isOpen={(val: boolean) => setOpen(val)}
-                    />
+                    {fieldId === "c_heroBanner" ? (
+                      <Assets
+                        value={(newUrls: any) => setValue(newUrls)}
+                        isOpen={(val: boolean) => setOpen(val)}
+                      />
+                    ) : (
+                      <PhotoUpload
+                        value={(newUrls: any) => setValue(newUrls)}
+                        multiple={false}
+                        isOpen={(val: boolean) => setOpen(val)}
+                      />
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -167,6 +174,7 @@ const PhotoField = ({
       </Transition.Root>
       {isEditable && (
         <Actions
+          saveDirectly={fieldId === "c_heroBanner" ? true : false}
           initialValue={initialValue}
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}
