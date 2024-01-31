@@ -158,7 +158,7 @@ export const config: TemplateConfig = {
     ],
     filter: {
       entityTypes: ["financialProfessional"],
-      savedFilterIds: ["1379282530"],
+      savedFilterIds: ["1151082997"],
     },
     localization: {
       locales: ["en"],
