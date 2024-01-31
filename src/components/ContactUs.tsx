@@ -8,7 +8,6 @@ type ContactProps = {
 const ContactUs = (props: ContactProps) => {
   const { showPopUp } = props;
   const [open, setOpen] = useState(true);
-  console.log(`enmtnered`);
 
   return (
     <Transition.Root show={open} as={Fragment}>

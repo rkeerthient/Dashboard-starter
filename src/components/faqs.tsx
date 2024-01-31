@@ -5,8 +5,13 @@ import { Image } from "@yext/sites-components";
 export default function FAQs(inpData: any) {
   let data = inpData.inpData;
   let clData = data.c_associatedFAQs;
+  let bgColor = inpData.bgColor;
+
   return (
-    <div className="!bg-[#025cae] !text-white">
+    <div
+      className="!text-white"
+      style={bgColor ? { backgroundColor: bgColor } : { backgroundColor: `#025cae` }}
+    >
       <div className="mx-auto px-8 py-16 pt-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8 centered-container">
           <div className="lg:col-span-5">

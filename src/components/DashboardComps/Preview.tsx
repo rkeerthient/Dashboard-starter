@@ -38,6 +38,7 @@ const Preview = ({ data }: any) => {
     c_educationDisplay,
     c_organizationsDisplay,
     _site,
+    c_color,
     c_designations,
     c_awardsDashboard,
     c_teamName,
@@ -336,7 +337,14 @@ const Preview = ({ data }: any) => {
               </div>
             </div>
           </div>
-          <div className="w-full !bg-[#025cae] !text-white ">
+          <div
+            className="w-full !text-white"
+            style={
+              c_color
+                ? { backgroundColor: c_color }
+                : { backgroundColor: `#025cae` }
+            }
+          >
             <div className="flex flex-col gap-2 p-4 py-16 centered-container">
               <div className="text-xl font-semibold">
                 More about {c_preferredFirstName}!
@@ -432,12 +440,19 @@ const Preview = ({ data }: any) => {
           </div>
           <div className="flex flex-col ">
             {c_associatedClientStories && (
-              <ClientStories inpData={_data}></ClientStories>
+              <ClientStories
+                bgColor={c_color}
+                c_associatedClientStories={c_associatedClientStories}
+              ></ClientStories>
             )}
             {c_associatedInsights && <Insights inpData={_data} />}
-            {c_associatedFAQs && <FAQs inpData={_data}></FAQs>}
+            {c_associatedFAQs && (
+              <FAQs inpData={_data} bgColor={c_color}></FAQs>
+            )}
             {c_associatedSolutions && <Solutions inpData={_data}></Solutions>}
-            {c_associatedBlogs && <BlogPosts inpData={data}></BlogPosts>}
+            {c_associatedBlogs && (
+              <BlogPosts inpData={data} bgColor={c_color}></BlogPosts>
+            )}
           </div>
           {c_serviceAreas && (
             <div className="w-full bg-white ">
@@ -455,9 +470,16 @@ const Preview = ({ data }: any) => {
               </div>
             </div>
           )}
-          <div className="!bg-[#025cae] !text-white">
+          <div
+            className=" !text-white"
+            style={
+              c_color
+                ? { backgroundColor: c_color }
+                : { backgroundColor: `#025cae` }
+            }
+          >
             {c_teamName && c_teamMembers && (
-              <div className=" bg-[#f7f0e4] teamCarousel">
+              <div className="   teamCarousel">
                 <TeamCarousel
                   teamName={c_teamName}
                   teamMembersData={c_teamMembers}

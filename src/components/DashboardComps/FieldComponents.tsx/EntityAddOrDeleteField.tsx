@@ -41,8 +41,7 @@ const EntityAddOrDeleteField = ({
   };
 
   const handleSave = async () => {
-    console.log(JSON.stringify(entityValues));
-
+ 
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({

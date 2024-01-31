@@ -4,16 +4,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
+type ClientStoryProps = {
+  c_associatedClientStories: any[];
+  bgColor?: string;
+};
 
-// Adjusted ClientStories component
-export default function ClientStories(inpData: any) {
-  let data = inpData.inpData;
-  let clData = data.c_associatedClientStories;
-  let title = inpData.title;
-
+export default function ClientStories({
+  c_associatedClientStories,
+  bgColor,
+}: ClientStoryProps) {
   const settings = {
     dots: false,
     infinite: false,
@@ -50,19 +49,20 @@ export default function ClientStories(inpData: any) {
   };
 
   return (
-    <div className="!bg-[#025cae] !text-white">
+    <div
+      className={`text-white `}
+      style={bgColor ? { backgroundColor: bgColor } : { backgroundColor: `#025cae` }}
+    >
       <div className="mx-auto px-8 py-16 pt-10">
         <div className="mx-auto text-center">
-          <h2 className="text-3xl tracking-tight">
-            {inpData.title || `Testimonials`}
-          </h2>
+          <h2 className="text-3xl tracking-tight">{`Testimonials`}</h2>
           <p className="mt-2 text-lg  ">
             We have worked with thousands of amazing people
           </p>
         </div>
         <Slider {...settings}>
-          {clData &&
-            clData.map((testimonial: any, index: any) => (
+          {c_associatedClientStories &&
+            c_associatedClientStories.map((testimonial: any, index: any) => (
               <div
                 key={index}
                 className="testimonial-card shadow-lg w-full mt-4"

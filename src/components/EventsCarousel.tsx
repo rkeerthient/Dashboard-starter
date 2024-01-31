@@ -1,14 +1,11 @@
+import { Image } from "@yext/react-components";
 import * as React from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import HoursText from "./HoursText";
-import Cta from "./cta";
-import { Image } from "@yext/react-components";
+import "slick-carousel/slick/slick.css";
 const EventsCarousel = (props: any) => {
   const { data } = props;
-  console.log(JSON.stringify(data));
-
+ 
   const settings = {
     dots: false,
     infinite: false,

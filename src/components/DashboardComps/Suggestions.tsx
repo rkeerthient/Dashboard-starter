@@ -86,8 +86,7 @@ const Suggestions = () => {
         (a: Root, b: Root) =>
           new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
       );
-      console.log(mainJson.response.nextPageToken);
-
+ 
       setPageToken(
         mainJson.response.nextPageToken.length >= 1
           ? mainJson.response.nextPageToken

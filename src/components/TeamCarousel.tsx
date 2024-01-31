@@ -51,7 +51,7 @@ export default function TeamCarousel({
     ],
   };
   return (
-    <div className=" bg-[#025cae]  ">
+    <div>
       <div className="mx-auto px-8 py-16">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="text-3xl tracking-tight headColor sm:text-4xl ">
