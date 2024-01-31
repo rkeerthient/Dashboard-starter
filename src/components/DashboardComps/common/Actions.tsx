@@ -6,6 +6,7 @@ type Action_Props = {
   setIsEditable: (isEditable: boolean) => void;
   setValue: (value: any) => void;
   saveBody: any;
+  saveDirectly?: boolean;
 };
 const Actions = ({
   initialValue,
@@ -13,6 +14,7 @@ const Actions = ({
   setIsEditable,
   setValue,
   saveBody,
+  saveDirectly = false,
 }: Action_Props) => {
   const { userRole, setData, setNotification } = useMyContext();
 
@@ -23,32 +25,13 @@ const Actions = ({
     }));
   };
 
-  /*  suggestions output 
-
- {
-    "meta": {
-    "uuid": "018d13ea-29d4-61eb-44c0-87d7e541b88c",
-    "errors": []
-    },
-    "response": {
-    "id": "2071919"
-    },
-    "operationType": ""
-    }
- */
-
-  /* entity output
-   
-    
-    */
-
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
           userRole.acl[0].roleId
-        }`
+        }${`&saveDirectly=${saveDirectly}`}`
       );
 
       const res = await response.json();

@@ -40,6 +40,18 @@
         ]
       },
       {
+        "pluginName": "getAssets-40656",
+        "event": "API",
+        "functionName": "default",
+        "apiPath": "api/getAssets",
+        "sourceFiles": [
+          {
+            "root": "dist/functions/getAssets-40656",
+            "pattern": "*{.js,.ts}"
+          }
+        ]
+      },
+      {
         "pluginName": "createEntity-04110",
         "event": "API",
         "functionName": "default",
