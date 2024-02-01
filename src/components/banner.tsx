@@ -32,14 +32,14 @@ const Banner = (props: Banner) => {
             className="bg-cover bg-center "
             style={{
               backgroundImage: `url("${bannerImg.url}")`,
-              height: "650px",
+              height: "500px",
             }}
           ></div>
         )}
         <div className="h-full w-full absolute top-0 left-0 z-2">
           <div className=" w-full absolute  text-[#003168] flex items-center justify-center flex-col h-full ">
             <div className="relative text-center w-full">
-              <div className="absolute top-1/4 left-1/2 -translate-y-1/2 -translate-x-1/4">
+              <div className="absolute top-1/2 left-[20%] -translate-y-1/2 -translate-x-[20%]">
                 <div className="font-medium">
                   <div className="flex gap-6">
                     <div>
