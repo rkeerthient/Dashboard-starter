@@ -174,7 +174,6 @@ const PhotoField = ({
       </Transition.Root>
       {isEditable && (
         <Actions
-          saveDirectly={fieldId === "c_heroBanner" ? true : false}
           initialValue={initialValue}
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}

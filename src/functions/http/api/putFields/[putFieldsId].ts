@@ -12,9 +12,9 @@ const putFields = async (
   const { body, format, userRole } = queryParams;
   let getEntitiesResponse;
   let operationType = "";
-  console.log(userRole !== "19718" && !saveDirectly);
+  const saveDirectlyBool = saveDirectly === "true";
 
-  userRole !== "19718" && !saveDirectly
+  userRole === "19718" && !saveDirectlyBool
     ? (getEntitiesResponse = await fetch(
         `https://sbx-api.yextapis.com/v2/accounts/me/suggestions?api_key=${api_key}&v=20230601${
           format ? `&format=${format}` : ""
