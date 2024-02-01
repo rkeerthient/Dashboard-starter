@@ -38,7 +38,12 @@ const Assets = ({ value, isOpen, isMulti = false }: AssetProps) => {
   return (
     <>
       {isLoading ? (
-        <>Loading...</>
+        <div className="w-full h-[80vh] flex justify-center items-center">
+          <div
+            className="inline-block h-10 w-10 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          ></div>
+        </div>
       ) : (
         <div className="w-full h-[80vh] ">
           <div className="grid grid-cols-4 gap-6 w-full p-12 h-5/6 overflow-scroll">

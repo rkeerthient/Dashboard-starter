@@ -215,7 +215,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
                         <div className="font-semibold text-[#5a6370] w-1/5">
                           <div className="flex flex-col gap-1">
                             <div className="flex  gap-2 items-center relative">
-                              <div>PhotoGallery</div>
+                              <div>Photo Gallery</div>
                             </div>
                           </div>
                         </div>
@@ -255,6 +255,26 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
                               setNewBlog({
                                 ...newBlog,
                                 c_datePublished: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Description</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <textarea
+                            className="border w-full p-1"
+                            onChange={(e) =>
+                              setNewBlog({
+                                ...newBlog,
+                                description: e.target.value,
                               })
                             }
                           />
