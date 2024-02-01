@@ -25,6 +25,8 @@ const EntityAddOrDeleteField = ({
   );
 
   const handleClick = () => {
+    initialValue && setFilterIds(initialValue.map((item) => item.id));
+
     setIsEditable(true);
   };
 
@@ -41,7 +43,6 @@ const EntityAddOrDeleteField = ({
   };
 
   const handleSave = async () => {
- 
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify({
@@ -176,12 +177,20 @@ const EntityAddOrDeleteField = ({
   };
 
   useEffect(() => {
-    entityValues && setFilterIds(entityValues.map((item) => item.id));
-    setFilterIds(filterIds);
+    console.log(JSON.stringify(entityValues));
+
+    entityValues.length >= 1
+      ? setFilterIds(entityValues.map((item) => item.id))
+      : setFilterIds(filterIds);
     setIsContentEdited(
       JSON.stringify(initialValue) !== JSON.stringify(entityValues)
     );
   }, [entityValues]);
+
+  useEffect(() => {
+    console.log(`enmeted`);
+    console.log(filterIds);
+  }, [filterIds]);
 
   return (
     <>
