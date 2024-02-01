@@ -17,7 +17,7 @@ type Banner = {
   mainPhone: string;
   title: string;
   headshot: any;
-  showPopUp?: (value: boolean) => void;
+  showPopUp: (value: boolean) => void;
 };
 
 const Banner = (props: Banner) => {
