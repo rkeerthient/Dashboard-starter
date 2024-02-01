@@ -16,6 +16,8 @@ const Portal: React.FC<PortalProps> = ({
   data,
   styleSheetRef,
 }) => {
+  console.log(styleSheetRef);
+
   const _window = useRef<Window | null>(null);
   const [ready, setReady] = useState(false);
 
@@ -44,8 +46,10 @@ const Portal: React.FC<PortalProps> = ({
 
       const styleLink = curWindow?.document.createElement("link");
       styleLink?.setAttribute("rel", "stylesheet");
-      //  styleLink?.setAttribute("href", "/src/index.css");
-      styleLink?.setAttribute("href", styleSheetRef);
+
+      styleSheetRef
+        ? styleLink?.setAttribute("href", styleSheetRef)
+        : styleLink?.setAttribute("href", "/src/index.css");
       curWindow?.document.head.appendChild(
         styleLink || curWindow.document.createElement("div")
       );
