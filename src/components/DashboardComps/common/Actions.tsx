@@ -31,7 +31,7 @@ const Actions = ({
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
           userRole.acl[0].roleId
-        }${`&saveDirectly=${saveDirectly}`}`
+        }${saveDirectly && `&saveDirectly=${saveDirectly}`}`
       );
 
       const res = await response.json();
