@@ -260,7 +260,27 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
                           />
                         </div>
                       </div>
-
+                      <div className="flex flex-row justify-between items-center">
+                        <div className="font-semibold text-[#5a6370] w-1/5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex  gap-2 items-center relative">
+                              <div>Blog Short Description</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-4/5 flex justify-between">
+                          <input
+                            type="text"
+                            className="border w-full p-1"
+                            onChange={(e) =>
+                              setNewBlog({
+                                ...newBlog,
+                                c_blogShortDescription: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
                       <div className="flex flex-row justify-between items-center">
                         <div className="font-semibold text-[#5a6370] w-1/5">
                           <div className="flex flex-col gap-1">

@@ -132,6 +132,7 @@ export const config: TemplateConfig = {
       "c_associatedBlogs.landingPageUrl",
       "c_associatedBlogs.description",
       "c_associatedBlogs.name",
+      "c_associatedBlogs.id",
       "c_associatedBlogs.c_category",
       "c_associatedBlogs.c_datePublished",
       "c_associatedBlogs.photoGallery",

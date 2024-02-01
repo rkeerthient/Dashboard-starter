@@ -15,6 +15,8 @@ import PhotoField from "./FieldComponents.tsx/PhotoField";
 import PhotoGalleryField from "./FieldComponents.tsx/PhotoGalleryField";
 import ColorPickerField from "./FieldComponents.tsx/ColorPickerField";
 import EntityAddOrDeleteField from "./FieldComponents.tsx/EntityAddOrDeleteField";
+import { useMyContext } from "../Context/MyContext";
+import BlogsAddOrDelete from "./FieldComponents.tsx/BlogsAddOrDelete";
 
 interface UIPickerProps {
   fieldName: string;
@@ -38,6 +40,8 @@ const UIPicker = ({
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
+  const { userRole } = useMyContext();
+  console.log(JSON.stringify(userRole));
 
   useEffect(() => {
     let isMounted = true;
@@ -265,8 +269,13 @@ const UIPicker = ({
                           initialValue={initialValue}
                           fieldId={mainFieldSchema.response.$id}
                         />
-                      ) : (
+                      ) : userRole && userRole.acl[0].roleId !== "19718" ? (
                         <EntityField
+                          initialValue={initialValue}
+                          fieldId={mainFieldSchema.response.$id}
+                        />
+                      ) : (
+                        <BlogsAddOrDelete
                           initialValue={initialValue}
                           fieldId={mainFieldSchema.response.$id}
                         />
