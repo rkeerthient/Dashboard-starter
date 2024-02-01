@@ -86,7 +86,7 @@ const Suggestions = () => {
         (a: Root, b: Root) =>
           new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
       );
- 
+
       setPageToken(
         mainJson.response.nextPageToken.length >= 1
           ? mainJson.response.nextPageToken
@@ -268,6 +268,8 @@ const Suggestions = () => {
 };
 
 function getFormattedSuggestionResponse(data: any): JSX.Element | string {
+  console.log(JSON.stringify(data));
+
   if (Array.isArray(data)) {
     if (data.length > 0 && typeof data[0] === "object") {
       return (
@@ -291,7 +293,7 @@ function getFormattedSuggestionResponse(data: any): JSX.Element | string {
         <div className="flex flex-col">
           {data.map((item, index) => (
             <div key={index}>
-              {item.toUpperCase() === item ? EnumData[item] : { item }}
+              {item.toUpperCase() === item ? EnumData[item] : item}
             </div>
           ))}
         </div>
