@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 type AssetProps = {
   value: (newUrls: string | string[]) => void;
   isOpen: (value: boolean) => void;
+  isMulti?: boolean;
 };
 
-const Assets = ({ value, isOpen }: AssetProps) => {
+const Assets = ({ value, isOpen, isMulti = false }: AssetProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [assetData, setAssetData] = useState([]);
-  const [clicked, setClicked] = useState<number>();
+  const [clicked, setClicked] = useState<number[]>([]);
   const [currentImg, setCurrentImg] = useState<string[]>([]);
   useEffect(() => {
     getAssets();
@@ -44,12 +45,19 @@ const Assets = ({ value, isOpen }: AssetProps) => {
             {assetData.map((item, index) => (
               <div
                 onClick={() => {
-                  setClicked(index);
-                  setCurrentImg(item.img);
+                  if (isMulti) {
+                    setClicked((prev) => [...prev, index]);
+                    setCurrentImg((prev) => [...prev, item.img]);
+                  } else {
+                    setClicked([index]);
+                    setCurrentImg(item.img);
+                  }
                 }}
                 key={index}
                 className={`h-[150px] w-[150px] border flex items-center justify-center hover:cursor-pointer hover:border-blue-400 ${
-                  clicked === index ? `border-blue-700` : `border`
+                  clicked && clicked.includes(index)
+                    ? `border-blue-700`
+                    : `border`
                 }`}
               >
                 <img

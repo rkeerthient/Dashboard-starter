@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Actions from "../common/Actions";
+import Assets from "./Assets";
 interface PhotoGalleryFieldProps {
   fieldId?: string;
   initialValue?: any;
@@ -162,16 +163,29 @@ const PhotoGalleryField = ({
                     </button>
                   </div>
                   <div className="sm:flex sm:items-start">
-                    <PhotoUpload
-                      value={(newUrls) => {
-                        setValue((prevUrls: string[] | undefined) => [
-                          ...(prevUrls || []),
-                          ...newUrls,
-                        ]);
-                      }}
-                      multiple={true}
-                      isOpen={(val: boolean) => setOpen(val)}
-                    />
+                    {passDataToParent ? (
+                      <Assets
+                        value={(newUrls) => {
+                          setValue((prevUrls: string[] | undefined) => [
+                            ...(prevUrls || []),
+                            ...newUrls,
+                          ]);
+                        }}
+                        isOpen={(val: boolean) => setOpen(val)}
+                        isMulti={true}
+                      />
+                    ) : (
+                      <PhotoUpload
+                        value={(newUrls) => {
+                          setValue((prevUrls: string[] | undefined) => [
+                            ...(prevUrls || []),
+                            ...newUrls,
+                          ]);
+                        }}
+                        multiple={true}
+                        isOpen={(val: boolean) => setOpen(val)}
+                      />
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
