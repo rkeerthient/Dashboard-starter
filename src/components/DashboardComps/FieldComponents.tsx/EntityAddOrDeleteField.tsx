@@ -177,8 +177,6 @@ const EntityAddOrDeleteField = ({
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(entityValues));
-
     entityValues.length >= 1
       ? setFilterIds(entityValues.map((item) => item.id))
       : setFilterIds(filterIds);
@@ -186,11 +184,6 @@ const EntityAddOrDeleteField = ({
       JSON.stringify(initialValue) !== JSON.stringify(entityValues)
     );
   }, [entityValues]);
-
-  useEffect(() => {
-    console.log(`enmeted`);
-    console.log(filterIds);
-  }, [filterIds]);
 
   return (
     <>

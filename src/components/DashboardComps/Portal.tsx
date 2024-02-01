@@ -16,8 +16,7 @@ const Portal: React.FC<PortalProps> = ({
   data,
   styleSheetRef,
 }) => {
-  console.log(styleSheetRef);
-
+ 
   const _window = useRef<Window | null>(null);
   const [ready, setReady] = useState(false);
 

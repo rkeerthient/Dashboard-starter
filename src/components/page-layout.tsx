@@ -29,7 +29,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
 */
 
   const userId = isLocal()
-    ? "2954661906076480599"
+    ? "2676513"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
     ? window.YEXT_AUTH.visitor.externalId
     : "";

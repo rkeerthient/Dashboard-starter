@@ -82,7 +82,6 @@ const Suggestions = () => {
         }`
       );
       const mainJson: any = await response.json();
-      console.log(JSON.stringify(mainJson));
 
       const suggestions: Root[] = await mainJson.response.suggestions;
       setPageToken(
@@ -288,12 +287,6 @@ function getFormattedSuggestionResponse(data: any): JSX.Element | string {
       return (
         <div className="flex flex-col">
           {data.map((item, index) => {
-            console.log(
-              `entered ` + item.toUpperCase() === item
-                ? EnumData[item]
-                : item.toString(),
-              typeof item
-            );
             return (
               <div key={index}>
                 {isNaN(parseFloat(item)) && item.toUpperCase() === item

@@ -6,7 +6,6 @@ type Action_Props = {
   setIsEditable: (isEditable: boolean) => void;
   setValue: (value: any) => void;
   saveBody: any;
-  saveDirectly?: boolean;
 };
 const Actions = ({
   initialValue,
@@ -14,7 +13,6 @@ const Actions = ({
   setIsEditable,
   setValue,
   saveBody,
-  saveDirectly = false,
 }: Action_Props) => {
   const { userRole, setData, setNotification } = useMyContext();
 
@@ -24,6 +22,7 @@ const Actions = ({
       [propertyName]: newValue,
     }));
   };
+  let objKey = Object.keys(saveBody)[0];
 
   const handleSave = async () => {
     try {
@@ -31,7 +30,7 @@ const Actions = ({
       const response = await fetch(
         `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
           userRole.acl[0].roleId
-        }${`&saveDirectly=${saveDirectly || false}`}`
+        }${`&saveDirectly=${objKey === `c_heroBanner`}`}`
       );
 
       const res = await response.json();
