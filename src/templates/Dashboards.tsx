@@ -130,6 +130,7 @@ export const config: TemplateConfig = {
       "c_teamName",
       "c_serviceAreas",
       "c_associatedBlogs.landingPageUrl",
+      "c_associatedBlogs.id",
       "c_associatedBlogs.description",
       "c_associatedBlogs.name",
       "c_associatedBlogs.c_category",
