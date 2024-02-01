@@ -82,11 +82,9 @@ const Suggestions = () => {
         }`
       );
       const mainJson: any = await response.json();
-      const suggestions: Root[] = mainJson.response.suggestions.sort(
-        (a: Root, b: Root) =>
-          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
-      );
+      console.log(JSON.stringify(mainJson));
 
+      const suggestions: Root[] = await mainJson.response.suggestions;
       setPageToken(
         mainJson.response.nextPageToken.length >= 1
           ? mainJson.response.nextPageToken
@@ -306,7 +304,7 @@ function getFormattedSuggestionResponse(data: any): JSX.Element | string {
       </div>
     );
   } else if (typeof data === "object" && data !== null) {
-    return "Object (Question-Answer Pair)";
+    return "Rich content";
   }
   return "Unknown";
 }
