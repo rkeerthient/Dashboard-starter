@@ -266,8 +266,6 @@ const Suggestions = () => {
 };
 
 function getFormattedSuggestionResponse(data: any): JSX.Element | string {
-  console.log(JSON.stringify(data));
-
   if (Array.isArray(data)) {
     if (data.length > 0 && typeof data[0] === "object") {
       return (
@@ -289,11 +287,21 @@ function getFormattedSuggestionResponse(data: any): JSX.Element | string {
     } else {
       return (
         <div className="flex flex-col">
-          {data.map((item, index) => (
-            <div key={index}>
-              {item.toUpperCase() === item ? EnumData[item] : item}
-            </div>
-          ))}
+          {data.map((item, index) => {
+            console.log(
+              `entered ` + item.toUpperCase() === item
+                ? EnumData[item]
+                : item.toString(),
+              typeof item
+            );
+            return (
+              <div key={index}>
+                {isNaN(parseFloat(item)) && item.toUpperCase() === item
+                  ? EnumData[item]
+                  : item}
+              </div>
+            );
+          })}
         </div>
       );
     }
